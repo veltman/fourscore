@@ -1,0 +1,35 @@
+body{
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica, sans-serif;
+	font-size: 10px;
+}
+#grid{
+	width: 960px;
+	height: 400px;
+}
+#grid2{
+	width: 590px;
+	height: 200px;
+}
+#grid3{
+	width: 320px;
+	height: 200px;
+}
+.grid{
+	margin-bottom: 15px;
+	text-align: center;
+	vertical-align: center;
+}
+.row{
+	width: 100%;
+	/*background-color: #f0a;*/
+}
+.square{
+	height: 100%;
+	float:left;
+	border-right: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
