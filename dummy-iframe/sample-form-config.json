@@ -1,0 +1,34 @@
+{
+  "action": "https://docs.google.com/forms/d/1ozaiZ1Dpj_Wm8OhbjmRnTzz_ZPlF-o0A9UMM7n0Wa-k/formResponse",
+  "fields": [
+    {
+      "name": "X",
+      "field": "entry.1324010151"
+    },
+    {
+      "name": "Y",
+      "field": "entry.312134120"
+    },
+    {
+      "name": "Name",
+      "field": "entry.512449043"
+    },
+    {
+      "name": "Comment",
+      "field": "entry.936152662"
+    },
+    {
+      "name": "Paragraph",
+      "field": "entry.304971624"
+    },
+    {
+      "name": "Radio",
+      "type": "radio",
+      "choices": [
+        "Option 1",
+        "Option 2"
+      ]
+      "field": "entry.1443274868"
+    }
+  ]
+}

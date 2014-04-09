@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dummy IFrame Test</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+  <iframe name="st-iframe" id="st-iframe" style="display:none;"></iframe>
+    <form method="POST" name="st-form" id="st-form" target="st-iframe" id="st-form">
+    </form>
+    <script src="thirdparty/jquery.min.js"></script>
+    <script>
+      $.getJSON("sample-form-config.json",function(config){
+        console.log(config);
+      });
+    </script>
+  </body>
+</html>
