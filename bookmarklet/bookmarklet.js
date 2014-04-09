@@ -30,9 +30,13 @@
                     fields: $("form#ss-form div.ss-form-question div.ss-form-entry").map(function(){
                         return {
                           "name": trim($("label .ss-q-title",this).text()),
-                          "field": $("input",this).attr("name")
+                          "field": $("input:first",this).attr("name") || $("select",this).attr("name") || false
                         }
-                      }).get()
+                      })
+                      .get()
+                      .filter(function(d){
+                        return d.field;
+                      })
                   };
 
     // Stringify the options with spacing
