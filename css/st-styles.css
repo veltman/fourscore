@@ -29,3 +29,7 @@
 	opacity: 1;
 	cursor: default;
 }
+
+.missing {
+	background-color: red;
+}

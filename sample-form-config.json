@@ -3,11 +3,11 @@
     "url": "0Ao4fxxV3Xzd_dDJRb0JTS2ZSZTZSOU5mVlhXOUJJdkE",
     "type": "google"
   },
-  "gridSize": 7,
+  "grid_size": 10,
   "xAxis": ["LEFT","RIGHT"],
   "yAxis": ["TOP","BOTTOM"],
-  "renderTo": "grid",
-  "colors": "Reds",
+  "grid_selector": "grid",
+  "color_brewer_style_name": "YlGnBu",
   "dataDestination": "https://docs.google.com/forms/d/1ozaiZ1Dpj_Wm8OhbjmRnTzz_ZPlF-o0A9UMM7n0Wa-k/formResponse",
   "fields": [
     {

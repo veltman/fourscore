@@ -1,5 +1,9 @@
 (function(){
 	'use-strict'
+
+	var CONFIG,
+			existing_data;
+
 /********************************/
 
 	function range(start, stop, step) {
@@ -28,21 +32,6 @@
 	}	
 /********************************/
 
-	function generateRandomData(numb_submissions, size){
-		var data = {},
-				obj;
-		data.submissions = [];
-		for (var i = 0; i < numb_submissions; i++){
-			obj = {};
-			obj.uid = 'id-' + i
-			obj.comment = 'Submission text ' + i;
-			obj.x_sentiment = Math.ceil((Math.random() * size)/2) * ((i % 2 == 0) ? -1 : 1);
-			obj.y_sentiment = Math.ceil((Math.random() * size)/2) * ((i % 3 != 0) ? -1 : 1);
-			data.submissions.push(obj);
-		}
-		return data;
-	}
-
 	function makeGridArray(data, size) {
 		var extent;
 		// If they haven't specified a custom input range then make it a one-to-one based on grid size
@@ -59,8 +48,8 @@
 				cell;
 
 		for (var i = 0; i < data.submissions.length; i++){
-			grid_x = Math.round(userValueToGridIdx(data.submissions[i].x_sentiment));
-			grid_y = Math.round(userValueToGridIdx(data.submissions[i].y_sentiment));
+			grid_x = Math.round(userValueToGridIdx(data.submissions[i].x));
+			grid_y = Math.round(userValueToGridIdx(data.submissions[i].y));
 			grid_xy = [grid_x, grid_y];
 			cell = grid[grid_xy[1]][grid_xy[0]];
 			cell.count++;
@@ -74,11 +63,21 @@
 		val = Number(val);
 		var colorScale = new Scale(extents[0], extents[1], 0, 4) // Use a five color scale for now.
 		return 'q' + Math.round(colorScale(val)) + '-5';
-
 	}
 
 	function convertGridSelector(grid_selector){
-		if (typeof grid_selector == 'string') return $(grid_selector);
+		if (typeof grid_selector == 'string') {
+			
+			if (grid_selector.match(/#?[A-Za-z][A-Za-z0-9_-]+$/)) {
+				return $("#" + grid_selector.replace(/^#/,""));
+			}
+
+			return $(grid_selector);
+		
+		}
+
+		//ADD: if it's an element, return $(el);
+
 		return grid_selector;
 	}
 
@@ -141,8 +140,8 @@
 			var selected_id = $this.attr('data-cell-id');
 			var submission_values = JSON.parse($this.attr('data-submission-value'));
 			var nv = {
-				x_sentiment: submission_values[0],
-				y_sentiment: submission_values[1]
+				x: submission_values[0],
+				y: submission_values[1]
 			}
 
 			console.log(nv);
@@ -152,8 +151,8 @@
 	}
 
 	function formSubmit(new_data, selected_id){
-		submission_data.submissions.push(new_data);
-		updateGrid(submission_data);
+		existing_data.submissions.push(new_data);
+		updateGrid(existing_data);
 		// Highlight that cell we clicked on, now that everything is redrawn
 		$('.st-cell[data-cell-id="'+selected_id+'"]').addClass('st-selected');
 	}
@@ -162,23 +161,215 @@
 		submissionsToMarkup(new_data, CONFIG);
 	}
 
-	function createViz(submission_data, CONFIG){
-		submissionsToMarkup(submission_data, CONFIG);
+	function createViz(data){
+		submissionsToMarkup(data, CONFIG);
+
+		//ADD: only bind if they haven't submitted?
 		bindHandlers();
+
 	}
 
-	/* CONFIG THINGS */
-	var CONFIG = {
-		"grid_selector": '#grid',
-		"grid_size": 10,
-		"color_brewer_style_name": 'YlGnBu'
-	}
-	/* end config things */
+	/*
 
-	/* LOAD DATA */
-	var submission_data = generateRandomData(1000, CONFIG.grid_size);
+    Generate a form element based on a form item in the config options.
 
-	/* Init */
-	createViz(submission_data, CONFIG)
+    Returns a <div> with a label and whatever the element is.
+    
+    The element is one of:
+
+    a <textarea>
+    a <select> with <option>s,
+    an <input> (for type="text", type="number", etc.)
+    a <div> with several <inputs> (for type="radio" or type="checkbox")
+
+  */
+  function getFormElement(item) {
+
+    var $el,
+        $outer = $("<div></div>");
+
+    $outer.append("<label>" + item.name + "</label>");
+
+    if (item.type == "textarea") {
+
+      $el = $("<textarea></textarea>")
+              .attr("name",item.field);
+    
+    } else if (item.type == "select") {
+      $el = $("<select></select>")
+              .attr("name",item.field);
+
+      $.each(item.choices,function(i,c){
+        
+        $el.append(
+
+          $("<option></option>").text(c)
+
+        );
+
+      });
+
+    } else if (item.type == "radio" || item.type == "checkbox") {
+
+      $el = $("<div></div>");
+
+      $.each(item.choices,function(i,c){
+
+        var $i = $("<input/>").attr({
+              "name": item.field,
+              "type": item.type,
+              "value": c
+            }),
+            $s = $("<span/>").text(c);
+
+        $el.append($i);
+        $el.append($s);
+
+      });
+    } else {
+
+      $el = $("<input/>").attr({
+        "name": item.field,
+        "type": item.type,
+        "value": ""
+      });
+
+    }
+
+    $outer.append($el);
+
+    return $outer;
+
+  }
+
+  /*
+    Called upon successful form submission
+  */
+  function submitted() {
+
+    try {
+
+      //Big random number into localStorage to mark that they submitted it
+      localStorage.setItem("st-id", Math.floor(Math.random()*999999999));
+
+    } catch(e) {}
+
+    //Take hover/click listeners off the grid
+
+  }
+
+  function renderGrid(gridData,config) {
+    gridData = $.map(gridData,function(d){
+      d.x = ("x" in d) ? +d.x : +d.X;
+      d.y = ("y" in d) ? +d.y : +d.Y;
+      return d;
+    });
+
+    existing_data = {submissions: gridData};
+
+    createViz(existing_data,config);
+
+  }
+
+  /*
+    Initialize everything from a set of config options
+  */
+  function initFromConfig(rawConfig) {
+
+  	CONFIG = rawConfig;
+
+    var $form = $("div#form form"),
+        $iframe = $("iframe#st-iframe");
+
+    if (CONFIG.dataSource.type == "google") {
+
+      Tabletop.init({ key: CONFIG.dataSource.url,
+                      callback: function(data) {
+                          renderGrid(data,CONFIG);
+                        },
+                      simpleSheet: true
+                    });
+
+    } else if (CONFIG.dataSource.type == "json") {
+      $.getJSON(CONFIG.dataSource.url,function(data){
+        renderGrid(data,CONFIG);
+      });
+    } else {
+      $.get(CONFIG.dataSource.url,function(data){
+        //Need to pick a parser for this
+        //renderGrid(csv2json(data),CONFIG);
+      });
+    }
+
+    //Don't populate the form or set listeners if they already submitted
+    try {
+      //Temporarily false to always draw the form
+      if (localStorage.getItem("st-id") && false) return true;
+    } catch (e) {}
+
+    //Add the listener for the iframe that will get the submission
+    $iframe.on("load",submitted);
+
+    //Set the form action
+    $form.attr("action",CONFIG.dataDestination)
+          .on("submit",function(){
+            //When they submit, check for missing required fields
+            $(".missing").removeClass("missing");
+
+            var $missing = $.map(CONFIG.fields,function(f){
+
+                            var tag = (f.type == "select" || f.type == "textarea") ? f.type : "input",
+                                $tag = $(tag + "[name='" + f.field + "']");
+
+
+
+                            if (f.required && (!$tag.val() || !$tag.val().length)) {
+                              return $tag;
+                            }
+
+                            return false;
+
+                          });
+
+            $missing = $.grep($missing,function(f){
+              return f !== false;
+            });
+
+            if ($missing.length) {
+
+              $.each($missing,function(i,$m){
+
+                $m.addClass("missing");
+
+              });
+
+              return false;
+            }
+
+            return true;
+
+          });
+
+    //Create the form fields
+    $.each(CONFIG.fields,function(i,f){
+      $form.append(getFormElement(f));
+    });
+
+    //Append a submit button
+    $form.append("<input type=\"submit\" value=\"Submit\"/>");
+
+  }
+
+  //Main initializer
+  function sentimentTracker(opt) {
+    if (typeof opt == "string") {
+      $.getJSON(opt,initFromConfig);
+    } else {
+      initFromConfig(opt);
+    }
+  }
+
+  sentimentTracker("sample-form-config.json");
+
 
 }).call(this);
