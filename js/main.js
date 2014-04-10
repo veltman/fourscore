@@ -161,6 +161,18 @@
 		submissionsToGridMarkup(new_data, CONFIG);
 	}
 
+  function whichQuadrant(x, y) {
+    if (x < 0 && y < 0) {
+      return 'topleft'
+    } else if (x > 0 && y < 0) {
+      return 'topright'
+    } else if (x > 0 && y > 0) {
+      return 'bottomright'
+    } else if (x < 0 && y > 0) {
+      return 'bottomleft'
+    }
+  }
+
   function submissionsToCommentsMarkup(data, config){
     var submissions = data.submissions,
         extent      = data.input_extents[1], // Find the range to later calc the percentage of this comment
@@ -177,14 +189,15 @@
       $comments_container.append(comment_markup);
     }
 
-    // This would normally work using the range being 0 to 100
+    // Mini-map stuff
+    // This scale would normally work using the range being 0 to 100
     // But you have to take into account the width of the circle
     // So subtract the dimensions of the circle (as a percentage of the total mini-map dimentions)
     var map_width = $('.st-mini-map').width();
     var map_height = $('.st-mini-map').height();
     
     // Make a dummy circle first so we can measure its dimensions
-    $('body').append('<div class="st-mm-dot"></div>')
+    $('body').append('<div class="st-mm-dot"></div>');
     var dot_width_perc  = $('.st-mm-dot').width() / map_width * 100;
     var dot_height_perc = $('.st-mm-dot').height() / map_height * 100;
 
@@ -193,12 +206,14 @@
 
     // Remove the dummy circle
     $('.st-mm-dot').remove();
-    
+
     // Make the map
     $('.st-mini-map').each(function(i, el){
       var $el = $(el),
-          x_pos = $el.attr('data-x') / extent,
-          y_pos = $el.attr('data-y') / extent;
+          x_val = submissions[i].x,
+          y_val = submissions[i].y,
+          x_pos = x_val / extent,
+          y_pos = x_val / extent;
 
       $el.append('<div class="st-mm-quadrant"></div>')
          .append('<div class="st-mm-quadrant"></div>')
@@ -208,6 +223,10 @@
       $('<div class="st-mm-dot"></div>')
          .css('left', userValueToCssPercentageLeft(x_pos) + '%')
          .css('top', userValueToCssPercentageTop(y_pos) + '%').appendTo($el);
+
+      // Say what quadrant you're in
+      var quadrant = whichQuadrant(x_val, y_val);
+      $el.parents('.st-comment-container').attr('data-quadrant', quadrant)
 
     })
     // Once the appends are done, show it
