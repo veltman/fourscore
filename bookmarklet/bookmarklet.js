@@ -15,6 +15,51 @@
   } else {
     initBookmarklet();
   }
+
+  function getInput(el) {
+
+    var item = {
+          "name": trim($("label .ss-q-title",el).text())
+        },
+        $i = $("input",el),
+        $s = $("select:first",el),
+        $t = $("textarea:first",el);
+
+    //Exclude grids by ignoring tables
+    if ($i.length && !$("table",el).length) {
+
+      item.type = $i.first().attr("type");
+      item.field = $i.first().attr("name");
+
+      //Get choices for radio and checkbox
+      if (item.type == "radio" || item.type == "checkbox") {
+        item.choices = $i.map(function(){
+            return $(this).val();
+          })
+          .get();
+      }
+
+    } else if ($s.length) {
+
+      item.type = "select";
+      item.field = $s.attr("name");
+
+      //Get choices for select
+      item.choices = $s.find("option").map(function(){
+          return $(this).val();
+        })
+        .get();
+
+    } else if ($t.length) {
+
+      item.type = "textarea";
+      item.field = $t.attr("name");
+
+    }
+
+    return ("type" in item) ? item : null;
+
+  }
  
   function initBookmarklet() {
 
@@ -27,15 +72,12 @@
                     // Mapped array of {name: "foo", field: "bar"}
                     // name = human field name (e.g. "ZIP Code")
                     // field = Google form field ID (e.g. input.a099i12j09ds2)
-                    fields: $("form#ss-form div.ss-form-question div.ss-form-entry").map(function(){
-                        return {
-                          "name": trim($("label .ss-q-title",this).text()),
-                          "field": $("input:first",this).attr("name") || $("select",this).attr("name") || false
-                        }
+                    fields: $("form#ss-form div.ss-form-question div.ss-form-entry").map(function() {
+                        return getInput(this);
                       })
                       .get()
                       .filter(function(d){
-                        return d.field;
+                        return d !== null;
                       })
                   };
 
