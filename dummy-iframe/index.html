@@ -5,13 +5,88 @@
     <meta charset="utf-8">
   </head>
   <body>
-  <iframe name="st-iframe" id="st-iframe" style="display:none;"></iframe>
+  <iframe name="st-iframe" id="st-iframe" style="display: none;"></iframe>
     <form method="POST" name="st-form" id="st-form" target="st-iframe" id="st-form">
     </form>
     <script src="thirdparty/jquery.min.js"></script>
     <script>
+
+      function getFormElement(item) {
+
+        var $el,
+            $outer = $("<div></div>");
+
+        $outer.append("<label>" + item.name + "</label>");
+
+        if (item.type == "textarea") {
+
+          $el = $("<textarea></textarea>")
+                  .attr("name",item.field);
+        
+        } else if (item.type == "select") {
+          $el = $("<select></select>")
+                  .attr("name",item.field);
+
+          $.each(item.choices,function(i,c){
+            
+            $el.append(
+
+              $("<option></option>").text(c)
+
+            );
+
+          });
+
+        } else if (item.type == "radio" || item.type == "checkbox") {
+
+          $el = $("<div></div>");
+
+          $.each(item.choices,function(i,c){
+
+            var $i = $("<input/>").attr({
+                  "name": item.field,
+                  "type": item.type,
+                  "value": c
+                }),
+                $s = $("<span/>").text(c);
+
+            $el.append($i);
+            $el.append($s);
+
+          });
+        } else {
+
+          $el = $("<input/>").attr({
+            "name": item.field,
+            "type": item.type,
+            "value": ""
+          });
+
+        }
+
+        $outer.append($el);
+
+        return $outer;
+
+      }
+
       $.getJSON("sample-form-config.json",function(config){
-        console.log(config);
+
+        var $form = $("form#st-form"),
+            $iframe = $("iframe#st-iframe");
+
+        $iframe.on("load",function(){
+          console.log("Response recorded");
+        });
+
+        $form.attr("action",config.action);
+
+        $.each(config.fields,function(i,f){
+          $form.append(getFormElement(f));
+        });
+
+        $form.append("<input type=\"submit\" value=\"Submit\"/>");
+
       });
     </script>
   </body>
