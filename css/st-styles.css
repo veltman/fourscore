@@ -29,7 +29,57 @@
 	opacity: 1;
 	cursor: default;
 }
-
-.missing {
+.st-missing {
 	background-color: red;
+}
+.st-comment-container{
+	width: 100%;
+	border: 1px solid #ccc;
+	/*box-shadow: 0 0 12px #ccc;*/
+	background-color: #fff;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	overflow: auto;
+	display: inline-block;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.st-mini-map{
+	position: relative;
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+	float: left;
+}
+.st-mm-quadrant{
+	width:50%;
+	height:50%;
+	float: left;
+	border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.st-mm-quadrant:nth-child(even){
+	border-right: 1px solid #ccc;
+}
+.st-mm-quadrant:nth-child(3),.st-mm-quadrant:nth-child(4){
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+}
+.st-name{
+	font-size: 18px;
+	margin-bottom: 5px;
+}
+.st-comment{
+	font-size: 12px;
+}
+.st-mm-dot{
+	position: absolute;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background-color: #f0c;
+	margin-right: 10px;
 }

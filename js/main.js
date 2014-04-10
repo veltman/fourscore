@@ -65,7 +65,7 @@
 		return 'q' + Math.round(colorScale(val)) + '-5';
 	}
 
-	function convertGridSelector(grid_selector){
+	function convertNameToSelector(grid_selector){
 		if (typeof grid_selector == 'string') {
 			
 			if (grid_selector.match(/#?[A-Za-z][A-Za-z0-9_-]+$/)) {
@@ -82,7 +82,7 @@
 	}
 
 	function gridArrayToMarkup(grid_selector, color_brewer_style_name, Grid){
-		$grid = convertGridSelector(grid_selector);
+		$grid = convertNameToSelector(grid_selector);
 		$grid.hide()
 				 .addClass(color_brewer_style_name)
 				 .addClass('st-grid')
@@ -119,7 +119,7 @@
 
 	}
 
-	function submissionsToMarkup(subm_data, conf){
+	function submissionsToGridMarkup(subm_data, conf){
 		var Grid = makeGridArray(subm_data, conf.grid_size);
 		gridArrayToMarkup(conf.grid_selector, conf.color_brewer_style_name, Grid);
 
@@ -158,11 +158,68 @@
 	}
 
 	function updateGrid(new_data){
-		submissionsToMarkup(new_data, CONFIG);
+		submissionsToGridMarkup(new_data, CONFIG);
 	}
 
+  function submissionsToCommentsMarkup(data, config){
+    var submissions = data.submissions,
+        extent      = data.input_extents[1], // Find the range to later calc the percentage of this comment
+        $comments_container = convertNameToSelector(config.comments_selector);
+
+    var commentTemplateFactory = _.template($('#st-comment-template').html()),
+        comment_markup;
+
+    // Hide it so that it renders faster
+    $comments_container.hide();
+    // Add comments
+    for (var i = 0; i < submissions.length; i++) {
+      comment_markup = commentTemplateFactory(submissions[i]);
+      $comments_container.append(comment_markup);
+    }
+
+    // This would normally work using the range being 0 to 100
+    // But you have to take into account the width of the circle
+    // So subtract the dimensions of the circle (as a percentage of the total mini-map dimentions)
+    var map_width = $('.st-mini-map').width();
+    var map_height = $('.st-mini-map').height();
+    
+    // Make a dummy circle first so we can measure its dimensions
+    $('body').append('<div class="st-mm-dot"></div>')
+    var dot_width_perc  = $('.st-mm-dot').width() / map_width * 100;
+    var dot_height_perc = $('.st-mm-dot').height() / map_height * 100;
+
+    var userValueToCssPercentageLeft = new Scale(-1, 1, 0, (100  - dot_width_perc));
+    var userValueToCssPercentageTop = new Scale(-1, 1, 0, (100 - dot_height_perc));
+
+    // Remove the dummy circle
+    $('.st-mm-dot').remove();
+    
+    // Make the map
+    $('.st-mini-map').each(function(i, el){
+      var $el = $(el),
+          x_pos = $el.attr('data-x') / extent,
+          y_pos = $el.attr('data-y') / extent;
+
+      $el.append('<div class="st-mm-quadrant"></div>')
+         .append('<div class="st-mm-quadrant"></div>')
+         .append('<div class="st-mm-quadrant"></div>')
+         .append('<div class="st-mm-quadrant"></div>');
+
+      $('<div class="st-mm-dot"></div>')
+         .css('left', userValueToCssPercentageLeft(x_pos) + '%')
+         .css('top', userValueToCssPercentageTop(y_pos) + '%').appendTo($el);
+
+    })
+    // Once the appends are done, show it
+    $comments_container.show();
+  }
+
 	function createViz(data){
-		submissionsToMarkup(data, CONFIG);
+    // Create the Grid Viz!
+		submissionsToGridMarkup(data, CONFIG);
+
+    // Create the comments section
+    submissionsToCommentsMarkup(data, CONFIG);
 
 		//ADD: only bind if they haven't submitted?
 		bindHandlers();
@@ -258,7 +315,7 @@
 
   }
 
-  function renderGrid(gridData,config) {
+  function stageData(gridData,config) {
     gridData = $.map(gridData,function(d){
       d.x = ("x" in d) ? +d.x : +d.X;
       d.y = ("y" in d) ? +d.y : +d.Y;
@@ -267,6 +324,7 @@
 
     existing_data = {submissions: gridData};
 
+    // Create the Grid
     createViz(existing_data,config);
 
   }
@@ -285,19 +343,19 @@
 
       Tabletop.init({ key: CONFIG.dataSource.url,
         callback: function(data) {
-            renderGrid(data,CONFIG);
+            stageData(data,CONFIG);
           },
         simpleSheet: true
       });
 
     } else if (CONFIG.dataSource.type == "json") {
       $.getJSON(CONFIG.dataSource.url,function(data){
-        renderGrid(data,CONFIG);
+        stageData(data,CONFIG);
       });
     } else {
       $.get(CONFIG.dataSource.url,function(data){
         //Need to pick a parser for this
-        //renderGrid(csv2json(data),CONFIG);
+        //stageData(csv2json(data),CONFIG);
       });
     }
 

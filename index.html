@@ -13,13 +13,26 @@
 </head>
 <body>
 
-	<div id="grid"></div>
-	<div id="form"><form></form></div>
+	<div id="st-wrapper">
+		<div id="grid"></div>
+		<div id="form"><form></form></div>
+		<div id="comments"></div>
+	</div>
+
+	<script type="text/jst" id="st-comment-template">
+		<div class="st-comment-container">
+	    <div class="st-mini-map" data-x="<%= x %>" data-y="<%= y %>"></div>
+	    <div class="st-name"><%= name %></div>
+	    <div class="st-comment"><%= comment %></div>
+	    <!--<div class="st-paragraph"><%= paragraph %></div>-->
+	  </div>
+  </script>
 
 	<script src="js/thirdparty/jquery.1.10.2.min.js"></script>
 	<script src="js/thirdparty/underscore-min.js"></script>
 	<script src="js/thirdparty/sideburns.js"></script>
 	<script src="js/thirdparty/tabletop.js"></script>
+	<script src="js/thirdparty/masonry.pkgd.min.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>
