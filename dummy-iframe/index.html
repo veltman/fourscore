@@ -3,6 +3,11 @@
   <head>
     <title>Dummy IFrame Test</title>
     <meta charset="utf-8">
+    <style>
+      .missing {
+        background-color: red;
+      }
+    </style>
   </head>
   <body>
   <iframe name="st-iframe" id="st-iframe" style="display: none;"></iframe>
@@ -79,7 +84,46 @@
           console.log("Response recorded");
         });
 
-        $form.attr("action",config.action);
+        $form.attr("action",config.action)
+              .on("submit",function(){
+
+                $(".missing").removeClass("missing");
+
+                var $missing = $.map(config.fields,function(f){
+
+                                var tag = (f.type == "select" || f.type == "textarea") ? f.type : "input",
+                                    $tag = $(tag + "[name='" + f.field + "']");
+
+
+
+                                if (f.required && (!$tag.val() || !$tag.val().length)) {
+                                  return $tag;
+                                }
+
+                                return false;
+
+                              });
+
+                $missing = $.grep($missing,function(f){
+                  return f !== false;
+                });
+
+                console.log($missing);
+
+                if ($missing.length) {
+
+                  $.each($missing,function(i,$m){
+
+                    $m.addClass("missing");
+
+                  });
+
+                  return false;
+                }
+
+                return true;
+
+              });
 
         $.each(config.fields,function(i,f){
           $form.append(getFormElement(f));
