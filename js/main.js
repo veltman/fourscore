@@ -83,7 +83,7 @@
 
 	}
 
-	function gridArrayToMarkup($grid, Grid, color_brewer_style_name){
+	function gridArrayToMarkup($grid, color_brewer_style_name, Grid){
 		$grid.hide()
 				 .addClass(color_brewer_style_name)
 				 .addClass('st-grid')
@@ -120,7 +120,7 @@
 
 	function submissionsToMarkup(subm_data, conf){
 		var Grid = makeGridArray(subm_data, conf.grid_size);
-		gridArrayToMarkup(conf.$grid, Grid, conf.color_brewer_style_name);
+		gridArrayToMarkup(conf.$grid, conf.color_brewer_style_name, Grid);
 
 	}
 
