@@ -88,6 +88,7 @@
 				 .addClass(color_brewer_style_name)
 				 .addClass('st-grid')
 				 .html('');
+
 		var grid = Grid.grid,
 				extents = Grid.extents,
 				grid_width  = $grid.width(),
@@ -106,9 +107,10 @@
 				square_value = grid[i][j].count;
 				submission_value = JSON.stringify(grid[i][j].submission_value);
 				ids   = JSON.stringify(grid[i][j].ids)
-				$('<div class="st-cell"></div>').width(grid_width / grid.length)
+				$('<div class="st-cell"></div>').width(grid_width / grid.length - 1) // Subtract one for the margin given between cells
 																			 .attr('data-submission-value', submission_value)
 																			 .attr('data-ids', ids)
+																			 .attr('data-cell-id', grid[i][j].submission_value[0] + '-' + grid[i][j].submission_value[1])
 																			 .html(square_value)
 																			 .addClass(setSquareFill(extents, square_value))
 																			 .appendTo($($grid.find('.st-row')[i]));
@@ -136,6 +138,7 @@
 
 		$('.st-grid').on('click', '.st-cell', function(){
 			var $this = $(this);
+			var selected_id = $this.attr('data-cell-id');
 			var submission_values = JSON.parse($this.attr('data-submission-value'));
 			var nv = {
 				x_sentiment: submission_values[0],
@@ -144,13 +147,15 @@
 
 			console.log(nv);
 			/* PROMPT FROM SUBMISSION */
-			formSubmit(nv)
+			formSubmit(nv, selected_id)
 		});
 	}
 
-	function formSubmit(new_data){
+	function formSubmit(new_data, selected_id){
 		submission_data.submissions.push(new_data);
 		updateGrid(submission_data);
+		// Highlight that cell we clicked on, now that everything is redrawn
+		$('.st-cell[data-cell-id="'+selected_id+'"]').addClass('st-selected');
 	}
 
 	function updateGrid(new_data){

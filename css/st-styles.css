@@ -9,8 +9,7 @@
 .st-cell{
 	height: 100%;
 	float:left;
-	border-right: 1px solid #fff;
-	border-bottom: 1px solid #fff;
+	margin: 0 1px 1px 0;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	-webkit-touch-callout: none;
@@ -19,4 +18,7 @@
 	-moz-user-select: -moz-none;
 	-ms-user-select: none;
 	user-select: none;
+}
+.st-cell.st-selected{
+	border: 1px solid #f0a;
 }
