@@ -28,26 +28,29 @@
 	}	
 /********************************/
 
-	function generateRandomData(numb_submissions, range){
+	function generateRandomData(numb_submissions, size){
 		var data = {},
 				obj;
-		// If they haven't specified a custom input range then make it a one-to-one based on grid size
-		if (!range) range = Math.floor(CONFIG.grid_size/2);
-		data.extents = [range * -1, range];
 		data.submissions = [];
 		for (var i = 0; i < numb_submissions; i++){
 			obj = {};
 			obj.uid = 'id-' + i
 			obj.comment = 'Submission text ' + i;
-			obj.x_sentiment = Math.ceil(Math.random() * range) * ((i % 2 == 0) ? -1 : 1);
-			obj.y_sentiment = Math.ceil(Math.random() * range) * ((i % 3 != 0) ? -1 : 1);
+			obj.x_sentiment = Math.ceil((Math.random() * size)/2) * ((i % 2 == 0) ? -1 : 1);
+			obj.y_sentiment = Math.ceil((Math.random() * size)/2) * ((i % 3 != 0) ? -1 : 1);
 			data.submissions.push(obj);
 		}
 		return data;
 	}
 
 	function makeGridArray(data, size) {
-		var userValueToGridIdx = new Scale(data.extents[0], data.extents[1], 0, size - 1),
+		var extent;
+		// If they haven't specified a custom input range then make it a one-to-one based on grid size
+		if (!data.input_extents){
+			extent = Math.floor(size/2);
+			data.input_extents = [extent * -1, extent];
+		}
+		var userValueToGridIdx = new Scale(data.input_extents[0], data.input_extents[1], 0, size - 1),
 		    grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return {submission_value: [Math.round(userValueToGridIdx.inverse(b)),Math.round(userValueToGridIdx.inverse(c))], count: 0, ids: []} }) }),
 				grid_x,
 				grid_y,
@@ -58,9 +61,7 @@
 		for (var i = 0; i < data.submissions.length; i++){
 			grid_x = Math.round(userValueToGridIdx(data.submissions[i].x_sentiment));
 			grid_y = Math.round(userValueToGridIdx(data.submissions[i].y_sentiment));
-
 			grid_xy = [grid_x, grid_y];
-
 			cell = grid[grid_xy[1]][grid_xy[0]];
 			cell.count++;
 			cell.ids.push(data.submissions[i].uid); 
@@ -136,13 +137,12 @@
 		$('.st-grid').on('click', '.st-cell', function(){
 			var $this = $(this);
 			var submission_values = JSON.parse($this.attr('data-submission-value'));
-			console.log(submission_values)
 			var nv = {
 				x_sentiment: submission_values[0],
 				y_sentiment: submission_values[1]
 			}
 
-			console.log(submission_values);
+			console.log(nv);
 			/* PROMPT FROM SUBMISSION */
 			formSubmit(nv)
 		});
@@ -150,7 +150,11 @@
 
 	function formSubmit(new_data){
 		submission_data.submissions.push(new_data);
-		submissionsToMarkup(submission_data, CONFIG);
+		updateGrid(submission_data);
+	}
+
+	function updateGrid(new_data){
+		submissionsToMarkup(new_data, CONFIG);
 	}
 
 	/* CONFIG THINGS */
@@ -160,7 +164,7 @@
 		"color_brewer_style_name": 'YlGnBu'
 	}
 
-	var submission_data = generateRandomData(1000);
+	var submission_data = generateRandomData(1000, CONFIG.grid_size);
 	/* end config things */
 
 	submissionsToMarkup(submission_data, CONFIG);
