@@ -284,11 +284,11 @@
     if (CONFIG.dataSource.type == "google") {
 
       Tabletop.init({ key: CONFIG.dataSource.url,
-                      callback: function(data) {
-                          renderGrid(data,CONFIG);
-                        },
-                      simpleSheet: true
-                    });
+        callback: function(data) {
+            renderGrid(data,CONFIG);
+          },
+        simpleSheet: true
+      });
 
     } else if (CONFIG.dataSource.type == "json") {
       $.getJSON(CONFIG.dataSource.url,function(data){
@@ -318,18 +318,18 @@
 
             var $missing = $.map(CONFIG.fields,function(f){
 
-                            var tag = (f.type == "select" || f.type == "textarea") ? f.type : "input",
-                                $tag = $(tag + "[name='" + f.field + "']");
+              var tag = (f.type == "select" || f.type == "textarea") ? f.type : "input",
+                  $tag = $(tag + "[name='" + f.field + "']");
 
 
 
-                            if (f.required && (!$tag.val() || !$tag.val().length)) {
-                              return $tag;
-                            }
+              if (f.required && (!$tag.val() || !$tag.val().length)) {
+                return $tag;
+              }
 
-                            return false;
+              return false;
 
-                          });
+            });
 
             $missing = $.grep($missing,function(f){
               return f !== false;
