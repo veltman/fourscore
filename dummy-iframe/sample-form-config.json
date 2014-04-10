@@ -1,5 +1,14 @@
 {
-  "action": "https://docs.google.com/forms/d/1ozaiZ1Dpj_Wm8OhbjmRnTzz_ZPlF-o0A9UMM7n0Wa-k/formResponse",
+  "dataSource": {
+    "url": "0Ao4fxxV3Xzd_dDJRb0JTS2ZSZTZSOU5mVlhXOUJJdkE",
+    "type": "google"
+  },
+  "gridSize": 7,
+  "xAxis": ["LEFT","RIGHT"],
+  "yAxis": ["TOP","BOTTOM"],
+  "renderTo": "grid",
+  "colors": "Reds",
+  "dataDestination": "https://docs.google.com/forms/d/1ozaiZ1Dpj_Wm8OhbjmRnTzz_ZPlF-o0A9UMM7n0Wa-k/formResponse",
   "fields": [
     {
       "name": "X",

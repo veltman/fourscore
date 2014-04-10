@@ -14,8 +14,23 @@
     <form method="POST" name="st-form" id="st-form" target="st-iframe" id="st-form">
     </form>
     <script src="thirdparty/jquery.min.js"></script>
+    <script src="thirdparty/tabletop.js"></script>
     <script>
 
+      /*
+
+        Generate a form element based on a form item in the config options.
+
+        Returns a <div> with a label and whatever the element is.
+        
+        The element is one of:
+
+        a <textarea>
+        a <select> with <option>s,
+        an <input> (for type="text", type="number", etc.)
+        a <div> with several <inputs> (for type="radio" or type="checkbox")
+
+      */
       function getFormElement(item) {
 
         var $el,
@@ -75,20 +90,73 @@
 
       }
 
+      /*
+        Called upon successful form submission
+      */
       function submitted() {
-        console.log("form submitted!");
+
+        try {
+
+          //Big random number into localStorage to mark that they submitted it
+          localStorage.setItem("st-id", Math.floor(Math.random()*999999999));
+
+        } catch(e) {}
+
+        //Take hover/click listeners off the grid
+
       }
 
-      $.getJSON("sample-form-config.json",function(config){
+      function renderGrid(gridData,config) {
+        gridData = $.map(gridData,function(d){
+          d.x = +d.x;
+          d.y = +d.y;
+          return d;
+        });
+
+        //Render the grid here
+      }
+
+      /*
+        Initialize everything from a set of config options
+      */
+      function initFromConfig(config) {
 
         var $form = $("form#st-form"),
             $iframe = $("iframe#st-iframe");
 
+        if (config.dataSource.type == "google") {
+
+          Tabletop.init({ key: config.dataSource.url,
+                          callback: function(data) {
+                              renderGrid(data,config);
+                            },
+                          simpleSheet: true
+                        });
+
+        } else if (config.dataSource.type == "json") {
+          $.getJSON(config.dataSource.url,function(data){
+            renderGrid(data,config);
+          });
+        } else {
+          $.get(config.dataSource.url,function(data){
+            //Need to pick a parser for this
+            //renderGrid(csv2json(data),config);
+          });
+        }
+
+        //Don't populate the form or set listeners if they already submitted
+        try {
+          if (localStorage.getItem("st-id")) return true;
+        } catch (e) {}
+
+        //Add the listener for the iframe that will get the submission
         $iframe.on("load",submitted);
 
-        $form.attr("action",config.action)
+        //Set the form action
+        $form.attr("action",config.dataDestination)
               .on("submit",function(){
 
+                //When they submit, check for missing required fields
                 $(".missing").removeClass("missing");
 
                 var $missing = $.map(config.fields,function(f){
@@ -125,13 +193,27 @@
 
               });
 
+        //Create the form fields
         $.each(config.fields,function(i,f){
           $form.append(getFormElement(f));
         });
 
+        //Append a submit button
         $form.append("<input type=\"submit\" value=\"Submit\"/>");
 
-      });
+      }
+
+      //Main initializer
+      function sentimentTracker(opt) {
+        if (typeof opt == "string") {
+          $.getJSON(opt,initFromConfig);
+        } else {
+          initFromConfig(opt);
+        }
+      }
+
+      sentimentTracker("sample-form-config.json");
+
     </script>
   </body>
 </html>
