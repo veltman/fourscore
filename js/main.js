@@ -83,7 +83,13 @@
 
 	}
 
-	function gridArrayToMarkup($grid, color_brewer_style_name, Grid){
+	function convertGridSelector(grid_selector){
+		if (typeof grid_selector == 'string') return $(grid_selector);
+		return grid_selector;
+	}
+
+	function gridArrayToMarkup(grid_selector, color_brewer_style_name, Grid){
+		$grid = convertGridSelector(grid_selector);
 		$grid.hide()
 				 .addClass(color_brewer_style_name)
 				 .addClass('st-grid')
@@ -120,7 +126,7 @@
 
 	function submissionsToMarkup(subm_data, conf){
 		var Grid = makeGridArray(subm_data, conf.grid_size);
-		gridArrayToMarkup(conf.$grid, conf.color_brewer_style_name, Grid);
+		gridArrayToMarkup(conf.grid_selector, conf.color_brewer_style_name, Grid);
 
 	}
 
@@ -155,9 +161,9 @@
 
 	/* CONFIG THINGS */
 	var CONFIG = {
-		"$grid": $('#grid'),
-		"grid_size": 11,
-		"input_range": 5,
+		"grid_selector": '#grid',
+		"grid_size": 10,
+		"input_range": 6,
 		"color_brewer_style_name": 'YlGnBu'
 	}
 
