@@ -28,25 +28,6 @@
 	}	
 /********************************/
 
-	function makeGrid(data, size) {
-		var grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return {coords: null, count: 0, ids: []} }) }),
-				userValueToGridIdx = new Scale(data.extents[0], data.extents[1], 0, size - 1),
-				grid_xy,
-				max = 0,
-				cell;
-
-		for (var i = 0; i < data.submissions.length; i++){
-			grid_xy = [Math.round(userValueToGridIdx(data.submissions[i].x_sentiment)), Math.round(userValueToGridIdx(data.submissions[i].y_sentiment))] 
-
-			cell = grid[grid_xy[1]][grid_xy[0]];
-			cell.count++;
-			cell.coords = data.submissions[i].x_sentiment + ', ' + data.submissions[i].y_sentiment; // For sanity check, can be removed
-			cell.ids.push(data.submissions[i].uid); 
-			if (cell.count > max) max = cell.count;
-		}
-		return {grid: grid, extents: [0, max]}
-	}
-
 	function generateRandomData(numb_submissions, range){
 		var data = {},
 				obj;
@@ -63,6 +44,25 @@
 		return data;
 	}
 
+	function makeGridArray(data, size) {
+		var grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return {submission_value: null, count: 0, ids: []} }) }),
+				userValueToGridIdx = new Scale(data.extents[0], data.extents[1], 0, size - 1),
+				grid_xy,
+				max = 0,
+				cell;
+
+		for (var i = 0; i < data.submissions.length; i++){
+			grid_xy = [Math.round(userValueToGridIdx(data.submissions[i].x_sentiment)), Math.round(userValueToGridIdx(data.submissions[i].y_sentiment))] 
+
+			cell = grid[grid_xy[1]][grid_xy[0]];
+			cell.count++;
+			cell.submission_value = data.submissions[i].x_sentiment + ', ' + data.submissions[i].y_sentiment; // For sanity check, can be removed
+			cell.ids.push(data.submissions[i].uid); 
+			if (cell.count > max) max = cell.count;
+		}
+		return {grid: grid, extents: [0, max]}
+	}
+
 	function findGridExtents(grid){
 		var min,
 				max;
@@ -76,31 +76,6 @@
 		return [min, max]
 	}
 
-
-	// function reduceGrid(grid, factor_of) {
-	// 	var size = grid.length,
-	// 			factor_of = factor_of || 2;
-
-	// 	if (0 !== size % 2 ) {
-	// 		throw new Error('wrong');
-	// 	}
-
-	// 	var new_grid = [],
-	// 	    new_extents;
-
-	// 	for (var i = 0; i < size; i++) {
-	// 		var ii = Math.floor(i/factor_of);
-	// 		if (!new_grid[ii]) { new_grid[ii] = [] };
-	// 		for (var j = 0; j < size; j++) {
-	// 			var jj = Math.floor(j/factor_of);
-	// 			new_grid[ii][jj] = new_grid[ii][jj] ? new_grid[ii][jj] + grid[i][j] : grid[i][j];
-	// 		}
-	// 	}
-
-	// 	new_extents = findGridExtents(new_grid);
-	// 	return {grid: new_grid, extents: new_extents};
-	// }
-
 	function setSquareFill(extents, val){
 		val = Number(val);
 		var colorScale = new Scale(extents[0], extents[1], 0, 4) // Use a five color scale for now.
@@ -108,44 +83,82 @@
 
 	}
 
-	function gridToMarkup($grid, Grid){
-		$grid.hide().addClass(color_brewer_style_name);
+	function gridArrayToMarkup($grid, Grid, color_brewer_style_name){
+		$grid.hide()
+				 .addClass(color_brewer_style_name)
+				 .addClass('st-grid')
+				 .html('');
 		var grid = Grid.grid,
 				extents = Grid.extents,
 				grid_width  = $grid.width(),
 			  grid_height = $grid.height(),
 			  square_value,
-			  coords,
+			  submission_value,
 			  ids;
 
 		// For every row in the grid, make a row element
 		for (var i = 0; i < grid.length; i++ ){
-			$('<div class="row"></div>').height(grid_height / grid.length)
+			$('<div class="st-row"></div>').height(grid_height / grid.length)
 																	.appendTo($grid);
 
+			// Now make a cell with the aggregate data
 			for (var j = 0; j < grid.length; j++){
 				square_value = grid[i][j].count;
-				coords = grid[i][j].coords;
+				submission_value = grid[i][j].submission_value;
 				ids   = grid[i][j].ids.toString()
-				$('<div class="square"></div>').width(grid_width / grid.length)
-																			 .attr('data-coords', coords)
+				$('<div class="st-cell"></div>').width(grid_width / grid.length)
+																			 .attr('data-submission-value', submission_value)
 																			 .attr('data-ids', ids)
 																			 .html(square_value)
 																			 .addClass(setSquareFill(extents, square_value))
-																			 .appendTo($($grid.find('.row')[i]));
+																			 .appendTo($($grid.find('.st-row')[i]));
 			}
 		}
 		$grid.show();
 
 	}
 
-	var $grid  = $('#grid'),
-			grid_size   = 11,
-			input_range = 5,
-			subm_data = generateRandomData(2500, input_range),
-			Grid   = makeGrid(subm_data, grid_size),
-			color_brewer_style_name = 'YlGnBu';
+	function submissionsToMarkup(subm_data, conf){
+		var Grid = makeGridArray(subm_data, conf.grid_size);
+		gridArrayToMarkup(conf.$grid, Grid, conf.color_brewer_style_name);
 
-	gridToMarkup($grid, Grid);
+	}
+
+	function bindHandlers(){
+		$('.st-grid').on('mouseover', '.st-cell', function(){
+			var $this = $(this);
+			console.log('Input submission: ', $this.attr('data-submission-value'))
+		});
+
+		$('.st-grid').on('mouseleave', function(){
+			/* HIDE TOOLTIP */
+		});
+
+		$('.st-grid').on('click', '.st-cell', function(){
+			var $this = $(this);
+			var submission_value = $this.attr('data-submission-value');
+
+			console.log(submission_value);
+			/* PROMPT FROM SUBMISSION */
+		});
+	}
+
+	function formSubmit(){
+		submissionsToMarkup(subm_data, grid_size, $grid);
+	}
+
+	/* CONFIG THINGS */
+	var CONFIG = {
+		"$grid": $('#grid'),
+		"grid_size": 11,
+		"input_range": 5,
+		"color_brewer_style_name": 'YlGnBu'
+	}
+
+	var submission_data = generateRandomData(2500, CONFIG.input_range);
+	/* end config things */
+
+	submissionsToMarkup(submission_data, CONFIG);
+	bindHandlers();
 
 }).call(this);
