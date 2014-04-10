@@ -31,14 +31,16 @@
 	function generateRandomData(numb_submissions, range){
 		var data = {},
 				obj;
+		// If they haven't specified a custom input range then make it a one-to-one based on grid size
+		if (!range) range = Math.floor(CONFIG.grid_size/2);
 		data.extents = [range * -1, range];
 		data.submissions = [];
 		for (var i = 0; i < numb_submissions; i++){
 			obj = {};
 			obj.uid = 'id-' + i
 			obj.comment = 'Submission text ' + i;
-			obj.x_sentiment = Math.round(Math.random() * range) * ((i % 2 == 0) ? -1 : 1);
-			obj.y_sentiment = Math.round(Math.random() * range) * ((i % 3 != 0) ? -1 : 1);
+			obj.x_sentiment = Math.ceil(Math.random() * range) * ((i % 2 == 0) ? -1 : 1);
+			obj.y_sentiment = Math.ceil(Math.random() * range) * ((i % 3 != 0) ? -1 : 1);
 			data.submissions.push(obj);
 		}
 		return data;
@@ -47,33 +49,26 @@
 	function makeGridArray(data, size) {
 		var grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return {submission_value: null, count: 0, ids: []} }) }),
 				userValueToGridIdx = new Scale(data.extents[0], data.extents[1], 0, size - 1),
+				grid_x,
+				grid_y,
 				grid_xy,
 				max = 0,
 				cell;
 
 		for (var i = 0; i < data.submissions.length; i++){
-			grid_xy = [Math.round(userValueToGridIdx(data.submissions[i].x_sentiment)), Math.round(userValueToGridIdx(data.submissions[i].y_sentiment))] 
+			grid_x = Math.round(userValueToGridIdx(data.submissions[i].x_sentiment));
+			grid_y = Math.round(userValueToGridIdx(data.submissions[i].y_sentiment));
+
+			grid_xy = [grid_x, grid_y];
 
 			cell = grid[grid_xy[1]][grid_xy[0]];
 			cell.count++;
+			if (data.submissions[i].x_sentiment == 0) console.log(data.submissions[i].x_sentiment)
 			cell.submission_value = data.submissions[i].x_sentiment + ', ' + data.submissions[i].y_sentiment; // For sanity check, can be removed
 			cell.ids.push(data.submissions[i].uid); 
 			if (cell.count > max) max = cell.count;
 		}
 		return {grid: grid, extents: [0, max]}
-	}
-
-	function findGridExtents(grid){
-		var min,
-				max;
-		min = max = grid[0][0];
-		for (var i = 0; i < grid.length; i++){
-			for (var j = 0; j < grid.length; j++){
-				if (grid[i][j] > max) max = grid[i][j]
-				if (grid[i][j] <= min) min = grid[i][j]
-			}
-		}
-		return [min, max]
 	}
 
 	function setSquareFill(extents, val){
@@ -163,11 +158,10 @@
 	var CONFIG = {
 		"grid_selector": '#grid',
 		"grid_size": 10,
-		"input_range": 6,
 		"color_brewer_style_name": 'YlGnBu'
 	}
 
-	var submission_data = generateRandomData(2500, CONFIG.input_range);
+	var submission_data = generateRandomData(2500);
 	/* end config things */
 
 	submissionsToMarkup(submission_data, CONFIG);
