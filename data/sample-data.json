@@ -1,0 +1,18 @@
+{
+	"extents": [-5, 5],
+	"submissions":
+		[
+			{
+				"uid": "a1",
+				"comment": "blah blah",
+				"x_sentiment": 5,
+				"y_sentiment": -2
+			},
+			{
+				"uid": "a2",
+				"comment": "blah blah",
+				"x_sentiment": 3,
+				"y_sentiment": -1
+			}
+		]
+}
