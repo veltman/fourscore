@@ -1,5 +1,5 @@
 (function(){
-
+	'use-strict'
 /********************************/
 
 	function range(start, stop, step) {
@@ -26,8 +26,42 @@
 	  while (x * k % 1) k *= 10;
 	  return k;
 	}	
-
 /********************************/
+
+	function makeGrid(data, size) {
+		var grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return {coords: null, count: 0, ids: []} }) }),
+				userValueToGridIdx = new Scale(data.extents[0], data.extents[1], 0, size - 1),
+				grid_xy,
+				max = 0,
+				cell;
+
+		for (var i = 0; i < data.submissions.length; i++){
+			grid_xy = [Math.round(userValueToGridIdx(data.submissions[i].x_sentiment)), Math.round(userValueToGridIdx(data.submissions[i].y_sentiment))] 
+
+			cell = grid[grid_xy[1]][grid_xy[0]];
+			cell.count++;
+			cell.coords = data.submissions[i].x_sentiment + ', ' + data.submissions[i].y_sentiment; // For sanity check, can be removed
+			cell.ids.push(data.submissions[i].uid); 
+			if (cell.count > max) max = cell.count;
+		}
+		return {grid: grid, extents: [0, max]}
+	}
+
+	function generateRandomData(numb_submissions, range){
+		var data = {},
+				obj;
+		data.extents = [range * -1, range];
+		data.submissions = [];
+		for (var i = 0; i < numb_submissions; i++){
+			obj = {};
+			obj.uid = 'id-' + i
+			obj.comment = 'Submission text ' + i;
+			obj.x_sentiment = Math.round(Math.random() * range) * ((i % 2 == 0) ? -1 : 1);
+			obj.y_sentiment = Math.round(Math.random() * range) * ((i % 3 != 0) ? -1 : 1);
+			data.submissions.push(obj);
+		}
+		return data;
+	}
 
 	function findGridExtents(grid){
 		var min,
@@ -42,43 +76,30 @@
 		return [min, max]
 	}
 
-	function makeGrid(size) {
-		var grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return Math.floor(Math.random() * 3) }) }),
-				extents = findGridExtents(grid);
-		return {grid: grid, extents: extents}
-	}
 
-	// function ppGrid(grid) {
-	// 	var out = ""
-	// 	for (var i = 0, ln = grid.length; i < ln; i++) {
-	// 		out += grid[i].join(',') + '\n'
+	// function reduceGrid(grid, factor_of) {
+	// 	var size = grid.length,
+	// 			factor_of = factor_of || 2;
+
+	// 	if (0 !== size % 2 ) {
+	// 		throw new Error('wrong');
 	// 	}
-	// 	return out
+
+	// 	var new_grid = [],
+	// 	    new_extents;
+
+	// 	for (var i = 0; i < size; i++) {
+	// 		var ii = Math.floor(i/factor_of);
+	// 		if (!new_grid[ii]) { new_grid[ii] = [] };
+	// 		for (var j = 0; j < size; j++) {
+	// 			var jj = Math.floor(j/factor_of);
+	// 			new_grid[ii][jj] = new_grid[ii][jj] ? new_grid[ii][jj] + grid[i][j] : grid[i][j];
+	// 		}
+	// 	}
+
+	// 	new_extents = findGridExtents(new_grid);
+	// 	return {grid: new_grid, extents: new_extents};
 	// }
-
-	function reduceGrid(grid, factor_of) {
-		var size = grid.length,
-				factor_of = factor_of || 2;
-
-		if (0 !== size % 2 ) {
-			throw new Error('wrong');
-		}
-
-		var new_grid = [],
-		    new_extents;
-
-		for (var i = 0; i < size; i++) {
-			var ii = Math.floor(i/factor_of);
-			if (!new_grid[ii]) { new_grid[ii] = [] };
-			for (var j = 0; j < size; j++) {
-				var jj = Math.floor(j/factor_of);
-				new_grid[ii][jj] = new_grid[ii][jj] ? new_grid[ii][jj] + grid[i][j] : grid[i][j];
-			}
-		}
-
-		new_extents = findGridExtents(new_grid);
-		return {grid: new_grid, extents: new_extents};
-	}
 
 	function setSquareFill(extents, val){
 		val = Number(val);
@@ -93,7 +114,9 @@
 				extents = Grid.extents,
 				grid_width  = $grid.width(),
 			  grid_height = $grid.height(),
-			  square_value;
+			  square_value,
+			  coords,
+			  ids;
 
 		// For every row in the grid, make a row element
 		for (var i = 0; i < grid.length; i++ ){
@@ -101,8 +124,12 @@
 																	.appendTo($grid);
 
 			for (var j = 0; j < grid.length; j++){
-				square_value = grid[i][j];
+				square_value = grid[i][j].count;
+				coords = grid[i][j].coords;
+				ids   = grid[i][j].ids.toString()
 				$('<div class="square"></div>').width(grid_width / grid.length)
+																			 .attr('data-coords', coords)
+																			 .attr('data-ids', ids)
 																			 .html(square_value)
 																			 .addClass(setSquareFill(extents, square_value))
 																			 .appendTo($($grid.find('.row')[i]));
@@ -113,15 +140,12 @@
 	}
 
 	var $grid  = $('#grid'),
-	    $grid2 = $('#grid2'),
-	    $grid3 = $('#grid3'),
-			Grid   = makeGrid(20),
+			grid_size   = 11,
+			input_range = 5,
+			subm_data = generateRandomData(2500, input_range),
+			Grid   = makeGrid(subm_data, grid_size),
 			color_brewer_style_name = 'YlGnBu';
 
 	gridToMarkup($grid, Grid);
-	gridToMarkup($grid2, reduceGrid(Grid.grid, 2));
-	gridToMarkup($grid3, reduceGrid(Grid.grid, 4));
-
-
 
 }).call(this);

@@ -5,16 +5,8 @@ body{
 	font-size: 10px;
 }
 #grid{
-	width: 960px;
-	height: 400px;
-}
-#grid2{
 	width: 590px;
-	height: 200px;
-}
-#grid3{
-	width: 320px;
-	height: 200px;
+	height: 400px;
 }
 .grid{
 	margin-bottom: 15px;
