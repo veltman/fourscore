@@ -19,7 +19,8 @@
   function getInput(el) {
 
     var item = {
-          "name": trim($("label .ss-q-title",el).text())
+          "name": trim($("label .ss-q-title",el).text()),
+          "required": !!$(".ss-required-asterisk",el).length
         },
         $i = $("input",el),
         $s = $("select:first",el),
@@ -106,7 +107,7 @@
   }
 
   function trim(s){ 
-    return ( s || '' ).replace( /^\s+|\s+$/g, '' ); 
+    return ( s || '' ).replace( /^\s+|(\s|[*])+$/g, '' ); 
   }
  
 })();
