@@ -66,7 +66,7 @@
 
     //Empty div, empty pre, form options
     var $div = $("<div></div>"),
-        $pre = $("<pre><code></code></pre>"),
+        $pre = $("<pre><code></code></pre>").css("white-space","pre-wrap"),
         options = {
                     // Spreadsheet form endpoint
                     action: $("form#ss-form").attr("action"),
