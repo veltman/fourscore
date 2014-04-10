@@ -75,14 +75,16 @@
 
       }
 
+      function submitted() {
+        console.log("form submitted!");
+      }
+
       $.getJSON("sample-form-config.json",function(config){
 
         var $form = $("form#st-form"),
             $iframe = $("iframe#st-iframe");
 
-        $iframe.on("load",function(){
-          console.log("Response recorded");
-        });
+        $iframe.on("load",submitted);
 
         $form.attr("action",config.action)
               .on("submit",function(){
@@ -107,8 +109,6 @@
                 $missing = $.grep($missing,function(f){
                   return f !== false;
                 });
-
-                console.log($missing);
 
                 if ($missing.length) {
 
