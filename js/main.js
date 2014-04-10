@@ -47,8 +47,8 @@
 	}
 
 	function makeGridArray(data, size) {
-		var grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return {submission_value: null, count: 0, ids: []} }) }),
-				userValueToGridIdx = new Scale(data.extents[0], data.extents[1], 0, size - 1),
+		var userValueToGridIdx = new Scale(data.extents[0], data.extents[1], 0, size - 1),
+		    grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return {submission_value: [Math.round(userValueToGridIdx.inverse(b)),Math.round(userValueToGridIdx.inverse(c))], count: 0, ids: []} }) }),
 				grid_x,
 				grid_y,
 				grid_xy,
@@ -63,8 +63,6 @@
 
 			cell = grid[grid_xy[1]][grid_xy[0]];
 			cell.count++;
-			if (data.submissions[i].x_sentiment == 0) console.log(data.submissions[i].x_sentiment)
-			cell.submission_value = data.submissions[i].x_sentiment + ', ' + data.submissions[i].y_sentiment; // For sanity check, can be removed
 			cell.ids.push(data.submissions[i].uid); 
 			if (cell.count > max) max = cell.count;
 		}
@@ -105,8 +103,8 @@
 			// Now make a cell with the aggregate data
 			for (var j = 0; j < grid.length; j++){
 				square_value = grid[i][j].count;
-				submission_value = grid[i][j].submission_value;
-				ids   = grid[i][j].ids.toString()
+				submission_value = JSON.stringify(grid[i][j].submission_value);
+				ids   = JSON.stringify(grid[i][j].ids)
 				$('<div class="st-cell"></div>').width(grid_width / grid.length)
 																			 .attr('data-submission-value', submission_value)
 																			 .attr('data-ids', ids)
@@ -137,7 +135,8 @@
 
 		$('.st-grid').on('click', '.st-cell', function(){
 			var $this = $(this);
-			var submission_values = $this.attr('data-submission-value').split(', ');
+			var submission_values = JSON.parse($this.attr('data-submission-value'));
+			console.log(submission_values)
 			var nv = {
 				x_sentiment: submission_values[0],
 				y_sentiment: submission_values[1]
@@ -161,7 +160,7 @@
 		"color_brewer_style_name": 'YlGnBu'
 	}
 
-	var submission_data = generateRandomData(2500);
+	var submission_data = generateRandomData(1000);
 	/* end config things */
 
 	submissionsToMarkup(submission_data, CONFIG);
