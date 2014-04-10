@@ -136,15 +136,21 @@
 
 		$('.st-grid').on('click', '.st-cell', function(){
 			var $this = $(this);
-			var submission_value = $this.attr('data-submission-value');
+			var submission_values = $this.attr('data-submission-value').split(', ');
+			var nv = {
+				x_sentiment: submission_values[0],
+				y_sentiment: submission_values[1]
+			}
 
-			console.log(submission_value);
+			console.log(submission_values);
 			/* PROMPT FROM SUBMISSION */
+			formSubmit(nv)
 		});
 	}
 
-	function formSubmit(){
-		submissionsToMarkup(subm_data, grid_size, $grid);
+	function formSubmit(new_data){
+		submission_data.submissions.push(new_data);
+		submissionsToMarkup(submission_data, CONFIG);
 	}
 
 	/* CONFIG THINGS */
