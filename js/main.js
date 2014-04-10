@@ -157,17 +157,23 @@
 		submissionsToMarkup(new_data, CONFIG);
 	}
 
+	function createViz(submission_data, CONFIG){
+		submissionsToMarkup(submission_data, CONFIG);
+		bindHandlers();
+	}
+
 	/* CONFIG THINGS */
 	var CONFIG = {
 		"grid_selector": '#grid',
 		"grid_size": 10,
 		"color_brewer_style_name": 'YlGnBu'
 	}
-
-	var submission_data = generateRandomData(1000, CONFIG.grid_size);
 	/* end config things */
 
-	submissionsToMarkup(submission_data, CONFIG);
-	bindHandlers();
+	/* LOAD DATA */
+	var submission_data = generateRandomData(1000, CONFIG.grid_size);
+
+	/* Init */
+	createViz(submission_data, CONFIG)
 
 }).call(this);
