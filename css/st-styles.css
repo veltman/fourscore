@@ -19,6 +19,13 @@
 	-ms-user-select: none;
 	user-select: none;
 }
-.st-cell.st-selected{
+.st-cell:hover{
+	opacity: .6;
+	cursor: pointer;
+	cursor: hand;
+}
+.st-cell.st-selected,.st-cell.st-selected:hover{
 	border: 1px solid #f0a;
+	opacity: 1;
+	cursor: default;
 }
