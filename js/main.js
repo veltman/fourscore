@@ -232,7 +232,7 @@
     label_height_perc = $('.st-grid-label[data-location="left"]').outerHeight() / grid_height / 2 * 100;
     label_height_padding_px = $('.st-grid-label[data-location="left"]').outerHeight() - $('.st-grid-label[data-location="left"]').height();
     label_width_px = $('.st-grid-label[data-location="left"]').width() / 2;
-    $('.st-grid-label[data-location="left"]').css({'left': '-' + label_width_px + label_height_padding_px - 1 + 'px', 'top': (50 - label_height_perc) + '%', });
+    $('.st-grid-label[data-location="left"]').css({'left': '-' + (label_width_px + label_height_padding_px - 1) + 'px', 'top': (50 - label_height_perc) + '%', });
     // Right
     $('<div class="st-grid-label" data-location="right"></div>').hide().appendTo($grid).html(x_labels[1]);
     label_height_padding_px = $('.st-grid-label[data-location="right"]').outerHeight() - $('.st-grid-label[data-location="right"]').height();
