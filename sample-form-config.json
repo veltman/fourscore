@@ -1,16 +1,18 @@
 {
-  "dataSource": {
-    "url": "0Ao4fxxV3Xzd_dDJRb0JTS2ZSZTZSOU5mVlhXOUJJdkE",
-    "type": "google"
-  },
-  "gridSize": 10,
-  "xAxis": ["LEFT","RIGHT"],
-  "yAxis": ["TOP","BOTTOM"],
-  "gridTarget": "#grid",
-  "commentsTarget": "#comments",
-  "colors": {
-    "name": "Reds",
-    "number": 5
+  "options":{
+    "dataSource": {
+      "url": "0Ao4fxxV3Xzd_dDJRb0JTS2ZSZTZSOU5mVlhXOUJJdkE",
+      "type": "google"
+    },
+    "gridSize": 10,
+    "xAxis": ["LEFT","RIGHT"],
+    "yAxis": ["TOP","BOTTOM"],
+    "gridTarget": "#grid",
+    "commentsTarget": "#comments",
+    "colors": {
+      "name": "Reds",
+      "number": 5
+    }
   },
   "dataDestination": "https://docs.google.com/forms/d/1ozaiZ1Dpj_Wm8OhbjmRnTzz_ZPlF-o0A9UMM7n0Wa-k/formResponse",
   "fields": [
