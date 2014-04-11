@@ -605,7 +605,8 @@
     });
 
     //Append a submit button
-    $form.append('<input type="submit" value="Submit"/>');
+    $form.append('<input id="st-form-submit" type="submit" value="Submit"/>');
+    $form.append('<div id="st-form-submit-loading">Submitting...<img src="imgs/ajax-loader.gif"/></div>');
 
     $close = $('<div/>').addClass('st-close')
                 .html('X')

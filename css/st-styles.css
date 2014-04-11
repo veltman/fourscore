@@ -54,6 +54,22 @@
 	padding: 10px;
 	display: none;
 }
+.st-form.loading #st-form-submit{
+	display: none;
+}
+#st-form-submit-loading{
+	display: none;
+}
+.st-form.loading #st-form-submit-loading{
+	display: block;
+}
+.st-form.loading #st-form-submit-loading:hover{
+	cursor: default;
+}
+.st-form.loading #st-form-submit-loading img{
+	position: relative;
+	top: 3px;
+}
 
 .st-tooltip {
 	pointer-events: none;
