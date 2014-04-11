@@ -61,11 +61,11 @@
 		return {grid: grid, extents: [0, max]}
 	}
 
-	function setSquareFill(extents, val){
-		val = Number(val);
-		var colorScale = new Scale(extents[0], extents[1], 0, 4) // Use a five color scale for now.
-		return 'q' + Math.round(colorScale(val)) + '-5';
-	}
+	// function setSquareFill(extents, val){
+	// 	val = +val;
+	// 	var colorScale = new Scale(extents[0], extents[1], 0, 4) // Use a five color scale for now.
+	// 	return 'q' + Math.round(colorScale(val)) + '-5';
+	// }
 
 	function convertNameToSelector(grid_selector){
 		if (typeof grid_selector == 'string') {
@@ -83,39 +83,68 @@
 		return grid_selector;
 	}
 
-	function gridArrayToMarkup(grid_selector, color_brewer_style_name, Grid){
+  function colorScaleFactory($grid, color_info, extents){
+    var color_brewer_name;
+    var bins;
+    var colorScale;
+    var hex;
+    var fn;
+
+    // If it's an array then it's a custom list, if not, it's color brewer styles
+    if (!_.isArray(color_info)){
+      cb_name = color_info.name;
+      bins = color_info.number;
+      colorScale = new Scale(extents[0], extents[1], 0, bins - 1);
+      fn = function(val){
+        return colorbrewer[cb_name][bins][Math.round(colorScale(val))]
+      }
+    } else {
+      colorScale = new Scale(extents[0], extents[1], 0, color_info.length - 1);
+      fn = function(val){
+        return color_info[Math.round(colorScale(val))]
+      }
+    }
+    return fn
+  }
+
+	function gridArrayToMarkup(grid_selector, color_info, Grid){
+
+    var $grid = convertNameToSelector(grid_selector);
 
     $grid.find('.st-row').remove();
 
-		$grid.hide()
-				 .addClass(color_brewer_style_name)
-				 .addClass('st-grid');
+    $grid.hide()
+         .addClass('st-grid');
 
-		var grid = Grid.grid,
-				extents = Grid.extents,
-				grid_width  = $grid.width(),
-			  grid_height = $grid.height(),
-			  square_value,
-			  submission_value,
-			  ids;
+    var grid = Grid.grid,
+        extents = Grid.extents,
+        grid_width  = $grid.width(),
+        grid_height = $grid.height(),
+        square_value,
+        submission_value,
+        ids;
+
+    var colorScale = colorScaleFactory($grid, color_info, extents); // This will take a value and return a hex code
 
 		// For every row in the grid, make a row element
 		for (var i = 0; i < grid.length; i++ ){
 			$('<div class="st-row"></div>').height(grid_height / grid.length)
-																	.appendTo($grid);
+																	   .appendTo($grid);
 
 			// Now make a cell with the aggregate data
 			for (var j = 0; j < grid.length; j++){
-				square_value = grid[i][j].count;
+				square_value     = grid[i][j].count;
 				submission_value = JSON.stringify(grid[i][j].submission_value);
-				ids   = JSON.stringify(grid[i][j].ids)
+				ids              = JSON.stringify(grid[i][j].ids);
+        fill_color       = colorScale(square_value);
+
 				$('<div class="st-cell"></div>').width(grid_width / grid.length - 1) // Subtract one for the margin given between cells
-																			 .attr('data-submission-value', submission_value)
-																			 .attr('data-ids', ids)
-																			 .attr('data-cell-id', grid[i][j].submission_value[0] + '-' + grid[i][j].submission_value[1])
-																			 .html(square_value)
-																			 .addClass(setSquareFill(extents, square_value))
-																			 .appendTo($($grid.find('.st-row')[i]));
+																			  .attr('data-submission-value', submission_value)
+																			  .attr('data-ids', ids)
+																			  .attr('data-cell-id', grid[i][j].submission_value[0] + '-' + grid[i][j].submission_value[1])
+																			  .html(square_value)
+																			  .css('background-color', fill_color)
+																			  .appendTo($($grid.find('.st-row')[i]));
 			}
 		}
 		$grid.show();
@@ -124,7 +153,7 @@
 
 	function submissionsToGridMarkup(subm_data, conf){
 		var Grid = makeGridArray(subm_data, conf.grid_size);
-		gridArrayToMarkup(conf.grid_selector, conf.color_brewer_style_name, Grid);
+		gridArrayToMarkup(conf.grid_selector, conf.colors, Grid);
 	}
 
   function applyCommentFilters(){
