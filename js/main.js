@@ -115,8 +115,8 @@
     return fn
   }
 
-	function gridArrayToMarkup(color_info, Grid){
-
+	function gridArrayToMarkup(grid_selector, color_info, Grid){
+    $grid = convertNameToSelector(grid_selector);
     var grid = Grid.grid,
         extents = Grid.extents,
         grid_width  = $grid.width(),
