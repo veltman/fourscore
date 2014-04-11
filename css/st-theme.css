@@ -74,19 +74,13 @@ This version inserts a star in the middle
 
 */
 .st-cell.saved {
-  vertical-align: middle;
-  font-weight: bold;
-  overflow: hidden;
-  font-size: 26px;
-  color: #333;
-  display: table;
-}
-
-.st-cell.saved::before {
-  content: "\2605";
-  position: relative;
-  display: table-cell;
-  vertical-align: middle;
+  background-image: url(../imgs/star.png);
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../imgs/star.png', sizingMethod='scale');
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../imgs/star.png', sizingMethod='scale')";
+	-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 @media screen and (max-width: 800px) {
