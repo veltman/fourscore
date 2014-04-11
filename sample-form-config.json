@@ -6,8 +6,8 @@
   "gridSize": 10,
   "xAxis": ["LEFT","RIGHT"],
   "yAxis": ["TOP","BOTTOM"],
-  "grid_selector": "#grid",
-  "comments_selector": "#comments",
+  "gridTarget": "#grid",
+  "commentsTarget": "#comments",
   "colors": {
     "name": "YlGnBu",
     "number": 5
