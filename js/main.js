@@ -125,6 +125,8 @@
         $cells,
         ids;
 
+    console.log(grid.length);
+
     $grid.find('.st-row').remove();
 
     $grid.hide()
@@ -143,11 +145,10 @@
 				ids              = JSON.stringify(grid[i][j].ids);
         fill_color       = colorScale(square_value);
 
-				$('<div class="st-cell"></div>').width((100 / grid.length) + "%") // Subtract one for the margin on the right between cells
+				$('<div class="st-cell"></div>').css("width",((100 / grid.length) + "%")) // Subtract one for the margin on the right between cells
                                         .attr('data-submission-value', submission_value)
 																			  .attr('data-ids', ids)
 																			  .attr('data-cell-id', grid[i][j].submission_value[0] + '-' + grid[i][j].submission_value[1])
-																			  // .html(square_value)
 																			  .css('background-color', fill_color)
 																			  .appendTo($($grid.find('.st-row')[i]));
 			}
@@ -155,6 +156,12 @@
       $('<div class="clear"></div>').appendTo($($grid.find('.st-row')[i]));
 
 		}
+
+    if (localStorage.getItem('st-cell')) {
+
+      $('div[data-cell-id="' + JSON.parse(localStorage.getItem('st-cell')).join('-') + '"]').addClass('saved');
+
+    }
 
     $cells = $grid.find('div.st-cell');
 
@@ -472,8 +479,7 @@
     try {
 
       //Big random number into localStorage to mark that they submitted it
-      localStorage.setItem('st-id', Math.floor(Math.random()*999999999));
-
+      localStorage.setItem('st-cell',JSON.stringify([x,y]));
     } catch(e) {}
 
     //Take hover/click listeners off the grid
@@ -546,7 +552,7 @@
     //Don't populate the form or set listeners if they already submitted
     try {
       //Temporarily false to always draw the form
-      if (localStorage.getItem('st-id') && false) {
+      if (localStorage.getItem('st-cell') && false) {
         $grid.removeClass('submittable');
         return true;
       }

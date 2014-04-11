@@ -4,22 +4,42 @@ body{
 	font-family: Helvetica, sans-serif;
 	font-size: 10px;
 }
+
 #st-wrapper{
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
 }
+
 #grid{
   width: 100%;
   margin-bottom: 15px;
 }
+
 .st-cell{
   border: 1px solid white;
 }
+
 .submittable .st-cell:hover{
   opacity: .6;
 }
+
 .submittable .st-cell.st-selected,.submittable .st-cell.st-selected:hover{
   border: 3px solid #f0a;
   opacity: 1;
+}
+
+.st-cell.saved {
+  vertical-align: middle;
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  display: table;
+}
+
+.st-cell.saved::before {
+  content: "\2605";
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
 }

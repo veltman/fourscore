@@ -3,10 +3,12 @@
 	vertical-align: center;
 	position: relative;
 }
+
 .st-row{
 	clear: both;
 	width: 100%;
 }
+
 .st-cell{
 	height: 100%;
 	float:left;
@@ -24,6 +26,7 @@
   cursor: pointer;
   cursor: hand;
 }
+
 .submittable .st-cell.st-selected,.submittable .st-cell.st-selected:hover{
   cursor: default;
 }
@@ -50,18 +53,23 @@
 	padding: 10px;
 	display: none;
 }
+
 .st-form.loading #st-form-submit{
 	display: none;
 }
+
 #st-form-submit-loading{
 	display: none;
 }
+
 .st-form.loading #st-form-submit-loading{
 	display: block;
 }
+
 .st-form.loading #st-form-submit-loading:hover{
 	cursor: default;
 }
+
 .st-form.loading #st-form-submit-loading img{
 	position: relative;
 	top: 3px;
@@ -92,9 +100,11 @@
 	float: right;
 	cursor: pointer;
 }
+
 .st-close{
 	opacity: .5;
 }
+
 .st-close:hover{
 	cursor: pointer;
 	cursor: hand;
@@ -132,6 +142,7 @@
 	position: absolute;
 	padding: 2px 10px 2px 10px;
 }
+
 .st-grid-label[data-location="left"]{
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
@@ -160,6 +171,7 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+
 .st-mini-map{
 	position: relative;
 	width: 50px;
@@ -167,6 +179,7 @@
 	margin-right: 10px;
 	float: left;
 }
+
 .st-mm-quadrant{
 	width:50%;
 	height:50%;
@@ -176,25 +189,31 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+
 .st-mm-quadrant:nth-child(even){
 	border-right: 1px solid #ccc;
 }
+
 .st-mm-quadrant:nth-child(3),.st-mm-quadrant:nth-child(4){
 	border-bottom: 1px solid #ccc;
 	border-left: 1px solid #ccc;
 }
+
 .st-name{
 	font-size: 18px;
 	margin-bottom: 5px;
 }
+
 .st-comment{
 	font-size: 12px;
 	font-style: italic;
 }
+
 .st-paragraph{
 	margin-top: 10px;
 	font-size: 12px;
 }
+
 .st-mm-dot{
 	position: absolute;
 	width: 5px;
@@ -211,25 +230,30 @@
 	margin: 0 0 20px 0;
 	padding: 0;
 }
+
 #st-comment-filters li{
 	float: left;
 	padding: 5px;
 	margin-right: 18px;
 }
+
 #st-comment-filters li:not(.st-comment-filter){
 	font-size: 16px;
 }
+
 #st-comment-filters .st-comment-filter{
 	border: 1px solid #686868;
 	background-color: #AFAFAF;
 	color: #FFF;
 	border-radius: 3px;
 }
+
 #st-comment-filters .st-comment-filter.st-hide{
 	background-color: #fff;
 	color: #000;
 	opacity: .35;
 }
+
 #st-comment-filters .st-comment-filter:hover{
 	cursor: pointer;
 	cursor: hand;
@@ -241,6 +265,7 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+
 .st-row .clear {
 	clear: both;
 }
