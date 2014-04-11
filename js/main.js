@@ -122,8 +122,23 @@
 	function submissionsToGridMarkup(subm_data, conf){
 		var Grid = makeGridArray(subm_data, conf.grid_size);
 		gridArrayToMarkup(conf.grid_selector, conf.color_brewer_style_name, Grid);
-
 	}
+
+  function applyCommentFilters(){
+    $('.st-comment-filter').each(function(i, el){
+      var $el = $(el);
+      var is_hidden= $el.hasClass('st-hide');
+      var quadrant  = $el.attr('data-quadrant');
+      // console.log(quadrant, is_hidden)
+
+      var $quadrant_comments = $('.st-comment-container[data-quadrant="'+quadrant+'"]');
+      if (!is_hidden){
+        $quadrant_comments.show();
+      }else{
+        $quadrant_comments.hide();
+      }
+    })
+  }
 
 	function bindHandlers(){
 		$('.st-grid').on('mouseover', '.st-cell', function(){
@@ -148,6 +163,15 @@
 			/* PROMPT FROM SUBMISSION */
 			formSubmit(nv, selected_id)
 		});
+
+    /* FILTERS */
+    $('.st-comment-filter').on('click', function(){
+      var $el = $(this);
+      var quadrant = $el.attr('data-quadrant');
+
+      $el.toggleClass('st-hide');
+      applyCommentFilters();
+    });
 	}
 
 	function formSubmit(new_data, selected_id){
@@ -162,6 +186,8 @@
 	}
 
   function whichQuadrant(x, y) {
+    x = +x;
+    y = +y;
     if (x < 0 && y < 0) {
       return 'topleft'
     } else if (x > 0 && y < 0) {
@@ -213,7 +239,7 @@
           x_val = submissions[i].x,
           y_val = submissions[i].y,
           x_pos = x_val / extent,
-          y_pos = x_val / extent;
+          y_pos = y_val / extent;
 
       $el.append('<div class="st-mm-quadrant"></div>')
          .append('<div class="st-mm-quadrant"></div>')

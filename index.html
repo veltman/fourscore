@@ -16,7 +16,16 @@
 	<div id="st-wrapper">
 		<div id="grid"></div>
 		<div id="form"><form></form></div>
-		<div id="comments"></div>
+		<div id="comments">
+			<!-- To make filter buttons, add a ul with an id of `st-comment-filters` anywhere on the page with the following data attributes -->
+			<ul id="st-comment-filters">
+				<li>Filters: </li>
+				<li class="st-comment-filter" data-quadrant="topleft">topleft</li>
+				<li class="st-comment-filter" data-quadrant="topright">topright</li>
+				<li class="st-comment-filter" data-quadrant="bottomright">bottomright</li>
+				<li class="st-comment-filter" data-quadrant="bottomleft">bottomleft</li>
+			</ul>
+		</div>
 	</div>
 
 	<script type="text/jst" id="st-comment-template">
