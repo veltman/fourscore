@@ -722,7 +722,7 @@
     }
   }
 
-  sentimentTracker('sample-form-config.json');
+  sentimentTracker('config.json');
 
 
 }).call(this);
