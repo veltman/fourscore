@@ -13,6 +13,7 @@
 	height: 100%;
 	float:left;
 	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -141,16 +142,12 @@
 
 .st-grid-label[data-location="left"]{
   -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
 
 .st-grid-label[data-location="right"]{
   -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
@@ -165,6 +162,7 @@
 	padding: 10px;
 	overflow: auto;
 	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -183,6 +181,7 @@
 	border-left: 1px solid #ccc;
 	border-top: 1px solid #ccc;
 	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
 

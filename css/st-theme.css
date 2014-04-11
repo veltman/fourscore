@@ -20,6 +20,7 @@ body{
 
 #comments-outer {
   -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding-left: 20px;
 }
@@ -78,8 +79,6 @@ This version inserts a star in the middle
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../imgs/star.png', sizingMethod='scale');
 	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../imgs/star.png', sizingMethod='scale')";
 	-webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
 }
 
