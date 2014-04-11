@@ -2,7 +2,9 @@
 	'use-strict'
 
 	var CONFIG,
-			existing_data;
+			existing_data,
+      $tooltip,
+      $grid;
 
 /********************************/
 
@@ -82,11 +84,12 @@
 	}
 
 	function gridArrayToMarkup(grid_selector, color_brewer_style_name, Grid){
-		$grid = convertGridSelector(grid_selector);
+
+    $grid.find(".st-row").remove();
+
 		$grid.hide()
 				 .addClass(color_brewer_style_name)
-				 .addClass('st-grid')
-				 .html('');
+				 .addClass('st-grid');
 
 		var grid = Grid.grid,
 				extents = Grid.extents,
@@ -126,36 +129,54 @@
 	}
 
 	function bindHandlers(){
-		$('.st-grid').on('mouseover', '.st-cell', function(){
-			var $this = $(this);
-			console.log('Input submission: ', $this.attr('data-submission-value'))
+		$('.st-grid').on('mouseover.tooltip', '.st-cell', function(e){
+      $tooltip.css({
+        "left": e.pageX+2,
+        "top": e.pageY+2
+      }).addClass("open");
 		});
 
-		$('.st-grid').on('mouseleave', function(){
-			/* HIDE TOOLTIP */
+    $('.st-grid').on('mousemove.tooltip', '.st-cell', function(e){
+      $tooltip.css({
+        "left": e.pageX+2,
+        "top": e.pageY+2
+      });
+    });
+
+		$('.st-grid').on('mouseleave.tooltip', function(){
+			$tooltip.removeClass("open");
 		});
 
-		$('.st-grid').on('click', '.st-cell', function(){
+		$('.st-grid').on('click.form', '.st-cell', function(e){
 			var $this = $(this);
-			var selected_id = $this.attr('data-cell-id');
+			//var selected_id = $this.attr('data-cell-id');
 			var submission_values = JSON.parse($this.attr('data-submission-value'));
-			var nv = {
-				x: submission_values[0],
-				y: submission_values[1]
-			}
 
-			console.log(nv);
-			/* PROMPT FROM SUBMISSION */
-			formSubmit(nv, selected_id)
+      $("input.x").val(submission_values[0]);
+      $("input.y").val(submission_values[1]);
+
+      $('.st-selected').removeClass('st-selected');
+
+      var diff = ($grid.offset().left + $grid.outerWidth()) - (e.pageX + 2 + $("div.st-form").outerWidth());
+
+      $this.addClass('st-selected');
+      $("div.st-form")
+        .css({
+          "top": e.pageY + 2,
+          "left": (diff < 0) ? e.pageX - 2 - $("div.st-form").outerWidth() : e.pageX + 2
+        });
+
+      $grid.addClass('open');
+
 		});
 	}
 
-	function formSubmit(new_data, selected_id){
-		existing_data.submissions.push(new_data);
-		updateGrid(existing_data);
-		// Highlight that cell we clicked on, now that everything is redrawn
-		$('.st-cell[data-cell-id="'+selected_id+'"]').addClass('st-selected');
-	}
+  function unbindHandlers() {
+    $tooltip.remove();
+    $("div.st-form").remove();
+    $(".st-grid").off('mouseover.tooltip mousemove.tooltip mouseleave.tooltip click.form');
+
+  }
 
 	function updateGrid(new_data){
 		submissionsToMarkup(new_data, CONFIG);
@@ -186,11 +207,20 @@
   function getFormElement(item) {
 
     var $el,
-        $outer = $("<div></div>");
+        $outer = $("<div></div>")
+                  .addClass("st-form-item")
+                  .toggleClass("required",item.required);
 
-    $outer.append("<label>" + item.name + "</label>");
+    $outer.append("<label>" + item.name + (item.required ? " *" : "") + "</label>");
 
-    if (item.type == "textarea") {
+    if (["x","y"].indexOf(item.name.toLowerCase()) != -1) {
+
+      return $("<input/>")
+              .attr("type","hidden")
+              .attr("name",item.field)
+              .addClass(item.name.toLowerCase());
+
+    } else if (item.type == "textarea") {
 
       $el = $("<textarea></textarea>")
               .attr("name",item.field);
@@ -255,6 +285,15 @@
     } catch(e) {}
 
     //Take hover/click listeners off the grid
+    existing_data.submissions.push({
+      "x": $(this).data("x"),
+      "y": $(this).data("y")
+    });
+    updateGrid(existing_data);
+
+    unbindHandlers();
+
+    $grid.removeClass("open");
 
   }
 
@@ -276,10 +315,19 @@
   */
   function initFromConfig(rawConfig) {
 
-  	CONFIG = rawConfig;
+    var $form = $("<form/>").attr("target","st-iframe"),
+        $formOuter = $("<div/>").addClass("st-form"),
+        $iframe = $("<iframe/>").addClass("st-iframe")
+                    .attr({
+                      "name": "st-iframe",
+                      "id": "st-iframe"
+                    });
 
-    var $form = $("div#form form"),
-        $iframe = $("iframe#st-iframe");
+    CONFIG = rawConfig;
+
+    $grid = convertGridSelector(CONFIG.grid_selector);
+
+    $grid.before($iframe);
 
     if (CONFIG.dataSource.type == "google") {
 
@@ -339,12 +387,17 @@
 
               $.each($missing,function(i,$m){
 
-                $m.addClass("missing");
+                $m.parentsUntil("form","div.st-form-item").addClass("missing");
 
               });
 
               return false;
             }
+
+            $iframe.data({
+              "x": $("input.x").val(),
+              "y": $("input.y").val()
+            })
 
             return true;
 
@@ -352,11 +405,29 @@
 
     //Create the form fields
     $.each(CONFIG.fields,function(i,f){
+
       $form.append(getFormElement(f));
+
     });
 
     //Append a submit button
     $form.append("<input type=\"submit\" value=\"Submit\"/>");
+
+    $close = $("<div/>").addClass("st-close")
+                .html("X")
+                .on("click",function(e){
+                  $(".st-selected").removeClass("st-selected");
+                  $grid.removeClass("open");
+                });
+
+    $formOuter.append($close);
+    $formOuter.append($form);
+
+    $grid.prepend($formOuter);
+
+    $tooltip = $("<div/>").addClass("st-tooltip").html("Click to place yourself");
+
+    $grid.prepend($tooltip);
 
   }
 

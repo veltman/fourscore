@@ -82,11 +82,20 @@
                       })
                   };
 
-    // Stringify the options with spacing
-    $pre.append(JSON.stringify(options,null,"  "));
+    if ($.grep(options.fields,function(i){ return (i.name.toLowerCase() == "x"); }).length != 1 || 
+        $.grep(options.fields,function(i){ return (i.name.toLowerCase() == "y"); }).length != 1) {
+      
+      $div.append("<h1>Unable to fetch options. Make sure you have an 'X' and 'Y' field in your form.</h1>");
+    
+    } else {
+      // Add a header and styling for clarity
+      $div.append("<h1>Options for Sentiment Tracker:</h1>");
 
-    // Add a header and styling for clarity
-    $div.append("<h1>Options for Sentiment Tracker:</h1>");
+      // Stringify the options with spacing
+      $pre.append(JSON.stringify(options,null,"  "));
+      $div.append($pre);
+
+    }
 
     $div.attr("id","sentiment-tracker")
         .css({
@@ -94,8 +103,7 @@
               "border": "1px solid black",
               "padding": "10px",
               "margin": "50px 10px", //Try to get it below the "Edit this form" button
-            })
-        .append($pre);
+            });
 
     // Remove an existing one
     $("div#sentiment-tracker").remove();

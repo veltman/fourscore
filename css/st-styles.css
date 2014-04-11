@@ -1,3 +1,8 @@
+* {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 .st-grid{
 	margin-bottom: 15px;
 	text-align: center;
@@ -10,8 +15,6 @@
 	height: 100%;
 	float:left;
 	margin: 0 1px 1px 0;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -32,4 +35,70 @@
 
 .missing {
 	background-color: red;
+}
+
+.st-iframe {
+	display: none;
+}
+
+.st-tooltip,.st-form {
+	z-index: 990;
+	position: absolute;
+	background-color: white;
+	border: 2px solid #ccc;
+	color: #333;
+	text-align: left;
+	padding: 10px;
+	display: none;
+}
+
+.st-tooltip {
+	pointer-events: none;
+}
+
+.st-tooltip.open {
+	display: block;
+}
+
+.open .st-tooltip, .open .st-tooltip.open {
+	display: none;
+}
+
+.open .st-form {
+	display: block;
+}
+
+.st-form {
+	z-index: 999;
+	max-width: 300px;
+}
+
+.st-form .st-close {
+	float: right;
+	cursor: pointer;
+}
+
+.st-form input[type='text'],input[type='number'],select,textarea {
+	margin: 0;
+	border: 1px solid #333;
+	background-color: #fff;
+	color: #333;
+}
+
+.st-form option {
+	background-color: #fff;
+}
+
+.st-form label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 4px;
+}
+
+.st-form form > div {
+	margin: 10px 0px;
+}
+
+.st-form form div div span {
+	margin: 0px 18px 0px 6px;
 }
