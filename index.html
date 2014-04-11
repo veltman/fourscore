@@ -12,7 +12,7 @@
         <!--[if lt IE 9]>
         <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <title>Sentiment Tracker</title>
+        <title>FourScore</title>
     </head>
 
     <body>
@@ -20,11 +20,11 @@
 
             <header>
                 <div class="wrapper">
-                    <h1>Sentiment Tracker</h1>
+                    <h1>FourScore</h1>
                     <h2>Let your readers show where their opinion falls on a complicated issue.</h2>
-                    
+
                     <section class="clearfix">
-                        <a href="https://github.com/veltman/sentiment-tracker" id="view-on-github" class="button"><span>View on GitHub</span></a>
+                        <a href="https://github.com/veltman/fourscore" id="view-on-github" class="button"><span>View on GitHub</span></a>
                         <div class="logos">
                             <a href="http://opennews.org" class="org-logo"><img src="img/opennews-logo.png"></a>
                             <!--<a href="http://opennews.org" class="org-logo"><img src="img/opennews-logo.png"></a>-->
@@ -36,10 +36,10 @@
 
             <div class="wrapper">
                 <section id="about">
-                    <h2>About sentimenttracker.js</h2>
+                    <h2>About fourscore.js</h2>
                     <p>ListFilter creates a fast, case-insensitive text filter against a list of HTML elements on a page. Sometimes you just need a little thing to do a thing, you know?</p>
                 </section>
-                
+
                 <section id="requirements">
                     <h3>Requirements</h3>
                     <ul>
@@ -52,7 +52,7 @@
                         <li><a href="https://github.com/jsoma/tabletop" target="_blank">Tabletop</a> if you want to import from a Google Spreadsheet.</li>
                     </ul>
                 </section>
-                    
+
                 <section id="browser-support">
                     <h3>Tested with</h3>
                     <ul>
@@ -62,19 +62,19 @@
                         <li>IE8+</li>
                     </ul>
                 </section>
-                    
+
                 <section id="getting-started">
                     <h3>Getting started</h3>
-                    
+
                     <div class="example-block">
-                        <p>When readers click on a square, they'll be presented with a form. ST can create the form data for you if you give it a starting point.</p>
+                        <p>When readers click on a square, they'll be presented with a form. FourScore can create the form data for you if you give it a starting point.</p>
 
                         <p>
                         	<ol>
-                        		<li><a href="https://github.com/veltman/sentiment-tracker/archive/master.zip">Download the files</a> or run <code>git clone https://github.com/veltman/sentiment-tracker</code></li>
+                        		<li><a href="https://github.com/veltman/fourscore/archive/master.zip">Download the files</a> or run <code>git clone https://github.com/veltman/fourscore</code></li>
                         		<li>Make a Google Form, with all of your column headers lowercase (it will make it easier later on).</li>
                         		<li>Include fields called: <code>name</code>,<code>comment</code>, and <code>paragraph</code>.</li>
-                        		<li>Drag this link to your bookmarks bar, it's a bookmarklet: <a class="bookmarklet" href='javascript:(function(){if(window.jQuery===undefined){var done=false;var script=document.createElement("script");script.src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js";script.onload=script.onreadystatechange=function(){if(!done&&(!this.readyState||this.readyState=="loaded"||this.readyState=="complete")){done=true;initBookmarklet()}};document.getElementsByTagName("head")[0].appendChild(script)}else{initBookmarklet()}function initBookmarklet(){var $div=$("<div></div>"),$pre=$("<pre><code></code></pre>"),options={action:$("form#ss-form").attr("action"),fields:$("form#ss-form div.ss-form-question div.ss-form-entry").map(function(){return{name:trim($("label .ss-q-title",this).text()),field:$("input:first",this).attr("name")||$("select",this).attr("name")||false}}).get().filter(function(d){return d.field})};$pre.append(JSON.stringify(options,null,"  "));$div.append("<h1>Options for Sentiment Tracker:</h1>");$div.attr("id","sentiment-tracker").css({"background-color":"white",border:"1px solid black",padding:"10px",margin:"50px 10px"}).append($pre);$("div#sentiment-tracker").remove();$("body").prepend($div)}function trim(s){return(s||"").replace(/^\s+|\s+$/g,"")}})();'>Google Form to Json</a>.</li>
+                        		<li>Drag this link to your bookmarks bar, it's a bookmarklet: <a class="bookmarklet" href='javascript:(function(){if(window.jQuery===undefined){var done=false;var script=document.createElement("script");script.src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js";script.onload=script.onreadystatechange=function(){if(!done&&(!this.readyState||this.readyState=="loaded"||this.readyState=="complete")){done=true;initBookmarklet()}};document.getElementsByTagName("head")[0].appendChild(script)}else{initBookmarklet()}function initBookmarklet(){var $div=$("<div></div>"),$pre=$("<pre><code></code></pre>"),options={action:$("form#ss-form").attr("action"),fields:$("form#ss-form div.ss-form-question div.ss-form-entry").map(function(){return{name:trim($("label .ss-q-title",this).text()),field:$("input:first",this).attr("name")||$("select",this).attr("name")||false}}).get().filter(function(d){return d.field})};$pre.append(JSON.stringify(options,null,"  "));$div.append("<h1>Options for FourScore:</h1>");$div.attr("id","fourscore").css({"background-color":"white",border:"1px solid black",padding:"10px",margin:"50px 10px"}).append($pre);$("div#fourscore").remove();$("body").prepend($div)}function trim(s){return(s||"").replace(/^\s+|\s+$/g,"")}})();'>Google Form to Json</a>.</li>
                         		<li>Once your Form is done, click "View form" and then click the "Google Form to Json" bookmarklet.</li>
                         		<li>Copy the Json data that should have appeared at the top of your page and replace the contents of <code>config.json</code> with it, which is in the folder you downloaded in Step 1.</li>
                         	</ol>
@@ -85,7 +85,7 @@
 
                 <section id="configuration">
                     <h3>Configuration</h3>
-                    
+
                     <div class="example-block">
                         <p>Your <code>config.json</code> has a lot of information but you'll still want to set a few other things, if you open up that file they're all under the <code>options</code> key.</p>
 
@@ -97,7 +97,7 @@
                         		<li><code>xAxis</code>,<code>yAxis</code>: Your axis labels.</li>
                         		<li><code>gridTarget</code>: The id name or CSS selector of the div to draw your grid.</li>
                         		<li><code>commentsTarget</code>: The id name or CSS selector of the div to draw your comments (optional).</li>
-                        		<li><code>colors</code>: Supply the <a href="http://bl.ocks.org/mhkeller/10489554" target="_blank">Color Brewer style name</a> to the <code>name</code> field and the number of bins to <code>number</code>. Or, supply your own bins as an array of hex codes, e.g. <code>"colors": ["#f0f0f0","#bdbdbd","#636363"]</code>.</li>
+                        		<li><code>colors</code>: Supply the <a href="http://bl.ocks.org/mhkeller/10504471" target="_blank">Color Brewer style name</a> to the <code>name</code> field and the number of bins to <code>number</code>. Or, supply your own bins as an array of hex codes, e.g. <code>"colors": ["#f0f0f0","#bdbdbd","#636363"]</code>.</li>
                         	</ul>
                         </p>
 
@@ -108,11 +108,11 @@
 
                 <section id="templating-reader-comments">
                     <h3>Templating reader comments</h3>
-                    
-                    <div class="example-block">
-                        <p>Your comment templates are at <a href="https://github.com/veltman/sentiment-tracker/blob/master/index.html#L30-L36" target="_blank">the bottom of</a> <code>index.html</code> and can use either Underscore or Handlebars templates. Set the <code>data-template-type</code> attribute to either one of those names.</p>
 
-                        <p>If you use the use the class names in the example, ST will apply some default styling but your field names and class names need only match whatever is in your spreadsheet and CSS &mdash; except in one case: the mini-map. To get the mini-map to appear to appear alongside a comment, include a div classed <code>st-mini-map</code>.</p>
+                    <div class="example-block">
+                        <p>Your comment templates are at <a href="https://github.com/veltman/fourscore/blob/master/index.html#L30-L36" target="_blank">the bottom of</a> <code>index.html</code> and can use either Underscore or Handlebars templates. Set the <code>data-template-type</code> attribute to either one of those names.</p>
+
+                        <p>If you use the use the class names in the example, FourScore will apply some default styling but your field names and class names need only match whatever is in your spreadsheet and CSS &mdash; except in one case: the mini-map. To get the mini-map to appear to appear alongside a comment, include a div classed <code>st-mini-map</code>.</p>
                     </div>
                 </section>
 
@@ -122,7 +122,7 @@
                 </section>
 
                 <footer>
-                    <p>Sentiment-Tracker is maintained by <a href="https://github.com/veltman">Noah Veltman</a> &amp; <a href="https://github.com/mhkeller">Michael Keller</a></p>
+                    <p>fourscore is maintained by <a href="https://github.com/veltman">Noah Veltman</a> &amp; <a href="https://github.com/mhkeller">Michael Keller</a></p>
                 </footer>
             </div>
         </div>
