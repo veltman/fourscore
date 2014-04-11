@@ -1,12 +1,18 @@
 {
-  "options":{
+  "options": {
     "dataSource": {
       "url": "0Ao4fxxV3Xzd_dDJRb0JTS2ZSZTZSOU5mVlhXOUJJdkE",
       "type": "google"
     },
     "gridSize": 10,
-    "xAxis": ["LEFT","RIGHT"],
-    "yAxis": ["TOP","BOTTOM"],
+    "xAxis": [
+      "Less X",
+      "More X"
+    ],
+    "yAxis": [
+      "More Y",
+      "Less Y"
+    ],
     "gridTarget": "#grid",
     "commentsTarget": "#comments",
     "colors": {

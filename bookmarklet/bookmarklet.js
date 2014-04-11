@@ -68,8 +68,23 @@
     var $div = $("<div></div>"),
         $pre = $("<pre><code></code></pre>").css("white-space","pre-wrap"),
         options = {
+                    options: {
+                      dataSource: {
+                        url: "SPREADSHEET KEY GOES HERE",
+                        type: "google"
+                      },
+                      gridSize: 10,
+                      xAxis: ["Less X","More X"],
+                      yAxis: ["More Y","Less Y"],
+                      gridTarget: "gridId",
+                      commentsTarget: "commentsId",
+                      colors: {
+                        name: "Reds",
+                        number: 5
+                      }
+                    },
                     // Spreadsheet form endpoint
-                    action: $("form#ss-form").attr("action"),
+                    dataDestination: $("form#ss-form").attr("action"),
                     // Mapped array of {name: "foo", field: "bar"}
                     // name = human field name (e.g. "ZIP Code")
                     // field = Google form field ID (e.g. input.a099i12j09ds2)
