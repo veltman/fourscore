@@ -1,8 +1,3 @@
-* {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
 .st-grid{
 	margin-bottom: 15px;
 	text-align: center;
@@ -16,6 +11,8 @@
 	height: 100%;
 	float:left;
 	margin: 0 1px 1px 0;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -23,17 +20,21 @@
 	-ms-user-select: none;
 	user-select: none;
 }
-.st-cell:hover{
+.submittable .st-cell:hover{
 	opacity: .6;
 	cursor: pointer;
 	cursor: hand;
 }
-.st-cell.st-selected,.st-cell.st-selected:hover{
+.submittable .st-cell.st-selected,.submittable .st-cell.st-selected:hover{
 	border: 1px solid #f0a;
 	opacity: 1;
 	cursor: default;
 }
 .st-missing {
+	background-color: red;
+}
+
+.st-cell.saved {
 	background-color: red;
 }
 
