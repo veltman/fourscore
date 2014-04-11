@@ -287,16 +287,23 @@
 
 	function bindHandlers(){
 		$grid.on('mouseover.tooltip', '.st-cell', function(e){
+
+      var gridOffset = $grid.offset();
+
       $tooltip.css({
-        left: e.pageX+2,
-        top: e.pageY+2
+        left: e.pageX+2 - gridOffset.left,
+        top: e.pageY+2 - gridOffset.top
       }).addClass('open');
+
 		});
 
     $grid.on('mousemove.tooltip', '.st-cell', function(e){
+
+      var gridOffset = $grid.offset();
+
       $tooltip.css({
-        left: e.pageX+2,
-        top: e.pageY+2
+        left: e.pageX+2 - gridOffset.left,
+        top: e.pageY+2 - gridOffset.top
       });
     });
 
@@ -709,7 +716,7 @@
 
     $tooltip = $('<div/>').addClass('st-tooltip').html('Click to place yourself');
 
-    $grid.before($tooltip);
+    $grid.prepend($tooltip);
 
   }
 

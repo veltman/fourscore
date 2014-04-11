@@ -31,12 +31,8 @@
   cursor: default;
 }
 
-.st-missing {
-	background-color: red;
-}
-
-.st-cell.saved {
-	background-color: red;
+.st-missing label, st.missing input, st.missing select, st.missing span {
+	color: red;
 }
 
 .st-iframe {
@@ -219,7 +215,6 @@
 	width: 5px;
 	height: 5px;
 	border-radius: 50%;
-	background-color: #f0c;
 	margin-right: 10px;
 }
 

@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Sentiment Tracker</title>
 
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
-	<link rel="stylesheet" type="text/css" href="css/st-styles.css">
+	<link rel="stylesheet" type="text/css" href="css/st-base.css">
+	<link rel="stylesheet" type="text/css" href="css/st-theme.css">
 
 </head>
 <body>
@@ -16,14 +16,16 @@
 		<div id="grid"></div>
 		<div id="form"><form></form></div>
 		<!-- To make filter buttons, add a ul with an id of `st-comment-filters` anywhere on the page with the following data attributes -->
-		<ul id="st-comment-filters">
-			<li>Filter comments</li>
-			<li class="st-comment-filter" data-quadrant="topleft"><img src="imgs/topleft.png"/></li>
-			<li class="st-comment-filter" data-quadrant="topright"><img src="imgs/topright.png"/></li>
-			<li class="st-comment-filter" data-quadrant="bottomright"><img src="imgs/bottomright.png"/></li>
-			<li class="st-comment-filter" data-quadrant="bottomleft"><img src="imgs/bottomleft.png"/></li>
-		</ul>
-		<div id="comments">
+		<div id="comments-outer">
+			<ul id="st-comment-filters">
+				<li>Filter comments</li>
+				<li class="st-comment-filter" data-quadrant="topleft"><img src="imgs/topleft.png"/></li>
+				<li class="st-comment-filter" data-quadrant="topright"><img src="imgs/topright.png"/></li>
+				<li class="st-comment-filter" data-quadrant="bottomright"><img src="imgs/bottomright.png"/></li>
+				<li class="st-comment-filter" data-quadrant="bottomleft"><img src="imgs/bottomleft.png"/></li>
+			</ul>
+			<div id="comments">
+			</div>
 		</div>
 	</div>
 
@@ -32,7 +34,6 @@
 	    <div class="st-mini-map"></div>
 	    <div class="st-name"><%= name %></div>
 	    <div class="st-comment"><%= comment %></div>
-	    <div class="st-paragraph"><%= paragraph %></div>
 	  </div>
   </script>
 

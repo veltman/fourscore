@@ -16,7 +16,7 @@
     "gridTarget": "#grid",
     "commentsTarget": "#comments",
     "colors": {
-      "name": "Reds",
+      "name": "Blues",
       "number": 5
     }
   },
@@ -43,45 +43,8 @@
     {
       "name": "Comment",
       "required": false,
-      "type": "text",
-      "field": "entry.936152662"
-    },
-    {
-      "name": "Paragraph",
-      "required": false,
       "type": "textarea",
-      "field": "entry.570249305"
-    },
-    {
-      "name": "Radio",
-      "required": false,
-      "type": "radio",
-      "field": "entry.1443274868",
-      "choices": [
-        "Option 1",
-        "Option 2"
-      ]
-    },
-    {
-      "name": "Checkboxes",
-      "required": false,
-      "type": "checkbox",
-      "field": "entry.1259020418",
-      "choices": [
-        "Option 1",
-        "Option 2"
-      ]
-    },
-    {
-      "name": "Dropdown",
-      "required": false,
-      "type": "select",
-      "field": "entry.304971624",
-      "choices": [
-        "",
-        "Option 1",
-        "Option 2"
-      ]
+      "field": "entry.936152662"
     }
   ]
 }
