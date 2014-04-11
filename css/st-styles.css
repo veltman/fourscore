@@ -185,6 +185,11 @@
 }
 .st-comment{
 	font-size: 12px;
+	font-style: italic;
+}
+.st-paragraph{
+	margin-top: 10px;
+	font-size: 12px;
 }
 .st-mm-dot{
 	position: absolute;
