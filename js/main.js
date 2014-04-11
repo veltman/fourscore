@@ -265,9 +265,9 @@
   }
 
 	function submissionsToGridMarkup(subm_data, conf){
-		var Grid = makeGridArray(subm_data, conf.gridSize);
-		gridArrayToMarkup(conf.gridTarget, conf.colors, Grid);
-    addGridLabels(conf.gridTarget, conf.xAxis, conf.yAxis)
+		var Grid = makeGridArray(subm_data, conf.options.gridSize);
+		gridArrayToMarkup(conf.options.gridTarget, conf.options.colors, Grid);
+    addGridLabels(conf.options.gridTarget, conf.options.xAxis, conf.options.yAxis)
 	}
 
   function applyCommentFilters(){
@@ -371,7 +371,7 @@
   function submissionsToCommentsMarkup(data, config){
     var submissions = data.submissions,
         extent      = data.inputExtents[1], // Find the range to later calc the percentage of this comment
-        $comments_container = convertNameToSelector(config.commentsTarget);
+        $comments_container = convertNameToSelector(config.options.commentsTarget);
 
     if ($comments_container.length){
       var $template = $('#st-comment-template'),
@@ -593,27 +593,27 @@
                       id: 'st-iframe'
                     });
 
-    $grid = convertNameToSelector(config.gridTarget);
+    $grid = convertNameToSelector(config.options.gridTarget);
 
     $grid.addClass('submittable');
 
     $grid.before($iframe);
 
-    if (config.dataSource.type == 'google') {
+    if (config.options.dataSource.type == 'google') {
 
-      Tabletop.init({ key: config.dataSource.url,
+      Tabletop.init({ key: config.options.dataSource.url,
         callback: function(data) {
             stageData(data,config);
           },
         simpleSheet: true
       });
 
-    } else if (config.dataSource.type == 'json') {
-      $.getJSON(config.dataSource.url,function(data){
+    } else if (config.options.dataSource.type == 'json') {
+      $.getJSON(config.options.dataSource.url,function(data){
         stageData(data,config);
       });
     } else {
-      $.get(config.dataSource.url,function(data){
+      $.get(config.options.dataSource.url,function(data){
         //Need to pick a parser for this
         //stageData(csv2json(data),config);
       });
