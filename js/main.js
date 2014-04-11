@@ -106,12 +106,7 @@
     return fn
   }
 
-	function gridArrayToMarkup(grid_selector, color_info, Grid){
-
-    $grid.find('.st-row').remove();
-
-    $grid.hide()
-         .addClass('st-grid');
+	function gridArrayToMarkup(color_info, Grid){
 
     var grid = Grid.grid,
         extents = Grid.extents,
@@ -119,7 +114,13 @@
         grid_height = $grid.height(),
         square_value,
         submission_value,
+        $cells,
         ids;
+
+    $grid.find('.st-row').remove();
+
+    $grid.hide()
+         .addClass('st-grid');
 
     var colorScale = colorScaleFactory($grid, color_info, extents); // This will take a value and return a hex code
 
@@ -144,6 +145,15 @@
 																			  .appendTo($($grid.find('.st-row')[i]));
 			}
 		}
+
+    /*$cells = $grid.find('div.st-cell');
+
+    $cells.height($cells.first().width());
+
+    $(window).on('resize',function(){
+      $cells.height($cells.first().width());
+    });*/
+
 		$grid.show();
 
 	}
@@ -152,7 +162,7 @@
 
 		var Grid = makeGridArray(subm_data, config.gridSize);
 
-		gridArrayToMarkup(config.grid_selector, config.colors, Grid);
+		gridArrayToMarkup(config.colors, Grid);
 	}
 
   function applyCommentFilters(){
