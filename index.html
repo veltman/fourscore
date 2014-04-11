@@ -108,11 +108,19 @@
                         <p>If you want to create your own form instead of using a Google form, you will need to manually specify a form endpoint and a list of fields in <code>config.json</code>.</p>
                         <p>The <code>dataDestination</code> option should be set to the URL that will receive POST requests when the user submits the form:</p>
                         <p><pre><code>"dataDestination": "/saveform/"</code></pre></p>
+                        <p>The <code>fields</code> option should be a list of form fields with the following properties:</p>
+                        <ul>
+                            <li><code>name</code> - a human-readable field name, like "Comment"</li>
+                            <li><code>required</code> - <code>true</code> or <code>false</code>.</li>
+                            <li><code>type</code> - a form element type to use. Can be <code>text</code>, <code>textarea</code>, <code>select</code>, <code>radio</code>, <code>checkbox</code>, <code>number</code>, or <code>date</code>. This will determine what sort of form element is created for the user to fill out.</li>
+                            <li><code>choices</code> - If the type is <code>radio</code>, <code>checkbox</code>, or <code>select</code>, you also need to supply a list of choices to populate the form, like: <code>["Apples","Oranges","Bananas"]</code></li>
+                        </ul>
+                        <p>Your custom list of fields must include a field with the <code>name</code> <code>X</code> and a field with the <code>name</code> <code>Y</code>.  The <code>type</code> property is irrelevant for these two fields.</p>
                     </div>
                 </section>
 
                 <section id="configuration">
-                    <h3>Advanced Configuration</h3>
+                    <h3>Additional Configuration</h3>
 
                     <div class="example-block">
                         <p>
