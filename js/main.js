@@ -173,7 +173,6 @@
     var grid_width = $grid.width();
     var grid_height = $grid.height();
 
-    // TODO, make more DRY
     /* X-Labels */
     // Left
     $('<div class="st-grid-label" data-location="left"></div>').hide().appendTo($grid).html(x_labels[0]);
@@ -185,7 +184,6 @@
     $('<div class="st-grid-label" data-location="right"></div>').hide().appendTo($grid).html(x_labels[1]);
     label_height_padding_px = $('.st-grid-label[data-location="right"]').outerHeight() - $('.st-grid-label[data-location="right"]').height();
     label_width_px = $('.st-grid-label[data-location="right"]').width() / 2;
-    console.log(label_width_px, label_height_padding_px)
     $('.st-grid-label[data-location="right"]').css({'right': '-'+ (label_width_px + label_height_padding_px - 2) +  'px', 'top': (50 - label_height_perc) + '%', });
 
     /* Y-Labels */

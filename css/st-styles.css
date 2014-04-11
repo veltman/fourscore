@@ -189,18 +189,26 @@
 #st-comment-filters li{
 	float: left;
 	padding: 5px;
-	margin-right: 5px;
+	margin-right: 18px;
+}
+#st-comment-filters li:not(.st-comment-filter){
+	font-size: 16px;
 }
 #st-comment-filters .st-comment-filter{
-	background-color: #f0c;
+	border: 1px solid #686868;
+	background-color: #AFAFAF;
+	color: #FFF;
+	border-radius: 3px;
 }
 #st-comment-filters .st-comment-filter.st-hide{
-	background-color: #ccc;
+	background-color: #fff;
+	color: #000;
+	opacity: .35;
 }
 #st-comment-filters .st-comment-filter:hover{
 	cursor: pointer;
 	cursor: hand;
-	background-color: #fc0;
+	text-decoration: underline;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
