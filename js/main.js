@@ -141,7 +141,6 @@
 
 	}
 
-<<<<<<< HEAD
   function addGridLabels(grid_selector, x_labels, y_labels){
     var $grid = convertNameToSelector(grid_selector);
     var label_width;
@@ -179,13 +178,6 @@
 		var Grid = makeGridArray(subm_data, conf.grid_size);
 		gridArrayToMarkup(conf.grid_selector, conf.colors, Grid);
     addGridLabels(conf.grid_selector, conf.xAxis, conf.yAxis)
-=======
-	function submissionsToGridMarkup(subm_data, config){
-
-		var Grid = makeGridArray(subm_data, config.gridSize);
-
-		gridArrayToMarkup(config.grid_selector, config.colors, Grid);
->>>>>>> 4ce361f09fb06cb9542a4178bc75b2f7e33dbd6f
 	}
 
   function applyCommentFilters(){
