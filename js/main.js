@@ -1,8 +1,7 @@
 (function(){
 	'use-strict'
 
-	var config,
-			existing_data,
+	var existing_data,
       $tooltip,
       $grid;
 
@@ -149,11 +148,11 @@
 
 	}
 
-	function submissionsToGridMarkup(subm_data, conf){
+	function submissionsToGridMarkup(subm_data, config){
 
-		var Grid = makeGridArray(subm_data, conf.gridSize);
+		var Grid = makeGridArray(subm_data, config.gridSize);
 
-		gridArrayToMarkup(conf.grid_selector, conf.colors, Grid);
+		gridArrayToMarkup(config.grid_selector, config.colors, Grid);
 	}
 
   function applyCommentFilters(){
@@ -230,7 +229,7 @@
 
   }
 
-	function updateGrid(new_data){
+	function updateGrid(new_data,config){
 		submissionsToGridMarkup(new_data, config);
 	}
 
@@ -308,7 +307,7 @@
     $comments_container.show();
   }
 
-	function createViz(data){
+	function createViz(data, config){
     // Create the Grid Viz!
 		submissionsToGridMarkup(data, config);
 
@@ -408,10 +407,7 @@
   /*
     Called upon successful form submission
   */
-  function submitted() {
-
-    var x = $(this).data('x'),
-        y = $(this).data('y');
+  function submitted(x,y,config) {
 
     try {
 
@@ -426,7 +422,7 @@
       y: y
     });
 
-    updateGrid(existing_data);
+    updateGrid(existing_data,config);
 
     $('div[data-cell-id="' + x + '-' + y + '"]').addClass('saved');
     $grid.removeClass('open');
@@ -450,7 +446,7 @@
   /*
     Initialize everything from a set of config options
   */
-  function initFromConfig(raw) {
+  function initFromConfig(config) {
 
     var $form = $('<form/>').attr('target','st-iframe'),
         $form_outer = $('<div/>').addClass('st-form'),
@@ -459,8 +455,6 @@
                       name: 'st-iframe',
                       id: 'st-iframe'
                     });
-
-    config = raw;
 
     $grid = convertNameToSelector(config.grid_selector);
 
@@ -498,7 +492,14 @@
     } catch (e) {}
 
     //Add the listener for the iframe that will get the submission
-    $iframe.on('load',submitted);
+    $iframe.on('load',function(){
+
+      var x = $(this).data('x'),
+          y = $(this).data('y');
+
+      submitted(x,y,config);
+
+    });
 
     //Set the form action
     $form.attr('action',config.dataDestination)
