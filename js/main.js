@@ -120,7 +120,6 @@
     var grid = Grid.grid,
         extents = Grid.extents,
         grid_width  = $grid.width(),
-        grid_height = $grid.height(),
         square_value,
         submission_value,
         $cells,
@@ -135,8 +134,7 @@
 
 		// For every row in the grid, make a row element
 		for (var i = 0; i < grid.length; i++ ){
-			$('<div class="st-row"></div>').height(grid_height / grid.length - 1) // Subtract one for the margin on the bottom
-																	   .appendTo($grid);
+			$('<div class="st-row"></div>').appendTo($grid);
 
 			// Now make a cell with the aggregate data
 			for (var j = 0; j < grid.length; j++){
@@ -145,24 +143,29 @@
 				ids              = JSON.stringify(grid[i][j].ids);
         fill_color       = colorScale(square_value);
 
-				$('<div class="st-cell"></div>').width(grid_width / grid.length - 1) // Subtract one for the margin on the right between cells
-																			  .attr('data-submission-value', submission_value)
+				$('<div class="st-cell"></div>').width((100 / grid.length) + "%") // Subtract one for the margin on the right between cells
+                                        .attr('data-submission-value', submission_value)
 																			  .attr('data-ids', ids)
 																			  .attr('data-cell-id', grid[i][j].submission_value[0] + '-' + grid[i][j].submission_value[1])
 																			  // .html(square_value)
 																			  .css('background-color', fill_color)
 																			  .appendTo($($grid.find('.st-row')[i]));
 			}
+
+      $('<div class="clear"></div>').appendTo($($grid.find('.st-row')[i]));
+
 		}
 
-    /*$cells = $grid.find('div.st-cell');
-
-    $cells.height($cells.first().width());
+    $cells = $grid.find('div.st-cell');
 
     $(window).on('resize',function(){
       $cells.height($cells.first().width());
-    });*/
+    });
+
 		$grid.show();
+
+    $cells.height($cells.first().width());
+
 
 	}
 
@@ -185,7 +188,7 @@
     $('<div class="st-grid-label" data-location="right"></div>').hide().appendTo($grid).html(x_labels[1]);
     label_height_padding_px = $('.st-grid-label[data-location="right"]').outerHeight() - $('.st-grid-label[data-location="right"]').height();
     label_width_px = $('.st-grid-label[data-location="right"]').width() / 2;
-    console.log(label_width_px, label_height_padding_px)
+
     $('.st-grid-label[data-location="right"]').css({'right': '-'+ (label_width_px + label_height_padding_px - 2) +  'px', 'top': (50 - label_height_perc) + '%', });
 
     /* Y-Labels */
@@ -242,7 +245,13 @@
 		});
 
 		$grid.on('click.form', '.st-cell', function(e){
-			var $this = $(this);
+			var $this = $(this),
+          gridOffset =  $grid.offset(),
+          gridWidth = $grid.outerWidth(),
+          $formDiv = $('div.st-form'),
+          formWidth = $formDiv.outerWidth(),
+          formLeft = e.pageX + 2;
+
 			//var selected_id = $this.attr('data-cell-id');
 			var submission_values = JSON.parse($this.attr('data-submission-value'));
 
@@ -251,13 +260,14 @@
 
       $('.st-selected').removeClass('st-selected');
 
-      var diff = ($grid.offset().left + $grid.outerWidth()) - (e.pageX + 2 + $('div.st-form').outerWidth());
+      if (e.pageX + 2 + formWidth > gridOffset.left + gridWidth) formLeft -= 4 + formWidth;
 
       $this.addClass('st-selected');
-      $('div.st-form')
+
+      $formDiv
         .css({
-          top: e.pageY + 2,
-          left: (diff < 0) ? e.pageX - 2 - $('div.st-form').outerWidth() : e.pageX + 2
+          top: e.pageY + 2 - gridOffset.top,
+          left: formLeft - gridOffset.left
         });
 
       $grid.addClass('open');
@@ -623,7 +633,7 @@
 
     $tooltip = $('<div/>').addClass('st-tooltip').html('Click to place yourself');
 
-    $grid.prepend($tooltip);
+    $grid.before($tooltip);
 
   }
 

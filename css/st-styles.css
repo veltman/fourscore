@@ -1,18 +1,15 @@
 .st-grid{
-	margin-bottom: 15px;
 	text-align: center;
 	vertical-align: center;
-	background-color: #A8A8A8;
-	padding: 1px 0 0 1px;
 	position: relative;
 }
 .st-row{
+	clear: both;
 	width: 100%;
 }
 .st-cell{
 	height: 100%;
 	float:left;
-	margin: 0 1px 1px 0;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	-webkit-touch-callout: none;
@@ -22,16 +19,15 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+
 .submittable .st-cell:hover{
-	opacity: .6;
-	cursor: pointer;
-	cursor: hand;
+  cursor: pointer;
+  cursor: hand;
 }
 .submittable .st-cell.st-selected,.submittable .st-cell.st-selected:hover{
-	border: 1px solid #f0a;
-	opacity: 1;
-	cursor: default;
+  cursor: default;
 }
+
 .st-missing {
 	background-color: red;
 }
@@ -207,4 +203,7 @@
 	-moz-user-select: -moz-none;
 	-ms-user-select: none;
 	user-select: none;
+}
+.st-row .clear {
+	clear: both;
 }
