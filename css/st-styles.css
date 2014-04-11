@@ -96,6 +96,14 @@
 	float: right;
 	cursor: pointer;
 }
+.st-close{
+	opacity: .5;
+}
+.st-close:hover{
+	cursor: pointer;
+	cursor: hand;
+	opacity: 1;
+}
 
 .st-form input[type='text'],input[type='number'],select,textarea {
 	margin: 0;
