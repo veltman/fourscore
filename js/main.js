@@ -61,21 +61,13 @@
 		return {grid: grid, extents: [0, max]}
 	}
 
-	// function setSquareFill(extents, val){
-	// 	val = +val;
-	// 	var colorScale = new Scale(extents[0], extents[1], 0, 4) // Use a five color scale for now.
-	// 	return 'q' + Math.round(colorScale(val)) + '-5';
-	// }
-
 	function convertNameToSelector(grid_selector){
 		if (typeof grid_selector == 'string') {
 			
 			if (grid_selector.match(/#?[A-Za-z][A-Za-z0-9_-]+$/)) {
 				return $('#' + grid_selector.replace(/^#/,''));
 			}
-
 			return $(grid_selector);
-		
 		}
 
 		//ADD: if it's an element, return $(el);
@@ -147,13 +139,48 @@
 																			  .appendTo($($grid.find('.st-row')[i]));
 			}
 		}
+
 		$grid.show();
 
 	}
 
+  function addGridLabels(grid_selector, x_labels, y_labels){
+    var $grid = convertNameToSelector(grid_selector);
+    var label_width;
+
+    var grid_width = $grid.width();
+    var grid_height = $grid.height();
+
+    // TODO, make more DRY
+    /* X-Labels */
+    // Left
+    $('<div class="st-grid-label" data-location="left"></div>').hide().appendTo($grid).html(x_labels[0]);
+    label_height_perc = $('.st-grid-label[data-location="left"]').outerHeight() / grid_height / 2 * 100;
+    label_height_px = $('.st-grid-label[data-location="left"]').outerHeight() - 2;
+    $('.st-grid-label[data-location="left"]').css({'left': '-' + label_height_px + 'px', 'top': (50 - label_height_perc) + '%', });
+    // Right
+    $('<div class="st-grid-label" data-location="right"></div>').hide().appendTo($grid).html(x_labels[1]);
+    label_height_perc = $('.st-grid-label[data-location="right"]').outerHeight() / grid_height / 2 * 100;
+    label_height_px = $('.st-grid-label[data-location="right"]').outerHeight() + 1;
+    $('.st-grid-label[data-location="right"]').css({'right': '-'+ label_height_px + 'px', 'top': (50 - label_height_perc) + '%', });
+
+    /* Y-Labels */
+    // Top
+    $('<div class="st-grid-label" data-location="top"></div>').hide().appendTo($grid).html(y_labels[0]);
+    label_width_perc = $('.st-grid-label[data-location="top"]').outerWidth() / grid_width / 2 * 100;
+    $('.st-grid-label[data-location="top"]').css({'top': 0, 'left': (50 - label_width_perc ) + '%'});
+    // Bottom
+    $('<div class="st-grid-label" data-location="bottom"></div>').hide().appendTo($grid).html(y_labels[1]);
+    label_width_perc = $('.st-grid-label[data-location="bottom"]').outerWidth() / grid_width / 2 * 100;
+    $('.st-grid-label[data-location="bottom"]').css({'bottom': 0, 'left': (50 - label_width_perc ) + '%'});
+
+    $('.st-grid-label').show();
+  }
+
 	function submissionsToGridMarkup(subm_data, conf){
 		var Grid = makeGridArray(subm_data, conf.grid_size);
 		gridArrayToMarkup(conf.grid_selector, conf.colors, Grid);
+    addGridLabels(conf.grid_selector, conf.xAxis, conf.yAxis)
 	}
 
   function applyCommentFilters(){
@@ -161,7 +188,6 @@
       var $el = $(el);
       var is_hidden= $el.hasClass('st-hide');
       var quadrant  = $el.attr('data-quadrant');
-      // console.log(quadrant, is_hidden)
 
       var $quadrant_comments = $('.st-comment-container[data-quadrant="'+quadrant+'"]');
       if (!is_hidden){
@@ -278,7 +304,7 @@
     var dot_height_perc = $('.st-mm-dot').height() / map_height * 100;
 
     var userValueToCssPercentageLeft = new Scale(-1, 1, 0, (100  - dot_width_perc));
-    var userValueToCssPercentageTop = new Scale(-1, 1, 0, (100 - dot_height_perc));
+    var userValueToCssPercentageTop  = new Scale(-1, 1, 0, (100 - dot_height_perc));
 
     // Remove the dummy circle
     $('.st-mm-dot').remove();
