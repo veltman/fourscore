@@ -22,12 +22,12 @@
 	user-select: none;
 }
 
-.submittable .st-cell:hover{
+.st-grid.submittable .st-cell:hover{
   cursor: pointer;
   cursor: hand;
 }
 
-.submittable .st-cell.st-selected,.submittable .st-cell.st-selected:hover{
+.st-grid.submittable .st-cell.st-selected,.submittable .st-cell.st-selected:hover{
   cursor: default;
 }
 
@@ -83,11 +83,11 @@
 	display: block;
 }
 
-.open .st-tooltip, .open .st-tooltip.open {
+.st-grid.open .st-tooltip, .st-grid.open .st-tooltip.open {
 	display: none;
 }
 
-.open .st-form {
+.st-grid.open .st-form {
 	display: block;
 }
 

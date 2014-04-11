@@ -30,7 +30,45 @@
 	  var k = 1;
 	  while (x * k % 1) k *= 10;
 	  return k;
-	}	
+	}
+
+  var isArray = Array.isArray || function(obj) {
+    return toString.call(obj) == '[object Array]';
+  };
+
+  // http://bl.ocks.org/aubergene/7791133
+
+  // This is a function
+  function Normalizer(min, max) {
+    return function(val) {
+      return (val - min) / (max - min);
+    }
+  }
+
+  // This is another
+  function Interpolater(min, max, clamp) {
+    return function(val) {
+      val = min + (max - min) * val;
+      return clamp ? Math.min(Math.max(val, min), max) : val;
+    }
+  }
+
+  // This is a third
+  function Scale(minDomain, maxDomain, minRange, maxRange, clamp) {
+    var normalize = new Normalizer(minDomain, maxDomain);
+    var interpolate = new Interpolater(minRange, maxRange, clamp);
+    var _normalize = new Normalizer(minRange, maxRange);
+    var _interpolate = new Interpolater(minDomain, maxDomain, clamp);
+    var s = function(val) {
+      return interpolate(normalize(val));
+    };
+    s.inverse = function(val) {
+      return _interpolate(_normalize(val));
+    };
+    return s;
+  }
+
+
 /********************************/
 
   function findGridMax(submissions, scale){
@@ -99,7 +137,7 @@
     var fn;
 
     // If it's an array then it's a custom list, if not, it's color brewer styles
-    if (!_.isArray(color_info)){
+    if (!isArray(color_info)){
       cb_name = color_info.name;
       bins = color_info.number;
       colorScale = new Scale(extents[0], extents[1], 0, bins - 1);
@@ -125,8 +163,6 @@
         $cells,
         ids;
 
-    console.log(grid.length);
-
     $grid.find('.st-row').remove();
 
     $grid.hide()
@@ -136,10 +172,12 @@
 
 		// For every row in the grid, make a row element
 		for (var i = 0; i < grid.length; i++ ){
+
 			$('<div class="st-row"></div>').appendTo($grid);
 
 			// Now make a cell with the aggregate data
 			for (var j = 0; j < grid.length; j++){
+
 				square_value     = grid[i][j].count;
 				submission_value = JSON.stringify(grid[i][j].submission_value);
 				ids              = JSON.stringify(grid[i][j].ids);
@@ -150,7 +188,12 @@
 																			  .attr('data-ids', ids)
 																			  .attr('data-cell-id', grid[i][j].submission_value[0] + '-' + grid[i][j].submission_value[1])
 																			  .css('background-color', fill_color)
-																			  .appendTo($($grid.find('.st-row')[i]));
+                                        .toggleClass('st-axis-right',(!(grid.length % 2) && j == grid.length/2 - 1))
+                                        .toggleClass('st-axis-left',(!(grid.length % 2) && j == grid.length/2))
+                                        .toggleClass('st-axis-bottom',(!(grid.length % 2) && i == grid.length/2 - 1))
+                                        .toggleClass('st-axis-top',(!(grid.length % 2) && i == grid.length/2))
+                                        .appendTo($($grid.find('.st-row')[i]));
+
 			}
 
       $('<div class="clear"></div>').appendTo($($grid.find('.st-row')[i]));
@@ -166,12 +209,12 @@
     $cells = $grid.find('div.st-cell');
 
     $(window).on('resize',function(){
-      $cells.height($cells.first().width());
+      $cells.css("height",$cells.first().outerWidth()+"px");
     });
 
 		$grid.show();
 
-    $cells.height($cells.first().width());
+    $cells.css("height",$cells.first().outerWidth()+"px");
 
 
 	}
@@ -320,8 +363,18 @@
         $comments_container = convertNameToSelector(config.commentsTarget);
 
     if ($comments_container.length){
-      var commentTemplateFactory = _.template($('#st-comment-template').html()),
+      var $template = $('#st-comment-template'),
+          commentTemplateFactory,
           comment_markup;
+
+      switch($template.data("template-type").toLowerCase()) {
+        case "underscore":
+          commentTemplateFactory = _.template($template.html());
+          break;
+        case "handlebars":
+          commentTemplateFactory = Handlebars.compile($template.html());
+          break;
+      }
 
       // Hide it so that it renders faster
       $comments_container.hide();
