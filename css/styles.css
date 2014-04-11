@@ -11,28 +11,61 @@ body{
   margin-right: auto;
 }
 
+/* Styling for the grid container */
 #grid{
   width: 100%;
-  margin-bottom: 15px;
+  margin: 20px 0px;
 }
 
+/* The standard border color separating cells */
 .st-cell{
-  border: 1px solid white;
+  border: 1px solid #fff;
 }
 
-.submittable .st-cell:hover{
+/*
+
+Axes - specify a different color here to show axes
+(Only applies if the grid size is an even number)
+
+*/
+.st-cell.st-axis-bottom {
+  border-bottom-color: #333;
+}
+
+.st-cell.st-axis-left {
+  border-left-color: #333;
+}
+
+.st-cell.st-axis-right {
+  border-right-color: #333;
+}
+
+.st-cell.st-axis-top {
+  border-top-color: #333;
+}
+
+/* Styling for hovering over a cell */
+.st-grid.submittable .st-cell:hover{
   opacity: .6;
 }
 
-.submittable .st-cell.st-selected,.submittable .st-cell.st-selected:hover{
+/* Styling for a selected cell */
+.st-grid.submittable .st-cell.st-selected,.submittable .st-cell.st-selected:hover{
   border: 3px solid #f0a;
   opacity: 1;
 }
 
+/*
+
+Styling for the cell they've saved their response to
+This version inserts a star in the middle
+
+*/
 .st-cell.saved {
   vertical-align: middle;
-  font-size: 36px;
   font-weight: bold;
+  overflow: hidden;
+  font-size: 36px;
   color: #333;
   display: table;
 }
@@ -42,4 +75,16 @@ body{
   position: relative;
   display: table-cell;
   vertical-align: middle;
+}
+
+@media screen and (max-width: 600px) {
+  .st-cell.saved {
+      font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .st-cell.saved {
+      font-size: 20px;
+  }
 }
