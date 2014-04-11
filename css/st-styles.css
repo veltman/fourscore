@@ -50,6 +50,22 @@
 	padding: 10px;
 	display: none;
 }
+.st-form.loading #st-form-submit{
+	display: none;
+}
+#st-form-submit-loading{
+	display: none;
+}
+.st-form.loading #st-form-submit-loading{
+	display: block;
+}
+.st-form.loading #st-form-submit-loading:hover{
+	cursor: default;
+}
+.st-form.loading #st-form-submit-loading img{
+	position: relative;
+	top: 3px;
+}
 
 .st-tooltip {
 	pointer-events: none;
@@ -75,6 +91,14 @@
 .st-form .st-close {
 	float: right;
 	cursor: pointer;
+}
+.st-close{
+	opacity: .5;
+}
+.st-close:hover{
+	cursor: pointer;
+	cursor: hand;
+	opacity: 1;
 }
 
 .st-form input[type='text'],input[type='number'],select,textarea {
@@ -165,6 +189,11 @@
 }
 .st-comment{
 	font-size: 12px;
+	font-style: italic;
+}
+.st-paragraph{
+	margin-top: 10px;
+	font-size: 12px;
 }
 .st-mm-dot{
 	position: absolute;
@@ -185,18 +214,26 @@
 #st-comment-filters li{
 	float: left;
 	padding: 5px;
-	margin-right: 5px;
+	margin-right: 18px;
+}
+#st-comment-filters li:not(.st-comment-filter){
+	font-size: 16px;
 }
 #st-comment-filters .st-comment-filter{
-	background-color: #f0c;
+	border: 1px solid #686868;
+	background-color: #AFAFAF;
+	color: #FFF;
+	border-radius: 3px;
 }
 #st-comment-filters .st-comment-filter.st-hide{
-	background-color: #ccc;
+	background-color: #fff;
+	color: #000;
+	opacity: .35;
 }
 #st-comment-filters .st-comment-filter:hover{
 	cursor: pointer;
 	cursor: hand;
-	background-color: #fc0;
+	text-decoration: underline;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
