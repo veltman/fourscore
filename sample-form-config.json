@@ -3,12 +3,12 @@
     "url": "0Ao4fxxV3Xzd_dDJRb0JTS2ZSZTZSOU5mVlhXOUJJdkE",
     "type": "google"
   },
-  "grid_size": 10,
+  "gridSize": 10,
   "xAxis": ["LEFT","RIGHT"],
   "yAxis": ["TOP","BOTTOM"],
   "grid_selector": "#grid",
   "comments_selector": "#comments",
-  "color_brewer_style_name": "YlGnBu",
+  "colors": "YlGnBu",
   "dataDestination": "https://docs.google.com/forms/d/1ozaiZ1Dpj_Wm8OhbjmRnTzz_ZPlF-o0A9UMM7n0Wa-k/formResponse",
   "fields": [
     {
