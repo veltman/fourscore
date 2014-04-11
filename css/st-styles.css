@@ -229,6 +229,7 @@
 	overflow: auto;
 	margin: 0 0 20px 0;
 	padding: 0;
+	display: none;
 }
 
 #st-comment-filters li{

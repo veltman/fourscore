@@ -77,18 +77,18 @@
 		return {grid: grid, extents: [0, max]}
 	}
 
-	function convertNameToSelector(grid_selector){
-		if (typeof grid_selector == 'string') {
+	function convertNameToSelector(selector){
+		if (typeof selector == 'string') {
 			
-			if (grid_selector.match(/#?[A-Za-z][A-Za-z0-9_-]+$/)) {
-				return $('#' + grid_selector.replace(/^#/,''));
+			if (selector.match(/#?[A-Za-z][A-Za-z0-9_-]+$/)) {
+				return $('#' + selector.replace(/^#/,''));
 			}
-			return $(grid_selector);
+			return $(selector);
 		}
 
 		//ADD: if it's an element, return $(el);
 
-		return grid_selector;
+		return selector;
 	}
 
   function colorScaleFactory($grid, color_info, extents){
@@ -319,59 +319,65 @@
         extent      = data.inputExtents[1], // Find the range to later calc the percentage of this comment
         $comments_container = convertNameToSelector(config.commentsTarget);
 
-    var commentTemplateFactory = _.template($('#st-comment-template').html()),
-        comment_markup;
+    if ($comments_container.length){
+      var commentTemplateFactory = _.template($('#st-comment-template').html()),
+          comment_markup;
 
-    // Hide it so that it renders faster
-    $comments_container.hide();
-    // Add comments
-    for (var i = 0; i < submissions.length; i++) {
-      comment_markup = commentTemplateFactory(submissions[i]);
-      $comments_container.append(comment_markup);
+      // Hide it so that it renders faster
+      $comments_container.hide();
+      // Add comments
+      for (var i = 0; i < submissions.length; i++) {
+        comment_markup = commentTemplateFactory(submissions[i]);
+        $comments_container.append(comment_markup);
+      }
+
+      // Mini-map stuff
+      // This scale would normally work using the range being 0 to 100
+      // But you have to take into account the width of the circle
+      // So subtract the dimensions of the circle (as a percentage of the total mini-map dimentions)
+      var map_width = $('.st-mini-map').width();
+      var map_height = $('.st-mini-map').height();
+      
+      // Make a dummy circle first so we can measure its dimensions
+      $('body').append('<div class="st-mm-dot"></div>');
+      var dot_width_perc  = $('.st-mm-dot').width() / map_width * 100;
+      var dot_height_perc = $('.st-mm-dot').height() / map_height * 100;
+
+      var userValueToCssPercentageLeft = new Scale(-1, 1, 0, (100  - dot_width_perc));
+      var userValueToCssPercentageTop  = new Scale(-1, 1, 0, (100 - dot_height_perc));
+
+      // Remove the dummy circle
+      $('.st-mm-dot').remove();
+
+      // Make the map
+      $('.st-mini-map').each(function(i, el){
+        var $el = $(el),
+            x_val = submissions[i].x,
+            y_val = submissions[i].y,
+            x_pos = x_val / extent,
+            y_pos = y_val / extent;
+
+        $el.append('<div class="st-mm-quadrant"></div>')
+           .append('<div class="st-mm-quadrant"></div>')
+           .append('<div class="st-mm-quadrant"></div>')
+           .append('<div class="st-mm-quadrant"></div>');
+
+        $('<div class="st-mm-dot"></div>')
+           .css('left', userValueToCssPercentageLeft(x_pos) + '%')
+           .css('top', userValueToCssPercentageTop(y_pos) + '%').appendTo($el);
+
+        // Say what quadrant you're in
+        var quadrant = whichQuadrant(x_val, y_val);
+        $el.parents('.st-comment-container').attr('data-quadrant', quadrant)
+
+      });
+      // Once the appends are done, show it
+      $comments_container.show();
+      
+      // Show the coment filters if they've put this as the name
+      if ($('#st-comment-filters').length) $('#st-comment-filters').show();
     }
 
-    // Mini-map stuff
-    // This scale would normally work using the range being 0 to 100
-    // But you have to take into account the width of the circle
-    // So subtract the dimensions of the circle (as a percentage of the total mini-map dimentions)
-    var map_width = $('.st-mini-map').width();
-    var map_height = $('.st-mini-map').height();
-    
-    // Make a dummy circle first so we can measure its dimensions
-    $('body').append('<div class="st-mm-dot"></div>');
-    var dot_width_perc  = $('.st-mm-dot').width() / map_width * 100;
-    var dot_height_perc = $('.st-mm-dot').height() / map_height * 100;
-
-    var userValueToCssPercentageLeft = new Scale(-1, 1, 0, (100  - dot_width_perc));
-    var userValueToCssPercentageTop  = new Scale(-1, 1, 0, (100 - dot_height_perc));
-
-    // Remove the dummy circle
-    $('.st-mm-dot').remove();
-
-    // Make the map
-    $('.st-mini-map').each(function(i, el){
-      var $el = $(el),
-          x_val = submissions[i].x,
-          y_val = submissions[i].y,
-          x_pos = x_val / extent,
-          y_pos = y_val / extent;
-
-      $el.append('<div class="st-mm-quadrant"></div>')
-         .append('<div class="st-mm-quadrant"></div>')
-         .append('<div class="st-mm-quadrant"></div>')
-         .append('<div class="st-mm-quadrant"></div>');
-
-      $('<div class="st-mm-dot"></div>')
-         .css('left', userValueToCssPercentageLeft(x_pos) + '%')
-         .css('top', userValueToCssPercentageTop(y_pos) + '%').appendTo($el);
-
-      // Say what quadrant you're in
-      var quadrant = whichQuadrant(x_val, y_val);
-      $el.parents('.st-comment-container').attr('data-quadrant', quadrant)
-
-    });
-    // Once the appends are done, show it
-    $comments_container.show();
   }
 
 	function createViz(data, config){
