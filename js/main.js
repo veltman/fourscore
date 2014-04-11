@@ -203,8 +203,8 @@
 
 	function submissionsToGridMarkup(subm_data, conf){
 		var Grid = makeGridArray(subm_data, conf.gridSize);
-		gridArrayToMarkup(conf.grid_selector, conf.colors, Grid);
-    addGridLabels(conf.grid_selector, conf.xAxis, conf.yAxis)
+		gridArrayToMarkup(conf.gridTarget, conf.colors, Grid);
+    addGridLabels(conf.gridTarget, conf.xAxis, conf.yAxis)
 	}
 
   function applyCommentFilters(){
@@ -301,7 +301,7 @@
   function submissionsToCommentsMarkup(data, config){
     var submissions = data.submissions,
         extent      = data.inputExtents[1], // Find the range to later calc the percentage of this comment
-        $comments_container = convertNameToSelector(config.comments_selector);
+        $comments_container = convertNameToSelector(config.commentsTarget);
 
     var commentTemplateFactory = _.template($('#st-comment-template').html()),
         comment_markup;
@@ -508,7 +508,7 @@
                       id: 'st-iframe'
                     });
 
-    $grid = convertNameToSelector(config.grid_selector);
+    $grid = convertNameToSelector(config.gridTarget);
 
     $grid.addClass('submittable');
 
