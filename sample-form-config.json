@@ -9,7 +9,7 @@
   "gridTarget": "#grid",
   "commentsTarget": "#comments",
   "colors": {
-    "name": "YlGnBu",
+    "name": "Reds",
     "number": 5
   },
   "dataDestination": "https://docs.google.com/forms/d/1ozaiZ1Dpj_Wm8OhbjmRnTzz_ZPlF-o0A9UMM7n0Wa-k/formResponse",
