@@ -1,7 +1,7 @@
 (function(){
 	'use-strict'
 
-	var CONFIG,
+	var config,
 			existing_data,
       $tooltip,
       $grid;
@@ -16,7 +16,7 @@
 	      start = 0;
 	    }
 	  }
-	  if ((stop - start) / step === Infinity) throw new Error("infinite range");
+	  if ((stop - start) / step === Infinity) throw new Error('infinite range');
 	  var range = [],
 	       k = range_integerScale(Math.abs(step)),
 	       i = -1,
@@ -71,7 +71,7 @@
 		if (typeof grid_selector == 'string') {
 			
 			if (grid_selector.match(/#?[A-Za-z][A-Za-z0-9_-]+$/)) {
-				return $("#" + grid_selector.replace(/^#/,""));
+				return $('#' + grid_selector.replace(/^#/,''));
 			}
 
 			return $(grid_selector);
@@ -85,7 +85,7 @@
 
 	function gridArrayToMarkup(grid_selector, color_brewer_style_name, Grid){
 
-    $grid.find(".st-row").remove();
+    $grid.find('.st-row').remove();
 
 		$grid.hide()
 				 .addClass(color_brewer_style_name)
@@ -131,20 +131,20 @@
 	function bindHandlers(){
 		$('.st-grid').on('mouseover.tooltip', '.st-cell', function(e){
       $tooltip.css({
-        "left": e.pageX+2,
-        "top": e.pageY+2
-      }).addClass("open");
+        left: e.pageX+2,
+        top: e.pageY+2
+      }).addClass('open');
 		});
 
     $('.st-grid').on('mousemove.tooltip', '.st-cell', function(e){
       $tooltip.css({
-        "left": e.pageX+2,
-        "top": e.pageY+2
+        left: e.pageX+2,
+        top: e.pageY+2
       });
     });
 
 		$('.st-grid').on('mouseleave.tooltip', function(){
-			$tooltip.removeClass("open");
+			$tooltip.removeClass('open');
 		});
 
 		$('.st-grid').on('click.form', '.st-cell', function(e){
@@ -152,18 +152,18 @@
 			//var selected_id = $this.attr('data-cell-id');
 			var submission_values = JSON.parse($this.attr('data-submission-value'));
 
-      $("input.x").val(submission_values[0]);
-      $("input.y").val(submission_values[1]);
+      $('input.x').val(submission_values[0]);
+      $('input.y').val(submission_values[1]);
 
       $('.st-selected').removeClass('st-selected');
 
-      var diff = ($grid.offset().left + $grid.outerWidth()) - (e.pageX + 2 + $("div.st-form").outerWidth());
+      var diff = ($grid.offset().left + $grid.outerWidth()) - (e.pageX + 2 + $('div.st-form').outerWidth());
 
       $this.addClass('st-selected');
-      $("div.st-form")
+      $('div.st-form')
         .css({
-          "top": e.pageY + 2,
-          "left": (diff < 0) ? e.pageX - 2 - $("div.st-form").outerWidth() : e.pageX + 2
+          top: e.pageY + 2,
+          left: (diff < 0) ? e.pageX - 2 - $('div.st-form').outerWidth() : e.pageX + 2
         });
 
       $grid.addClass('open');
@@ -173,8 +173,8 @@
 
   function unbindHandlers() {
     $tooltip.remove();
-    $("div.st-form").remove();
-    $(".st-grid").off('mouseover.tooltip mousemove.tooltip mouseleave.tooltip click.form');
+    $('div.st-form').remove();
+    $('.st-grid').off('mouseover.tooltip mousemove.tooltip mouseleave.tooltip click.form');
 
   }
 
@@ -207,50 +207,52 @@
   function getFormElement(item) {
 
     var $el,
-        $outer = $("<div></div>")
-                  .addClass("st-form-item")
-                  .toggleClass("required",item.required);
+        $outer = $('<div></div>')
+                  .addClass('st-form-item')
+                  .toggleClass('required',item.required);
 
-    $outer.append("<label>" + item.name + (item.required ? " *" : "") + "</label>");
+    $outer.append('<label>' + item.name + (item.required ? ' *' : '') + '</label>');
 
-    if (["x","y"].indexOf(item.name.toLowerCase()) != -1) {
+    if (item.name.toLowerCase() == 'x' || item.name.toLowerCase() == 'y') {
 
-      return $("<input/>")
-              .attr("type","hidden")
-              .attr("name",item.field)
+      return $('<input/>')
+              .attr({
+                type: 'hidden',
+                name: item.field
+              })
               .addClass(item.name.toLowerCase());
 
-    } else if (item.type == "textarea") {
+    } else if (item.type == 'textarea') {
 
-      $el = $("<textarea></textarea>")
-              .attr("name",item.field);
+      $el = $('<textarea></textarea>')
+              .attr('name',item.field);
     
-    } else if (item.type == "select") {
-      $el = $("<select></select>")
-              .attr("name",item.field);
+    } else if (item.type == 'select') {
+      $el = $('<select></select>')
+              .attr('name',item.field);
 
       $.each(item.choices,function(i,c){
         
         $el.append(
 
-          $("<option></option>").text(c)
+          $('<option></option>').text(c)
 
         );
 
       });
 
-    } else if (item.type == "radio" || item.type == "checkbox") {
+    } else if (item.type == 'radio' || item.type == 'checkbox') {
 
-      $el = $("<div></div>");
+      $el = $('<div></div>');
 
       $.each(item.choices,function(i,c){
 
-        var $i = $("<input/>").attr({
-              "name": item.field,
-              "type": item.type,
-              "value": c
+        var $i = $('<input/>').attr({
+              name: item.field,
+              type: item.type,
+              value: c
             }),
-            $s = $("<span/>").text(c);
+            $s = $('<span/>').text(c);
 
         $el.append($i);
         $el.append($s);
@@ -258,10 +260,10 @@
       });
     } else {
 
-      $el = $("<input/>").attr({
-        "name": item.field,
-        "type": item.type,
-        "value": ""
+      $el = $('<input/>').attr({
+        name: item.field,
+        type: item.type,
+        value: ''
       });
 
     }
@@ -280,27 +282,27 @@
     try {
 
       //Big random number into localStorage to mark that they submitted it
-      localStorage.setItem("st-id", Math.floor(Math.random()*999999999));
+      localStorage.setItem('st-id', Math.floor(Math.random()*999999999));
 
     } catch(e) {}
 
     //Take hover/click listeners off the grid
     existing_data.submissions.push({
-      "x": $(this).data("x"),
-      "y": $(this).data("y")
+      x: $(this).data('x'),
+      y: $(this).data('y')
     });
     updateGrid(existing_data);
 
     unbindHandlers();
 
-    $grid.removeClass("open");
+    $grid.removeClass('open');
 
   }
 
   function renderGrid(gridData,config) {
     gridData = $.map(gridData,function(d){
-      d.x = ("x" in d) ? +d.x : +d.X;
-      d.y = ("y" in d) ? +d.y : +d.Y;
+      d.x = ('x' in d) ? +d.x : +d.X;
+      d.y = ('y' in d) ? +d.y : +d.Y;
       return d;
     });
 
@@ -315,12 +317,12 @@
   */
   function initFromConfig(rawConfig) {
 
-    var $form = $("<form/>").attr("target","st-iframe"),
-        $formOuter = $("<div/>").addClass("st-form"),
-        $iframe = $("<iframe/>").addClass("st-iframe")
+    var $form = $('<form/>').attr('target','st-iframe'),
+        $formOuter = $('<div/>').addClass('st-form'),
+        $iframe = $('<iframe/>').addClass('st-iframe')
                     .attr({
-                      "name": "st-iframe",
-                      "id": "st-iframe"
+                      name: 'st-iframe',
+                      id: 'st-iframe'
                     });
 
     CONFIG = rawConfig;
@@ -329,7 +331,7 @@
 
     $grid.before($iframe);
 
-    if (CONFIG.dataSource.type == "google") {
+    if (CONFIG.dataSource.type == 'google') {
 
       Tabletop.init({ key: CONFIG.dataSource.url,
                       callback: function(data) {
@@ -338,7 +340,7 @@
                       simpleSheet: true
                     });
 
-    } else if (CONFIG.dataSource.type == "json") {
+    } else if (CONFIG.dataSource.type == 'json') {
       $.getJSON(CONFIG.dataSource.url,function(data){
         renderGrid(data,CONFIG);
       });
@@ -352,22 +354,22 @@
     //Don't populate the form or set listeners if they already submitted
     try {
       //Temporarily false to always draw the form
-      if (localStorage.getItem("st-id") && false) return true;
+      if (localStorage.getItem('st-id') && false) return true;
     } catch (e) {}
 
     //Add the listener for the iframe that will get the submission
-    $iframe.on("load",submitted);
+    $iframe.on('load',submitted);
 
     //Set the form action
-    $form.attr("action",CONFIG.dataDestination)
-          .on("submit",function(){
+    $form.attr('action',CONFIG.dataDestination)
+          .on('submit',function(){
             //When they submit, check for missing required fields
-            $(".missing").removeClass("missing");
+            $('.missing').removeClass('missing');
 
             var $missing = $.map(CONFIG.fields,function(f){
 
-                            var tag = (f.type == "select" || f.type == "textarea") ? f.type : "input",
-                                $tag = $(tag + "[name='" + f.field + "']");
+                            var tag = (f.type == 'select' || f.type == 'textarea') ? f.type : 'input',
+                                $tag = $(tag + '[name="' + f.field + '"]');
 
 
 
@@ -387,7 +389,7 @@
 
               $.each($missing,function(i,$m){
 
-                $m.parentsUntil("form","div.st-form-item").addClass("missing");
+                $m.parentsUntil('form','div.st-form-item').addClass('missing');
 
               });
 
@@ -395,8 +397,8 @@
             }
 
             $iframe.data({
-              "x": $("input.x").val(),
-              "y": $("input.y").val()
+              x: $('input.x').val(),
+              y: $('input.y').val()
             })
 
             return true;
@@ -411,13 +413,13 @@
     });
 
     //Append a submit button
-    $form.append("<input type=\"submit\" value=\"Submit\"/>");
+    $form.append('<input type="submit" value="Submit"/>');
 
-    $close = $("<div/>").addClass("st-close")
-                .html("X")
-                .on("click",function(e){
-                  $(".st-selected").removeClass("st-selected");
-                  $grid.removeClass("open");
+    $close = $('<div/>').addClass('st-close')
+                .html('X')
+                .on('click',function(e){
+                  $('.st-selected').removeClass('st-selected');
+                  $grid.removeClass('open');
                 });
 
     $formOuter.append($close);
@@ -425,7 +427,7 @@
 
     $grid.prepend($formOuter);
 
-    $tooltip = $("<div/>").addClass("st-tooltip").html("Click to place yourself");
+    $tooltip = $('<div/>').addClass('st-tooltip').html('Click to place yourself');
 
     $grid.prepend($tooltip);
 
@@ -433,14 +435,14 @@
 
   //Main initializer
   function sentimentTracker(opt) {
-    if (typeof opt == "string") {
+    if (typeof opt == 'string') {
       $.getJSON(opt,initFromConfig);
     } else {
       initFromConfig(opt);
     }
   }
 
-  sentimentTracker("sample-form-config.json");
+  sentimentTracker('sample-form-config.json');
 
 
 }).call(this);
