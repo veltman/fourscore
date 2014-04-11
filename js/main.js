@@ -33,14 +33,24 @@
 	}	
 /********************************/
 
+  function findGridMax(submissions, scale){
+    var max = 0,
+        idx_max;
+    for (var i = 0; i < submissions.length; i++){
+      idx_max = Math.max(Math.round(scale(submissions[i].x)), Math.round(scale(submissions[i].y)));
+      if (idx_max > max) max = idx_max;
+    }
+    return max + 1; // Add one because this returns the highest index, but we want to know the length
+  }
+
 	function makeGridArray(data, size) {
 		var extent;
 		// If they haven't specified a custom input range then make it a one-to-one based on grid size
-		if (!data.input_extents){
-			extent = Math.floor(size/2);
-			data.input_extents = [extent * -1, extent];
-		}
-		var userValueToGridIdx = new Scale(data.input_extents[0], data.input_extents[1], 0, size - 1),
+    if (!data.inputExtents){
+      extent = Math.floor(size/2);
+      data.inputExtents = [extent * -1, extent];
+    }
+		var userValueToGridIdx = new Scale(data.inputExtents[0], data.inputExtents[1], 0, size - 1),
 		    grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return {submission_value: [Math.round(userValueToGridIdx.inverse(b)),Math.round(userValueToGridIdx.inverse(c))], count: 0, ids: []} }) }),
 				grid_x,
 				grid_y,
@@ -48,14 +58,21 @@
 				max = 0,
 				cell;
 
+    var grid_max = findGridMax(data.submissions, userValueToGridIdx);
+    var possible_input_extent = Math.round((grid_max + 1) / 2);
+
 		for (var i = 0; i < data.submissions.length; i++){
 			grid_x = Math.round(userValueToGridIdx(data.submissions[i].x));
 			grid_y = Math.round(userValueToGridIdx(data.submissions[i].y));
 			grid_xy = [grid_x, grid_y];
-			cell = grid[grid_xy[1]][grid_xy[0]];
-			cell.count++;
-			cell.ids.push(data.submissions[i].uid); 
-			if (cell.count > max) max = cell.count;
+      try {
+  			cell = grid[grid_xy[1]][grid_xy[0]];
+  			cell.count++;
+  			cell.ids.push(data.submissions[i].uid); 
+  			if (cell.count > max) max = cell.count;
+      } catch(e){
+        throw 'Input data outside of grid range. Please make your grid larger than ' + grid_max + ' or manually add inputExtents in your config file that cover the range of input values. Perhaps `inputExtents: [-'+possible_input_extent+','+possible_input_extent+'],` will work for you.';
+      }
 		}
 		return {grid: grid, extents: [0, max]}
 	}
@@ -175,7 +192,7 @@
   }
 
 	function submissionsToGridMarkup(subm_data, conf){
-		var Grid = makeGridArray(subm_data, conf.grid_size);
+		var Grid = makeGridArray(subm_data, conf.gridSize);
 		gridArrayToMarkup(conf.grid_selector, conf.colors, Grid);
     addGridLabels(conf.grid_selector, conf.xAxis, conf.yAxis)
 	}
@@ -273,7 +290,7 @@
 
   function submissionsToCommentsMarkup(data, config){
     var submissions = data.submissions,
-        extent      = data.input_extents[1], // Find the range to later calc the percentage of this comment
+        extent      = data.inputExtents[1], // Find the range to later calc the percentage of this comment
         $comments_container = convertNameToSelector(config.comments_selector);
 
     var commentTemplateFactory = _.template($('#st-comment-template').html()),
@@ -461,6 +478,7 @@
     });
 
     existing_data = {submissions: grid_data};
+    if (config.inputExtents) existing_data.inputExtents = config.inputExtents
 
     // Create the Grid
     createViz(existing_data,config);
