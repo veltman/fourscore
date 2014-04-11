@@ -128,7 +128,7 @@
 
 		// For every row in the grid, make a row element
 		for (var i = 0; i < grid.length; i++ ){
-			$('<div class="st-row"></div>').height(grid_height / grid.length)
+			$('<div class="st-row"></div>').height(grid_height / grid.length - 1) // Subtract one for the margin on the bottom
 																	   .appendTo($grid);
 
 			// Now make a cell with the aggregate data
@@ -138,11 +138,11 @@
 				ids              = JSON.stringify(grid[i][j].ids);
         fill_color       = colorScale(square_value);
 
-				$('<div class="st-cell"></div>').width(grid_width / grid.length - 1) // Subtract one for the margin given between cells
+				$('<div class="st-cell"></div>').width(grid_width / grid.length - 1) // Subtract one for the margin on the right between cells
 																			  .attr('data-submission-value', submission_value)
 																			  .attr('data-ids', ids)
 																			  .attr('data-cell-id', grid[i][j].submission_value[0] + '-' + grid[i][j].submission_value[1])
-																			  .html(square_value)
+																			  // .html(square_value)
 																			  .css('background-color', fill_color)
 																			  .appendTo($($grid.find('.st-row')[i]));
 			}
