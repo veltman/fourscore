@@ -32,9 +32,7 @@
 	  return k;
 	}
 
-  var isArray = Array.isArray || function(obj) {
-    return toString.call(obj) == '[object Array]';
-  };
+  var isArray = Array.isArray || $.isArray;
 
   // http://bl.ocks.org/aubergene/7791133
 
@@ -89,8 +87,21 @@
       data.inputExtents = [extent * -1, extent];
     }
 		var userValueToGridIdx = new Scale(data.inputExtents[0], data.inputExtents[1], 0, size - 1),
-		    grid = range(0,size).map(function(c) { return range(0,size).map(function(b) { return {submission_value: [Math.round(userValueToGridIdx.inverse(b)),Math.round(userValueToGridIdx.inverse(c))], count: 0, ids: []} }) }),
-				grid_x,
+				grid = $.map(
+          range(0,size),
+          function(c) {
+            return [$.map(range(0,size),
+              function(b) {
+                return {
+                  submission_value: [Math.round(userValueToGridIdx.inverse(b)),Math.round(userValueToGridIdx.inverse(c))],
+                  count: 0,
+                  ids: []
+                } 
+              }
+            )]
+          }
+        ),
+        grid_x,
 				grid_y,
 				grid_xy,
 				max = 0,
