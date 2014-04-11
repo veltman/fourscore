@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
+        <link href="css/stylesheet.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="css/pygment_trac.css" rel="stylesheet" type="text/css" media="screen">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+        <!--<script src="https://raw.githubusercontent.com/veltman/sent-men/master/listfilter.js"></script>-->
+        <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <title>Sentiment Tracker</title>
+    </head>
+
+    <body>
+        <div id="container">
+
+            <header>
+                <div class="wrapper">
+                    <h1>Sentiment Tracker</h1>
+                    <h2>Let your readers show where their opinion falls on a complicated issue.</h2>
+                    
+                    <section class="clearfix">
+                        <a href="https://github.com/veltman/sentiment-tracker" id="view-on-github" class="button"><span>View on GitHub</span></a>
+                        <div class="logos">
+                            <a href="http://opennews.org" class="org-logo"><img src="img/opennews-logo.png"></a>
+                            <!--<a href="http://opennews.org" class="org-logo"><img src="img/opennews-logo.png"></a>-->
+                            <p><a href="http://opennews.org/code.html">Released for OpenNews Code Convening, April 2014</a></p>
+                        </div>
+                    </section>
+                </div>
+            </header>
+
+            <div class="wrapper">
+                <section id="about">
+                    <h2>About sentimenttracker.js</h2>
+                    <p>ListFilter creates a fast, case-insensitive text filter against a list of HTML elements on a page. Sometimes you just need a little thing to do a thing, you know?</p>
+                </section>
+                
+                <section id="requirements">
+                    <h3>Requirements</h3>
+                    <ul>
+                        <li><a href="http://jquery.com" target="_blank">jQuery</a></li>
+                    </ul>
+                    <h3>Optional</h3>
+	                  </ul>
+                        <li><a href="http://underscorejs.org" target="_blank">Underscore</a> or <a href="http://handlebarsjs.com/" target="_blank">Handlebars</a> for templating.</li>
+                        <li><a href="https://github.com/mbostock/d3/blob/master/lib/colorbrewer/colorbrewer.js" target="_blank">ColorBrewer</a> if you want to use ColorBrewer colors.</li>
+                        <li><a href="https://github.com/jsoma/tabletop" target="_blank">Tabletop</a> if you want to import from a Google Spreadsheet.</li>
+                    </ul>
+                </section>
+                    
+                <section id="browser-support">
+                    <h3>Tested with</h3>
+                    <ul>
+                        <li>Safari</li>
+                        <li>Chrome</li>
+                        <li>Firefox version??</li>
+                        <li>IE8+</li>
+                    </ul>
+                </section>
+                    
+                <section id="getting-started">
+                    <h3>Getting started</h3>
+                    
+                    <div class="example-block">
+                        <p>When readers click on a square, they'll be presented with a form. ST can create the form data for you if you give it a starting point.</p>
+
+                        <p>
+                        	<ol>
+                        		<li><a href="https://github.com/veltman/sentiment-tracker/archive/master.zip">Download the files</a> or run <code>git clone https://github.com/veltman/sentiment-tracker</code></li>
+                        		<li>Make a Google Form, with all of your column headers lowercase (it will make it easier later on).</li>
+                        		<li>Include fields called: <code>name</code>,<code>comment</code>, and <code>paragraph</code>.</li>
+                        		<li>Drag this link to your bookmarks bar, it's a bookmarklet: <a class="bookmarklet" href='javascript:(function(){if(window.jQuery===undefined){var done=false;var script=document.createElement("script");script.src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js";script.onload=script.onreadystatechange=function(){if(!done&&(!this.readyState||this.readyState=="loaded"||this.readyState=="complete")){done=true;initBookmarklet()}};document.getElementsByTagName("head")[0].appendChild(script)}else{initBookmarklet()}function initBookmarklet(){var $div=$("<div></div>"),$pre=$("<pre><code></code></pre>"),options={action:$("form#ss-form").attr("action"),fields:$("form#ss-form div.ss-form-question div.ss-form-entry").map(function(){return{name:trim($("label .ss-q-title",this).text()),field:$("input:first",this).attr("name")||$("select",this).attr("name")||false}}).get().filter(function(d){return d.field})};$pre.append(JSON.stringify(options,null,"  "));$div.append("<h1>Options for Sentiment Tracker:</h1>");$div.attr("id","sentiment-tracker").css({"background-color":"white",border:"1px solid black",padding:"10px",margin:"50px 10px"}).append($pre);$("div#sentiment-tracker").remove();$("body").prepend($div)}function trim(s){return(s||"").replace(/^\s+|\s+$/g,"")}})();'>Google Form to Json</a>.</li>
+                        		<li>Once your Form is done, click "View form" and then click the "Google Form to Json" bookmarklet.</li>
+                        		<li>Copy the Json data that should have appeared at the top of your page and save it to a file called <code>config.json</code> in the folder you downloaded in Step 1.</li>
+                        	</ol>
+                        </p>
+
+                    </div>
+                </section>
+
+                <section id="configuration">
+                    <h3>Configuration</h3>
+                    
+                    <div class="example-block">
+                        <p>Your <code>config.json</code> has a lot of information but you'll still want to set a few other things, if you open up that file they're all under the <code>options</code> key.</p>
+
+                        <p>
+                        	<ul>
+                        		<li><code>dataSource.type</code>: Set this to <code>csv</code> if you're loading a local csv or <code>google</code> if you want to pull from a Google Spreadsheet (which is risky, <a href="#the-case-against-google-docs" target="_blank">read more about that</a>).</li>
+                        		<li><code>dataSource.url</code>: This is the path to your csv from <code>main.js</code> if you're loading a csv, or the key of your Google Spreadsheet e.g. <code>0AV3Xzo4fuxd_mnV0hXZSZJRbTZSOU5JTSJJdk2OUE</code></li>
+                        		<li><code>gridSize</code>: The number of cells in your grid. For a 10x10 grid, enter <code>10</code>.</li>
+                        		<li><code>xAxis</code>,<code>yAxis</code>: Your axis labels.</li>
+                        		<li><code>gridTarget</code>: The id name or CSS selector of the div to draw your grid.</li>
+                        		<li><code>commentsTarget</code>: The id name or CSS selector of the div to draw your comments (optional).</li>
+                        		<li><code>colors</code>: Supply the <a href="http://bl.ocks.org/mhkeller/10489554" target="_blank">Color Brewer style name</a> to the <code>name</code> field and the number of bins to <code>number</code>. Or, supply your own bins as an array of hex codes, e.g. <code>"colors": ["#f0f0f0","#bdbdbd","#636363"]</code>.</li>
+                        	</ul>
+                        </p>
+
+                        <p>Bonus</p>
+                        <p>By default, the values assigned to each cell will be based on the grid size. So, a 10x10 grid will have input values between -5 and 5. If for some reason you want to accommodate a separate range of input values, set <code>inputExtents</code> to an array of your min and max e.g. <code>"inputExtents": [-10, 10]</code>. You might want to do this if, down the road, you ask a question that is on a specific -10 to 10 or 1 to 20 scale but you only want 5 grids to appear.</p>
+                    </div>
+                </section>
+
+                <section id="templating-reader-comments">
+                    <h3>Templating reader comments</h3>
+                    
+                    <div class="example-block">
+                        <p>Your comment templates are at <a href="https://github.com/veltman/sentiment-tracker/blob/master/index.html#L30-L36" target="_blank">the bottom of</a> <code>index.html</code> and can use either Underscore or Handlebars templates. Set the <code>data-template-type</code> attribute to either one of those names.</p>
+
+                        <p>If you use the use the class names in the example, ST will apply some default styling but your field names and class names need only match whatever is in your spreadsheet and CSS &mdash; except in one case: the mini-map. To get the mini-map to appear to appear alongside a comment, include a div classed <code>st-mini-map</code>.</p>
+                    </div>
+                </section>
+
+                <section id="license">
+                    <h3>License</h3>
+                    <p>MIT.</p>
+                </section>
+
+                <footer>
+                    <p>Sentiment-Tracker is maintained by <a href="https://github.com/veltman">Noah Veltman</a> &amp; <a href="https://github.com/mhkeller">Michael Keller</a></p>
+                </footer>
+            </div>
+        </div>
+    </body>
+</html>
