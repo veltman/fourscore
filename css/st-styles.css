@@ -32,8 +32,7 @@
 	opacity: 1;
 	cursor: default;
 }
-
-.missing {
+.st-missing {
 	background-color: red;
 }
 
@@ -101,4 +100,85 @@
 
 .st-form form div div span {
 	margin: 0px 18px 0px 6px;
+}
+
+.st-comment-container{
+	position: relative;
+	width: 100%;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	overflow: auto;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.st-mini-map{
+	position: relative;
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+	float: left;
+}
+.st-mm-quadrant{
+	width:50%;
+	height:50%;
+	float: left;
+	border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.st-mm-quadrant:nth-child(even){
+	border-right: 1px solid #ccc;
+}
+.st-mm-quadrant:nth-child(3),.st-mm-quadrant:nth-child(4){
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+}
+.st-name{
+	font-size: 18px;
+	margin-bottom: 5px;
+}
+.st-comment{
+	font-size: 12px;
+}
+.st-mm-dot{
+	position: absolute;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background-color: #f0c;
+	margin-right: 10px;
+}
+
+/* COMMENT FILTER STYLES, REMOVE IF YOU WANT TO CUSTOMIZE */
+#st-comment-filters{
+	list-style: none;
+	overflow: auto;
+	margin: 0 0 20px 0;
+	padding: 0;
+}
+#st-comment-filters li{
+	float: left;
+	padding: 5px;
+	margin-right: 5px;
+}
+#st-comment-filters .st-comment-filter{
+	background-color: #f0c;
+}
+#st-comment-filters .st-comment-filter.st-hide{
+	background-color: #ccc;
+}
+#st-comment-filters .st-comment-filter:hover{
+	cursor: pointer;
+	cursor: hand;
+	background-color: #fc0;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: -moz-none;
+	-ms-user-select: none;
+	user-select: none;
 }

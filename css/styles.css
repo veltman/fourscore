@@ -4,6 +4,9 @@ body{
 	font-family: Helvetica, sans-serif;
 	font-size: 10px;
 }
+#st-wrapper{
+  width: 590px;
+}
 #grid{
 	width: 590px;
 	height: 400px;

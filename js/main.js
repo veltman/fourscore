@@ -67,7 +67,7 @@
 		return 'q' + Math.round(colorScale(val)) + '-5';
 	}
 
-	function convertGridSelector(grid_selector){
+	function convertNameToSelector(grid_selector){
 		if (typeof grid_selector == 'string') {
 			
 			if (grid_selector.match(/#?[A-Za-z][A-Za-z0-9_-]+$/)) {
@@ -122,11 +122,26 @@
 
 	}
 
-	function submissionsToMarkup(subm_data, conf){
+	function submissionsToGridMarkup(subm_data, conf){
 		var Grid = makeGridArray(subm_data, conf.grid_size);
 		gridArrayToMarkup(conf.grid_selector, conf.color_brewer_style_name, Grid);
-
 	}
+
+  function applyCommentFilters(){
+    $('.st-comment-filter').each(function(i, el){
+      var $el = $(el);
+      var is_hidden= $el.hasClass('st-hide');
+      var quadrant  = $el.attr('data-quadrant');
+      // console.log(quadrant, is_hidden)
+
+      var $quadrant_comments = $('.st-comment-container[data-quadrant="'+quadrant+'"]');
+      if (!is_hidden){
+        $quadrant_comments.show();
+      }else{
+        $quadrant_comments.hide();
+      }
+    })
+  }
 
 	function bindHandlers(){
 		$('.st-grid').on('mouseover.tooltip', '.st-cell', function(e){
@@ -169,6 +184,15 @@
       $grid.addClass('open');
 
 		});
+
+    /* FILTERS */
+    $('.st-comment-filter').on('click', function(){
+      var $el = $(this);
+      var quadrant = $el.attr('data-quadrant');
+
+      $el.toggleClass('st-hide');
+      applyCommentFilters();
+    });
 	}
 
   function unbindHandlers() {
@@ -179,11 +203,89 @@
   }
 
 	function updateGrid(new_data){
-		submissionsToMarkup(new_data, CONFIG);
+		submissionsToGridMarkup(new_data, CONFIG);
 	}
 
+  function whichQuadrant(x, y) {
+    x = +x;
+    y = +y;
+    if (x < 0 && y < 0) {
+      return 'topleft'
+    } else if (x > 0 && y < 0) {
+      return 'topright'
+    } else if (x > 0 && y > 0) {
+      return 'bottomright'
+    } else if (x < 0 && y > 0) {
+      return 'bottomleft'
+    }
+  }
+
+  function submissionsToCommentsMarkup(data, config){
+    var submissions = data.submissions,
+        extent      = data.input_extents[1], // Find the range to later calc the percentage of this comment
+        $comments_container = convertNameToSelector(config.comments_selector);
+
+    var commentTemplateFactory = _.template($('#st-comment-template').html()),
+        comment_markup;
+
+    // Hide it so that it renders faster
+    $comments_container.hide();
+    // Add comments
+    for (var i = 0; i < submissions.length; i++) {
+      comment_markup = commentTemplateFactory(submissions[i]);
+      $comments_container.append(comment_markup);
+    }
+
+    // Mini-map stuff
+    // This scale would normally work using the range being 0 to 100
+    // But you have to take into account the width of the circle
+    // So subtract the dimensions of the circle (as a percentage of the total mini-map dimentions)
+    var map_width = $('.st-mini-map').width();
+    var map_height = $('.st-mini-map').height();
+    
+    // Make a dummy circle first so we can measure its dimensions
+    $('body').append('<div class="st-mm-dot"></div>');
+    var dot_width_perc  = $('.st-mm-dot').width() / map_width * 100;
+    var dot_height_perc = $('.st-mm-dot').height() / map_height * 100;
+
+    var userValueToCssPercentageLeft = new Scale(-1, 1, 0, (100  - dot_width_perc));
+    var userValueToCssPercentageTop = new Scale(-1, 1, 0, (100 - dot_height_perc));
+
+    // Remove the dummy circle
+    $('.st-mm-dot').remove();
+
+    // Make the map
+    $('.st-mini-map').each(function(i, el){
+      var $el = $(el),
+          x_val = submissions[i].x,
+          y_val = submissions[i].y,
+          x_pos = x_val / extent,
+          y_pos = y_val / extent;
+
+      $el.append('<div class="st-mm-quadrant"></div>')
+         .append('<div class="st-mm-quadrant"></div>')
+         .append('<div class="st-mm-quadrant"></div>')
+         .append('<div class="st-mm-quadrant"></div>');
+
+      $('<div class="st-mm-dot"></div>')
+         .css('left', userValueToCssPercentageLeft(x_pos) + '%')
+         .css('top', userValueToCssPercentageTop(y_pos) + '%').appendTo($el);
+
+      // Say what quadrant you're in
+      var quadrant = whichQuadrant(x_val, y_val);
+      $el.parents('.st-comment-container').attr('data-quadrant', quadrant)
+
+    })
+    // Once the appends are done, show it
+    $comments_container.show();
+  }
+
 	function createViz(data){
-		submissionsToMarkup(data, CONFIG);
+    // Create the Grid Viz!
+		submissionsToGridMarkup(data, CONFIG);
+
+    // Create the comments section
+    submissionsToCommentsMarkup(data, CONFIG);
 
 		//ADD: only bind if they haven't submitted?
 		bindHandlers();
@@ -299,7 +401,7 @@
 
   }
 
-  function renderGrid(gridData,config) {
+  function stageData(gridData,config) {
     gridData = $.map(gridData,function(d){
       d.x = ('x' in d) ? +d.x : +d.X;
       d.y = ('y' in d) ? +d.y : +d.Y;
@@ -308,6 +410,7 @@
 
     existing_data = {submissions: gridData};
 
+    // Create the Grid
     createViz(existing_data,config);
 
   }
@@ -327,27 +430,27 @@
 
     CONFIG = rawConfig;
 
-    $grid = convertGridSelector(CONFIG.grid_selector);
+    $grid = convertNameToSelector(CONFIG.grid_selector);
 
     $grid.before($iframe);
 
     if (CONFIG.dataSource.type == 'google') {
 
       Tabletop.init({ key: CONFIG.dataSource.url,
-                      callback: function(data) {
-                          renderGrid(data,CONFIG);
-                        },
-                      simpleSheet: true
-                    });
+        callback: function(data) {
+            stageData(data,CONFIG);
+          },
+        simpleSheet: true
+      });
 
     } else if (CONFIG.dataSource.type == 'json') {
       $.getJSON(CONFIG.dataSource.url,function(data){
-        renderGrid(data,CONFIG);
+        stageData(data,CONFIG);
       });
     } else {
       $.get(CONFIG.dataSource.url,function(data){
         //Need to pick a parser for this
-        //renderGrid(csv2json(data),CONFIG);
+        //stageData(csv2json(data),CONFIG);
       });
     }
 
@@ -368,18 +471,17 @@
 
             var $missing = $.map(CONFIG.fields,function(f){
 
-                            var tag = (f.type == 'select' || f.type == 'textarea') ? f.type : 'input',
-                                $tag = $(tag + '[name="' + f.field + '"]');
+              var tag = (f.type == 'select' || f.type == 'textarea') ? f.type : 'input',
+                  $tag = $(tag + '[name="' + f.field + '"]');
 
 
+              if (f.required && (!$tag.val() || !$tag.val().length)) {
+                return $tag;
+              }
 
-                            if (f.required && (!$tag.val() || !$tag.val().length)) {
-                              return $tag;
-                            }
+              return false;
 
-                            return false;
-
-                          });
+            });
 
             $missing = $.grep($missing,function(f){
               return f !== false;
