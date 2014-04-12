@@ -104,7 +104,7 @@
     
     } else {
       // Add a header and styling for clarity
-      $div.append("<h1>Options for Sentiment Tracker:</h1>");
+      $div.append("<h1>Options for FourScore:</h1>");
 
       // Stringify the options with spacing
       $pre.append(JSON.stringify(options,null,"  "));
