@@ -6,34 +6,34 @@
 	<meta name="viewport" content="width=device-width">
 	<title>FourScore</title>
 
-	<link rel="stylesheet" type="text/css" href="css/st-base.css">
-	<link rel="stylesheet" type="text/css" href="css/st-theme.css">
+	<link rel="stylesheet" type="text/css" href="css/fs-base.css">
+	<link rel="stylesheet" type="text/css" href="css/fs-theme.css">
 
 </head>
 <body>
 
-	<div id="st-wrapper">
+	<div id="fs-wrapper">
 		<div id="grid"></div>
 		<div id="form"><form></form></div>
 		<!-- To make filter buttons, add a ul with an id of `st-comment-filters` anywhere on the page with the following data attributes -->
 		<div id="comments-outer">
-			<ul id="st-comment-filters">
+			<ul id="fs-comment-filters">
 				<li>Filter comments</li>
-				<li class="st-comment-filter" data-quadrant="topleft"></li>
-				<li class="st-comment-filter" data-quadrant="topright"></li>
-				<li class="st-comment-filter" data-quadrant="bottomright"></li>
-				<li class="st-comment-filter" data-quadrant="bottomleft"></li>
+				<li class="fs-comment-filter" data-quadrant="topleft"></li>
+				<li class="fs-comment-filter" data-quadrant="topright"></li>
+				<li class="fs-comment-filter" data-quadrant="bottomright"></li>
+				<li class="fs-comment-filter" data-quadrant="bottomleft"></li>
 			</ul>
 			<div id="comments">
 			</div>
 		</div>
 	</div>
 
-	<script type="text/template" id="st-comment-template" data-template-type="underscore">
-		<div class="st-comment-container">
-	    <div class="st-mini-map"></div>
-	    <div class="st-name"><%= name %></div>
-	    <div class="st-comment"><%= comment %></div>
+	<script type="text/template" id="fs-comment-template" data-template-type="underscore">
+		<div class="fs-comment-container">
+	    <div class="fs-mini-map"></div>
+	    <div class="fs-name"><%= name %></div>
+	    <div class="fs-comment"><%= comment %></div>
 	  </div>
   </script>
 

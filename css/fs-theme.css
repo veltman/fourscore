@@ -5,7 +5,7 @@ body{
 	font-size: 10px;
 }
 
-#st-wrapper{
+#fs-wrapper{
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
@@ -26,7 +26,7 @@ body{
 }
 
 /* The standard border color separating cells */
-.st-cell{
+.fs-cell{
   border: 1px solid #fff;
 }
 
@@ -36,35 +36,35 @@ Axes - specify a different color here to show axes
 (Only applies if the grid size is an even number)
 
 */
-.st-cell.st-axis-bottom {
+.fs-cell.fs-axis-bottom {
   border-bottom-color: #333;
 }
 
-.st-cell.st-axis-left {
+.fs-cell.fs-axis-left {
   border-left-color: #333;
 }
 
-.st-cell.st-axis-right {
+.fs-cell.fs-axis-right {
   border-right-color: #333;
 }
 
-.st-cell.st-axis-top {
+.fs-cell.fs-axis-top {
   border-top-color: #333;
 }
 
 /* Styling for hovering over a cell */
-.st-grid.submittable .st-cell:hover{
+.fs-grid.submittable .fs-cell:hover{
   opacity: .6;
 }
 
 /* Styling for a selected cell */
-.st-grid.submittable .st-cell.st-selected,.submittable .st-cell.st-selected:hover{
+.fs-grid.submittable .fs-cell.fs-selected,.submittable .fs-cell.fs-selected:hover{
   border: 3px solid #f0a;
   opacity: 1;
 }
 
 /* Dot color for minimaps */
-.st-mm-dot {
+.fs-mm-dot {
   background-color: #2646ea;
 }
 
@@ -74,7 +74,7 @@ Styling for the cell they've saved their response to
 This version inserts a star in the middle
 
 */
-.st-cell.saved {
+.fs-cell.saved {
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAMAAAANf8AYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8YBMDAAAABB0Uk5TABAgMEBQYHCAkKCwwNDg8FTgqMgAAACtSURBVBgZ7cHhbsIgGIbR94NCpQg893+1k5isuk0Licn+9BzpdPo007yrpgWcZm2smtUomhQApzkJiJpTgawpns40I9FFzah0WYeWyivF6wXL/C3pjdj4rS16yxV+yqYjF560VQOWyq54DVnYmcYkdlFjKrusIZ5HGpLoSqx0QSMKN0myzM2mAQ5oi7oVaBqwwtV05wsEHSus+mYbmw656vUoVB0y0zNnOp3+0ReObA/KxOPqOgAAAABJRU5ErkJggg==");
 /* TODO TEST base64 in IE filter	*/
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAMAAAANf8AYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8YBMDAAAABB0Uk5TABAgMEBQYHCAkKCwwNDg8FTgqMgAAACtSURBVBgZ7cHhbsIgGIbR94NCpQg893+1k5isuk0Licn+9BzpdPo007yrpgWcZm2smtUomhQApzkJiJpTgawpns40I9FFzah0WYeWyivF6wXL/C3pjdj4rS16yxV+yqYjF560VQOWyq54DVnYmcYkdlFjKrusIZ5HGpLoSqx0QSMKN0myzM2mAQ5oi7oVaBqwwtV05wsEHSus+mYbmw656vUoVB0y0zNnOp3+0ReObA/KxOPqOgAAAABJRU5ErkJggg==', sizingMethod='scale');
@@ -84,7 +84,7 @@ This version inserts a star in the middle
 }
 
 @media screen and (max-width: 800px) {
-  .st-cell.saved {
+  .fs-cell.saved {
       font-size: 20px;
   }
 }
@@ -101,13 +101,13 @@ This version inserts a star in the middle
     max-width: 420px;
   }
 
-  .st-cell.saved {
+  .fs-cell.saved {
     font-size: 32px;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .st-cell.saved {
+  .fs-cell.saved {
     font-size: 12px;
   }
 }
