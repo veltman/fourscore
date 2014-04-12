@@ -112,7 +112,7 @@
 
     }
 
-    $div.attr("id","sentiment-tracker")
+    $div.attr("id","fourscore")
         .css({
               "background-color": "white",
               "border": "1px solid black",
@@ -121,7 +121,7 @@
             });
 
     // Remove an existing one
-    $("div#sentiment-tracker").remove();
+    $("div#fourscore").remove();
 
     // Insert at the top of the page
     $("body").prepend($div);
