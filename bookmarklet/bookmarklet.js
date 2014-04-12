@@ -76,10 +76,10 @@
                       gridSize: 10,
                       xAxis: ["Less X","More X"],
                       yAxis: ["More Y","Less Y"],
-                      gridTarget: "gridId",
-                      commentsTarget: "commentsId",
+                      gridTarget: "#grid",
+                      commentsTarget: "#comments",
                       colors: {
-                        name: "Reds",
+                        name: "Blues",
                         number: 5
                       }
                     },
