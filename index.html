@@ -59,7 +59,7 @@
                         <li><a href="http://jquery.com" target="_blank">jQuery</a></li>
                     </ul>
                     <h3>Optional</h3>
-	                  </ul>
+	                  <ul>
                         <li><a href="http://underscorejs.org" target="_blank">Underscore</a> or <a href="http://handlebarsjs.com/" target="_blank">Handlebars</a> for templating, if you want to display the results of a custom form.</li>
                         <li><a href="https://github.com/mbostock/d3/blob/master/lib/colorbrewer/colorbrewer.js" target="_blank">ColorBrewer.js</a> if you want to use its built-in color scales.</li>
                         <li><a href="https://github.com/jsoma/tabletop" target="_blank">Tabletop.js</a> if you want existing responses to be loaded from a Google Spreadsheet.</li>
@@ -110,12 +110,53 @@
                         <p><pre><code>"dataDestination": "/saveform/"</code></pre></p>
                         <p>The <code>fields</code> option should be a list of form fields with the following properties:</p>
                         <ul>
-                            <li><code>name</code> - a human-readable field name, like "Comment"</li>
+                            <li><code>name</code> - a human-readable name for the field, like "Comment"</li>
                             <li><code>required</code> - <code>true</code> or <code>false</code>.</li>
+                            <li><code>field</code> - The actual field name that will get passed as form data when the user submits it.</li>
                             <li><code>type</code> - a form element type to use. Can be <code>text</code>, <code>textarea</code>, <code>select</code>, <code>radio</code>, <code>checkbox</code>, <code>number</code>, or <code>date</code>. This will determine what sort of form element is created for the user to fill out.</li>
                             <li><code>choices</code> - If the type is <code>radio</code>, <code>checkbox</code>, or <code>select</code>, you also need to supply a list of choices to populate the form, like: <code>["Apples","Oranges","Bananas"]</code></li>
                         </ul>
-                        <p>Your custom list of fields must include a field with the <code>name</code> <code>X</code> and a field with the <code>name</code> <code>Y</code>.  The <code>type</code> property is irrelevant for these two fields.</p>
+                        <p>Your custom list of fields must include a field with the name <code>X</code> and a field with the name <code>Y</code>.  The <code>type</code> property is irrelevant for these two fields.</p>
+                        <p>An example list of custom fields might look like this:</p>
+                        <p>
+<pre><code>"fields": [
+    {
+      "name": "X",
+      "required": true,
+      "type": "number",
+      "field": "x_value"
+    },
+    {
+      "name": "Y",
+      "required": true,
+      "type": "number",
+      "field": "y_value"
+    },
+    {
+      "name": "Name",
+      "required": false,
+      "type": "text",
+      "field": "name"
+    },
+    {
+      "name": "Political Party",
+      "required": false,
+      "type": "radio",
+      "field": "party",
+      "choices": [
+        "Democrat",
+        "Republican",
+        "Independent"
+      ]
+    },
+    {
+      "name": "Additional comments",
+      "required": false,
+      "type": "textarea",
+      "field": "comment"
+    }
+]</code></pre>
+                        </p>
                     </div>
                 </section>
 
@@ -147,11 +188,11 @@
                 </section>
 
                 <section id="templating-reader-comments">
-                    <h3>Templating reader comments</h3>
+                    <h3>Templating reader responses</h3>
 
-                        If your audience is submitting additional information, like comments, along with their grid position, you'll want to define a template for how to display those fields in the list.
+                        If your audience is submitting additional information, like comments, along with their grid position, you'll want to define a template for how to display those responses in a list.
 
-                        <p>The included <code>index.html</code> has a basic Underscore template at the bottom.  Change the contents of this template to display the fields you want.  If you prefer to use Handlebars for your template, change <code>data-template-type</code> to <code>handlebars</code> and modify the contents.  If you want an automatic minimap displayed next to each comment, make sure to include a div with the class <code>st-mini-map</code>.</p>
+                        <p>The included <code>index.html</code> has a basic Underscore template at the bottom.  Change the contents of this template to display the fields you want.  If you prefer to use Handlebars for your template, change <code>data-template-type</code> to <code>handlebars</code> and modify the contents.</p>
 
 <pre><code>&lt;script type="text/template" id="st-comment-template" data-template-type="underscore"&gt;
     &lt;div class="st-comment-container"&gt;
@@ -169,6 +210,14 @@
     &lt;/div&gt;
 &lt;/script&gt;</code></pre>
 
+                </section>
+
+                <section id="minimap">
+                    <p>FourScore comes with the ability to generate a minimap next to each existing response in a list.  The minimap is a tiny grid with a dot showing where that person's response fell on the grid:</p>
+
+                    <p class="screenshot"><img class="screenshot" src="img/screenshot-5.png" /></p>
+
+                    <p>To include this minimap, include a div with the class <code>st-mini-map</code> in your response template (see 'Templating reader responses') and it will be automatically generated.</p>
                 </section>
 
                 <section id="styling">
