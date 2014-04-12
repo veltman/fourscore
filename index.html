@@ -210,11 +210,30 @@
                 </section>
 
                 <section id="minimap">
+                    <h3>Minimaps</h3>
                     <p>FourScore comes with the ability to generate a minimap next to each existing response in a list.  The minimap is a tiny grid with a dot showing where that person's response fell on the grid:</p>
 
                     <p class="screenshot"><img class="screenshot" src="img/screenshot-5.png" /></p>
 
                     <p>To include this minimap, include a div with the class <code>st-mini-map</code> in your response template (see 'Templating reader responses') and it will be automatically generated.</p>
+                </section>
+
+                <section id="minimap">
+                    <h3>Filters</h3>
+                    <p>The default FourScore setup includes buttons that filter the list of responses based on what quadrant they're in:</p>
+
+                    <p class="screenshot"><img class="screenshot" src="img/screenshot-6.png" /></p>
+
+                    <p>To modify/remove these filters, modify/remove the <code>ul#st-comment-filters</code> list in <code>index.html</code>:</p>
+
+<pre><code>&lt;ul id="st-comment-filters"&gt;
+  &lt;li&gt;Filter comments&lt;/li&gt;
+  &lt;li class="st-comment-filter" data-quadrant="topleft"&gt;&lt;img src="imgs/topleft.png"/&gt;&lt;/li&gt;
+  &lt;li class="st-comment-filter" data-quadrant="topright"&gt;&lt;img src="imgs/topright.png"/&gt;&lt;/li&gt;
+  &lt;li class="st-comment-filter" data-quadrant="bottomright"&gt;&lt;img src="imgs/bottomright.png"/&gt;&lt;/li&gt;
+  &lt;li class="st-comment-filter" data-quadrant="bottomleft"&gt;&lt;img src="imgs/bottomleft.png"/&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
                 </section>
 
                 <section id="styling">
