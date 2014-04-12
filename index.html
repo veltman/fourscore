@@ -163,7 +163,7 @@
                     <div class="example-block">
                         <p>
                         	<ul>
-                        		<li><code>dataSource.type</code>: Set this to <code>json</code> if you're loading a local JSON file or <code>google</code> if you want to pull existing data straight from a Google Spreadsheet (which is risky, <a href="#the-case-againfs-google-docs" target="_blank">read more about that</a>).</li>
+                        		<li><code>dataSource.type</code>: Set this to <code>json</code> if you're loading a local JSON file or <code>google</code> if you want to pull existing data straight from a Google Spreadsheet (which is risky, <a href="#the-case-against-google-docs">read more about that below</a>).</li>
                         		<li><code>dataSource.url</code>: This is the path to your existing data file relative to <code>main.js</code>, or the key of your Google Spreadsheet e.g. <code>0AV3Xzo4fuxd_mnV0hXZSZJRbTZSOU5JTSJJdk2OUE</code></li>
                         		<li><code>gridSize</code>: The number of cells in your grid. For a 10x10 grid, enter <code>10</code>.</li>
                                 <li><code>xAxis</code>: An array of your two x-axis labels, like: <code>["LEFT","RIGHT"]</code></li>
@@ -253,6 +253,21 @@
                             <li><code>fs-theme.css</code> - this contains styles for the size of the grid, fonts, the breakpoints for smaller screens, and that sort of thing.  You should feel free to edit this or add to it to customize the look and feel of your FourScore grid.</li>
                         </ul>
                     </p>
+                </section>
+
+                <section id="the-case-against-google-docs">
+                    <h3>Why you might want to prefer a csv data source instead of Google Spreadsheets</h3>
+                    <p>You can choose to load data either straight from a Google Spreadsheet or a local csv, but the former has some issues that you should know about:
+                        <ul>
+                          <li>Google can rate limit your app. So if too many people are looking at your page, it might cut off access and comments won't appear.</li>
+                          <li>Google has changed their API recently and has plans to change it further, calling into question future support for being able to access data programatically.</li>
+                        	<li>Spreadsheet JSON includes a lot more data than you need, increasing your page load time.</li>
+                        	<li>You might want to ask questions, such as reader contact information, that you don't want to make public.</li>
+												</ul>
+                    </p>
+
+										<p><strong>So what to do?</strong></p>
+										<p>There are a few services that can automatically download a spreadsheet for you, although they might require reworking with new changes to the API. Michael's favorite is a node module he wrote called <a href="https://github.com/mhkeller/turntable" target="_blank">Turntable</a>, which has a lot of moderation and data sanization options, but equally useful are <a href="https://github.com/jsoma/flatware" target="_blank">Flatware</a> and <a href="https://github.com/martinburch/table-service" target="_blank">Table service</a>.</p>
                 </section>
 
                 <section id="license">
