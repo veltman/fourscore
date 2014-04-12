@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css" media="screen">
-        <link href="css/thirdparty/rainbow.github.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="css/thirdparty/rainbow.github.css" rel="stylesheet" type="text/css">
         <!--[if lt IE 9]>
           <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -136,10 +136,13 @@
                         <p>
                             Instead of supplying a list of colors, you can use an existing <a href="http://bl.ocks.org/mhkeller/10504471" target="_blank">Color Brewer scale</a> by supplying a scale <code>name</code> and <code>number</code>:
 
-<pre><code>colors: {
+<pre>
+  <code data-language="javascript">colors: {
     "name": "Reds",
     "number": 5
-}</code></pre>
+}
+</code>
+</pre>
                         </p>
                 </section>
 
@@ -150,21 +153,27 @@
 
                         <p>The included <code>index.html</code> has a basic Underscore template at the bottom.  Change the contents of this template to display the fields you want.  If you prefer to use Handlebars for your template, change <code>data-template-type</code> to <code>handlebars</code> and modify the contents.  If you want an automatic minimap displayed next to each comment, make sure to include a div with the class <code>st-mini-map</code>.</p>
 
-<pre><code>&lt;script type="text/template" id="st-comment-template" data-template-type="underscore"&gt;
-    &lt;div class="st-comment-container"&gt;
-        &lt;div class="st-mini-map"&gt;&lt;/div&gt;
-        &lt;div class="st-name"&gt;&lt;%= name %&gt;&lt;/div&gt;
-        &lt;div class="st-comment"&gt;&lt;%= comment %&gt;&lt;/div&gt;
-    &lt;/div&gt;
-&lt;/script&gt;</code></pre>
+<pre>
+  <code data-language="html"><script type="text/template" id="st-comment-template" data-template-type="underscore">
+    <div class="st-comment-container">
+        <div class="st-mini-map"></div>
+        <div class="st-name"><%= name %></div>
+        <div class="st-comment"><%= comment %></div>
+    </div>
+</script>
+</code>
+</pre>
 
-<pre><code>&lt;script type="text/template" id="st-comment-template" data-template-type="handlebars"&gt;
-    &lt;div class="st-comment-container"&gt;
-        &lt;div class="st-mini-map"&gt;&lt;/div&gt;
-        &lt;div class="st-name"&gt;{{name}}&lt;/div&gt;
-        &lt;div class="st-comment"&gt;{{comment}}&lt;/div&gt;
-    &lt;/div&gt;
-&lt;/script&gt;</code></pre>
+<pre>
+  <code data-language="html"><script type="text/template" id="st-comment-template" data-template-type="handlebars">
+    <div class="st-comment-container">
+        <div class="st-mini-map"></div>
+        <div class="st-name">{{name}}</div>
+        <div class="st-comment">{{comment}}</div>
+    </div>
+</script>
+</code>
+</pre>
 
                 </section>
 
