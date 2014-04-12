@@ -163,7 +163,7 @@
                     <div class="example-block">
                         <p>
                         	<ul>
-                        		<li><code>dataSource.type</code>: Set this to <code>json</code> if you're loading a local JSON file or <code>google</code> if you want to pull existing data straight from a Google Spreadsheet (which is risky, <a href="#the-case-against-google-docs" target="_blank">read more about that</a>).</li>
+                        		<li><code>dataSource.type</code>: Set this to <code>json</code> if you're loading a local JSON file or <code>google</code> if you want to pull existing data straight from a Google Spreadsheet (which is risky, <a href="#the-case-againfs-google-docs" target="_blank">read more about that</a>).</li>
                         		<li><code>dataSource.url</code>: This is the path to your existing data file relative to <code>main.js</code>, or the key of your Google Spreadsheet e.g. <code>0AV3Xzo4fuxd_mnV0hXZSZJRbTZSOU5JTSJJdk2OUE</code></li>
                         		<li><code>gridSize</code>: The number of cells in your grid. For a 10x10 grid, enter <code>10</code>.</li>
                                 <li><code>xAxis</code>: An array of your two x-axis labels, like: <code>["LEFT","RIGHT"]</code></li>
@@ -195,22 +195,22 @@
                         <p>The included <code>index.html</code> has a basic Underscore template at the bottom.  Change the contents of this template to display the fields you want.  If you prefer to use Handlebars for your template, change <code>data-template-type</code> to <code>handlebars</code> and modify the contents.</p>
 
 <pre>
-  <code data-language="html"><script type="text/template" id="st-comment-template" data-template-type="underscore">
-    <div class="st-comment-container">
-        <div class="st-mini-map"></div>
-        <div class="st-name"><%= name %></div>
-        <div class="st-comment"><%= comment %></div>
+  <code data-language="html"><script type="text/template" id="fs-comment-template" data-template-type="underscore">
+    <div class="fs-comment-container">
+        <div class="fs-mini-map"></div>
+        <div class="fs-name"><%= name %></div>
+        <div class="fs-comment"><%= comment %></div>
     </div>
 </script>
 </code>
 </pre>
 
 <pre>
-  <code data-language="html"><script type="text/template" id="st-comment-template" data-template-type="handlebars">
-    <div class="st-comment-container">
-        <div class="st-mini-map"></div>
-        <div class="st-name">{{name}}</div>
-        <div class="st-comment">{{comment}}</div>
+  <code data-language="html"><script type="text/template" id="fs-comment-template" data-template-type="handlebars">
+    <div class="fs-comment-container">
+        <div class="fs-mini-map"></div>
+        <div class="fs-name">{{name}}</div>
+        <div class="fs-comment">{{comment}}</div>
     </div>
 </script>
 </code>
@@ -224,7 +224,7 @@
 
                     <p class="screenshot"><img class="screenshot" src="img/screenshot-5.png" /></p>
 
-                    <p>To include this minimap, include a div with the class <code>st-mini-map</code> in your response template (see 'Templating reader responses') and it will be automatically generated.</p>
+                    <p>To include this minimap, include a div with the class <code>fs-mini-map</code> in your response template (see 'Templating reader responses') and it will be automatically generated.</p>
                 </section>
 
                 <section id="minimap">
@@ -233,14 +233,14 @@
 
                     <p class="screenshot"><img class="screenshot" src="img/screenshot-6.png" /></p>
 
-                    <p>To modify/remove these filters, modify/remove the <code>ul#st-comment-filters</code> list in <code>index.html</code>:</p>
+                    <p>To modify/remove these filters, modify/remove the <code>ul#fs-comment-filters</code> list in <code>index.html</code>:</p>
 
-<pre><code>&lt;ul id="st-comment-filters"&gt;
+<pre><code>&lt;ul id="fs-comment-filters"&gt;
   &lt;li&gt;Filter comments&lt;/li&gt;
-  &lt;li class="st-comment-filter" data-quadrant="topleft"&gt;&lt;img src="imgs/topleft.png"/&gt;&lt;/li&gt;
-  &lt;li class="st-comment-filter" data-quadrant="topright"&gt;&lt;img src="imgs/topright.png"/&gt;&lt;/li&gt;
-  &lt;li class="st-comment-filter" data-quadrant="bottomright"&gt;&lt;img src="imgs/bottomright.png"/&gt;&lt;/li&gt;
-  &lt;li class="st-comment-filter" data-quadrant="bottomleft"&gt;&lt;img src="imgs/bottomleft.png"/&gt;&lt;/li&gt;
+  &lt;li class="fs-comment-filter" data-quadrant="topleft"&gt;&lt;img src="imgs/topleft.png"/&gt;&lt;/li&gt;
+  &lt;li class="fs-comment-filter" data-quadrant="topright"&gt;&lt;img src="imgs/topright.png"/&gt;&lt;/li&gt;
+  &lt;li class="fs-comment-filter" data-quadrant="bottomright"&gt;&lt;img src="imgs/bottomright.png"/&gt;&lt;/li&gt;
+  &lt;li class="fs-comment-filter" data-quadrant="bottomleft"&gt;&lt;img src="imgs/bottomleft.png"/&gt;&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
 
                 </section>
@@ -249,8 +249,8 @@
                     <h3>Styling</h3>
                     <p>Much of the way FourScore looks can be customized by editing the enclosed stylesheets:
                         <ul>
-                            <li><code>st-base.css</code> - this contains core styles for drawing the grid and displaying comments along with it. Edit at your own risk.</li>
-                            <li><code>st-theme.css</code> - this contains styles for the size of the grid, fonts, the breakpoints for smaller screens, and that sort of thing.  You should feel free to edit this or add to it to customize the look and feel of your FourScore grid.</li>
+                            <li><code>fs-base.css</code> - this contains core styles for drawing the grid and displaying comments along with it. Edit at your own risk.</li>
+                            <li><code>fs-theme.css</code> - this contains styles for the size of the grid, fonts, the breakpoints for smaller screens, and that sort of thing.  You should feel free to edit this or add to it to customize the look and feel of your FourScore grid.</li>
                         </ul>
                     </p>
                 </section>
