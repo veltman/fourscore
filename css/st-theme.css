@@ -75,9 +75,10 @@ This version inserts a star in the middle
 
 */
 .st-cell.saved {
-  background-image: url(../imgs/star.png);
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../imgs/star.png', sizingMethod='scale');
-	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../imgs/star.png', sizingMethod='scale')";
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAMAAAANf8AYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8YBMDAAAABB0Uk5TABAgMEBQYHCAkKCwwNDg8FTgqMgAAACtSURBVBgZ7cHhbsIgGIbR94NCpQg893+1k5isuk0Licn+9BzpdPo007yrpgWcZm2smtUomhQApzkJiJpTgawpns40I9FFzah0WYeWyivF6wXL/C3pjdj4rS16yxV+yqYjF560VQOWyq54DVnYmcYkdlFjKrusIZ5HGpLoSqx0QSMKN0myzM2mAQ5oi7oVaBqwwtV05wsEHSus+mYbmw656vUoVB0y0zNnOp3+0ReObA/KxOPqOgAAAABJRU5ErkJggg==");
+/* TODO TEST base64 in IE filter	*/
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAMAAAANf8AYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8YBMDAAAABB0Uk5TABAgMEBQYHCAkKCwwNDg8FTgqMgAAACtSURBVBgZ7cHhbsIgGIbR94NCpQg893+1k5isuk0Licn+9BzpdPo007yrpgWcZm2smtUomhQApzkJiJpTgawpns40I9FFzah0WYeWyivF6wXL/C3pjdj4rS16yxV+yqYjF560VQOWyq54DVnYmcYkdlFjKrusIZ5HGpLoSqx0QSMKN0myzM2mAQ5oi7oVaBqwwtV05wsEHSus+mYbmw656vUoVB0y0zNnOp3+0ReObA/KxOPqOgAAAABJRU5ErkJggg==', sizingMethod='scale');
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAMAAAANf8AYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8YBMDAAAABB0Uk5TABAgMEBQYHCAkKCwwNDg8FTgqMgAAACtSURBVBgZ7cHhbsIgGIbR94NCpQg893+1k5isuk0Licn+9BzpdPo007yrpgWcZm2smtUomhQApzkJiJpTgawpns40I9FFzah0WYeWyivF6wXL/C3pjdj4rS16yxV+yqYjF560VQOWyq54DVnYmcYkdlFjKrusIZ5HGpLoSqx0QSMKN0myzM2mAQ5oi7oVaBqwwtV05wsEHSus+mYbmw656vUoVB0y0zNnOp3+0ReObA/KxOPqOgAAAABJRU5ErkJggg==', sizingMethod='scale')";
 	-webkit-background-size: cover;
   background-size: cover;
 }

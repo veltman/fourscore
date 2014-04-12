@@ -235,10 +235,7 @@
 #st-comment-filters li:not(.st-comment-filter){
 	font-size: 16px;
 	display: block;
-}
-
-.st-comment-filter{
-	margin-left: 5px;
+/*	padding: 5px;*/
 }
 
 #st-comment-filters .st-comment-filter{
@@ -246,7 +243,24 @@
 	background-color: #C4C4C4;
 	color: #FFF;
 	border-radius: 3px;
-	margin-bottom: 5px;
+	margin: 0 5px 5px 5px;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 31px;
+	height: 31px;
+}
+
+.st-comment-filter[data-quadrant="topleft"]{
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfAQMAAAAlYIR6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFAAAA////pdmf3QAAABhJREFUCNdjYICA/3+oQQBB/T8gi2ICBADm2UxL22xMYgAAAABJRU5ErkJggg==");
+}
+.st-comment-filter[data-quadrant="topright"]{
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfAQMAAAAlYIR6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFAAAA////pdmf3QAAABdJREFUCNdjYACB+n/UIKBG/f9DOQECAPtCRWdU9xbuAAAAAElFTkSuQmCC");
+}
+.st-comment-filter[data-quadrant="bottomright"]{
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfAQMAAAAlYIR6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFAAAA////pdmf3QAAABdJREFUCNdjYACB+n///1BOQI2iBgECABtHRWcrDwDhAAAAAElFTkSuQmCC");
+}
+.st-comment-filter[data-quadrant="bottomleft"]{
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfAQMAAAAlYIR6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFAAAA////pdmf3QAAABlJREFUCNdjYACB+n///1BOQAGYRTHBwAAAAfRMSx8fTlkAAAAASUVORK5CYII=");
 }
 
 #st-comment-filters .st-comment-filter.st-hide{
