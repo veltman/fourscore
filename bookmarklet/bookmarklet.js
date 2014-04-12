@@ -76,10 +76,10 @@
                       gridSize: 10,
                       xAxis: ["Less X","More X"],
                       yAxis: ["More Y","Less Y"],
-                      gridTarget: "gridId",
-                      commentsTarget: "commentsId",
+                      gridTarget: "#grid",
+                      commentsTarget: "#comments",
                       colors: {
-                        name: "Reds",
+                        name: "Blues",
                         number: 5
                       }
                     },
@@ -104,7 +104,7 @@
     
     } else {
       // Add a header and styling for clarity
-      $div.append("<h1>Options for Sentiment Tracker:</h1>");
+      $div.append("<h1>Options for FourScore:</h1>");
 
       // Stringify the options with spacing
       $pre.append(JSON.stringify(options,null,"  "));
@@ -112,7 +112,7 @@
 
     }
 
-    $div.attr("id","sentiment-tracker")
+    $div.attr("id","fourscore")
         .css({
               "background-color": "white",
               "border": "1px solid black",
@@ -121,7 +121,7 @@
             });
 
     // Remove an existing one
-    $("div#sentiment-tracker").remove();
+    $("div#fourscore").remove();
 
     // Insert at the top of the page
     $("body").prepend($div);
