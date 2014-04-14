@@ -1,7 +1,7 @@
 {
   "options": {
     "dataSource": {
-      "url": "0Ao4fxxV3Xzd_dDJRb0JTS2ZSZTZSOU5mVlhXOUJJdkE",
+      "url": "SPREADSHEET KEY GOES HERE",
       "type": "google"
     },
     "gridSize": 10,
@@ -20,31 +20,31 @@
       "number": 5
     }
   },
-  "dataDestination": "https://docs.google.com/forms/d/1ozaiZ1Dpj_Wm8OhbjmRnTzz_ZPlF-o0A9UMM7n0Wa-k/formResponse",
+  "dataDestination": "GOOGLE FORMS RESPONSE URL GOES HERE",
   "fields": [
     {
       "name": "X",
       "required": true,
       "type": "number",
-      "field": "entry.1324010151"
+      "field": "entry.13245"
     },
     {
       "name": "Y",
       "required": true,
       "type": "number",
-      "field": "entry.312134120"
+      "field": "entry.12345"
     },
     {
       "name": "Name",
       "required": false,
       "type": "text",
-      "field": "entry.512449043"
+      "field": "entry.12345"
     },
     {
       "name": "Comment",
       "required": false,
       "type": "textarea",
-      "field": "entry.936152662"
+      "field": "entry.12345"
     }
   ]
 }
