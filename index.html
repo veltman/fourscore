@@ -93,8 +93,10 @@
                             <p class="screenshot"><img class="screenshot" src="img/screenshot-3.png"/></p>
                             <li>Replace the spreadsheet key (it probably says 'SPREADSHEET KEY GOES HERE') in <code>config.json</code> with the key or the URL of the Google spreadsheet collecting your form responses. You can get this URL from the form editor by clicking 'View Responses.'</li>
                             <p class="screenshot"><img class="screenshot" src="img/screenshot-4.png"/></p>
-                            <li>While viewing your spreadsheet, you also need to "publish" it so that the application can read its data. Go to File > Publish to the web and click "Start publishing." You You only need to do this if you need programatic access to your datae. loading in your comments directly from the Google Spreadsheet. It will allow someone who knows your spreadsheet key to view all of your responses, unmoderated or not. You might not want this if you ask for sensitive data, such as reader contact information. Read more about <a href="#the-case-against-google-docs">things to consider when choosing a data source</a>.</li>
-                            <li>You should now have a working FourScore grid with basic default settings.  You can customize the style and options to your heart's content (see 'Advanced Configuration').</li>
+                            <li>While viewing your spreadsheet, you also need to "publish" it so that the application can read its data. Go to File > Publish to the web and click "Start publishing." You only need to do this if you'll be loading existing responses directly from the Google spreadsheet.  There are some reasons you may not want to do this, and you definitely shouldn't ask for sensitive information like email addresses if you're doing it.  Read more about <a href="#the-case-against-google-docs">things to consider when choosing a data source</a>.</li>
+                            <p class="screenshot"><img class="screenshot" src="img/screenshot-7.png"/></p>
+                            <p class="screenshot"><img class="screenshot" src="img/screenshot-8.png"/></p>
+                            <li>You should now have a working FourScore grid with basic default settings. You can customize the style and options to your heart's content (see 'Additional Configuration'). At the very least, you'll probably want to change the axis labels, which by default are just "More X/Less X" and "More Y/Less Y".</li>
                         </ol>
                     </p>
                 </section>
@@ -165,12 +167,12 @@
                         <p>
                         	<ul>
                         		<li><code>dataSource.type</code>: Set this to <code>json</code> if you're loading a local JSON file or <code>google</code> if you want to pull existing data straight from a Google Spreadsheet (which is risky, <a href="#the-case-against-google-docs">read more about that below</a>).</li>
-                        		<li><code>dataSource.url</code>: This is the path to your existing data file relative to <code>main.js</code>, or the key of your Google Spreadsheet e.g. <code>0AV3Xzo4fuxd_mnV0hXZSZJRbTZSOU5JTSJJdk2OUE</code></li>
+                        		<li><code>dataSource.url</code>: This is the path to your existing data file relative to <code>main.js</code>, or the key of your Google Spreadsheet e.g. <code>existing-data.json</code> or <code>0AV3Xzo4fuxd_mnV0hXZSZJRbTZSOU5JTSJJdk2OUE</code></li>
                         		<li><code>gridSize</code>: The number of cells in your grid. For a 10x10 grid, enter <code>10</code>.</li>
                                 <li><code>xAxis</code>: An array of your two x-axis labels, like: <code>["LEFT","RIGHT"]</code></li>
                                 <li><code>yAxis</code>: An array of your two y-axis labels, like: <code>["TOP","BOTTOM"]</code></li>
                         		<li><code>gridTarget</code>: The ID or CSS selector of a div to draw your grid in. This must already exist in <code>index.html</code>.</li>
-                                <li><code>commentsTarget</code>: The ID or CSS selector of a div to draw reader comments in (see 'Templating reader comments' below). This must already exist in <code>index.html</code>. (optional)</li>
+                                <li><code>commentsTarget</code>: The ID or CSS selector of a div to draw reader comments in (see <a href="#templating-reader-comments">Templating reader comments</a>). If you're using this, it must already exist in <code>index.html</code>. (optional)</li>
                         		<li><code>colors</code>: An array of colors to use for different numbers of responses per square, like: <code>["red","yellow","blue"]</code> or <code>["#ffffff","#cc0000","#ff0000"]</code>
                         	</ul>
                         </p>
@@ -191,7 +193,7 @@
                 <section id="templating-reader-comments">
                     <h3>Templating reader responses</h3>
 
-                        If your audience is submitting additional information, like comments, along with their grid position, you'll want to define a template for how to display those responses in a list.
+                        <p>If your audience is submitting additional information, like comments, along with their grid position, you'll want to define a template for how to display those responses in a list.</p>
 
                         <p>The included <code>index.html</code> has a basic Underscore template at the bottom.  Change the contents of this template to display the fields you want.  If you prefer to use Handlebars for your template, change <code>data-template-type</code> to <code>handlebars</code> and modify the contents.</p>
 
@@ -217,6 +219,13 @@
 </code>
 </pre>
 
+<p>If you're using a template, you'll need to make sure to include Underscore or Handlebars as a script file too:</p>
+
+<pre><code>&lt;script src="js/handlebars.js"&gt;&lt;/script&gt;
+
+or
+
+&lt;script src="js/underscore.js"&gt;&lt;/script&gt;</code></pre>
                 </section>
 
                 <section id="minimap">
@@ -257,19 +266,57 @@
                 </section>
 
                 <section id="the-case-against-google-docs">
-                    <h3>Why you might want to prefer a csv data source instead of Google Spreadsheets</h3>
-                    <p>You can choose to load data either straight from a Google Spreadsheet or a local csv, but the former has some issues that you should know about:
+                    <h3>Why you might want not want to use Google Spreadsheets</h3>
+                    <p>You can choose to load data either straight from a Google Spreadsheet or a local JSON file.  Loading data straight from a Google Spreadsheet is convenient but has several downsides:</p>
+                    <p>
                         <ul>
-                          <li>Google can rate limit your app. So if too many people are looking at your page, it might cut off access and comments won't appear.</li>
-                          <li>Google has changed their API recently and has plans to change it further, calling into question future support for being able to access data programatically.</li>
-                        	<li>Spreadsheet JSON includes a lot more data than you need, increasing your page load time.</li>
-                        	<li>You might want to ask questions, such as reader contact information, that you don't want to make public.</li>
+                          <li><strong>Google can rate limit your app.</strong> So if too many people are looking at your page, it might cut off access and comments won't appear.</li>
+                          <li><strong>Google has changed their API recently and has plans to change it further.</strong> If you're relying on Google, your site might break in the future.</li>
+                          <li><strong>Any data in the Google Spreadsheet will be public</strong>, and a sufficiently motivated person can find the URL in your FourScore code and view it. You might want to gather information, like email addresses, that shouldn't be out there and publicly available.</li>
+                          <li><strong>You can't moderate the content.</strong>  If submissions go straight into a Google spreadsheet which then goes back into the site, it's easy to vandalize it. Someone can submit comments full of profanity or hate speech and it will be visible to your audience until you go in and manually remove it from the spreadsheet.</li>
 												</ul>
                     </p>
-
-										<p><strong>So what to do?</strong></p>
-										<p>There are a few services that can automatically download a spreadsheet for you, although they might require reworking with new changes to the API. Michael's favorite is a node module he wrote called <a href="https://github.com/mhkeller/turntable" target="_blank">Turntable</a>, which has a lot of moderation and data sanization options, but equally useful are <a href="https://github.com/jsoma/flatware" target="_blank">Flatware</a> and <a href="https://github.com/martinburch/table-service" target="_blank">Table service</a>.</p>
+					<p><strong>So what to do?</strong> There are a few services that can automatically download a spreadsheet for you, although they might require reworking with new changes to the API. Michael's favorite is a node module he wrote called <a href="https://github.com/mhkeller/turntable" target="_blank">Turntable</a>, which has a lot of moderation and data sanization options, but equally useful are <a href="https://github.com/jsoma/flatware" target="_blank">Flatware</a> and <a href="https://github.com/martinburch/table-service" target="_blank">Table service</a>.</p>
                 </section>
+
+                <section id="custom-data-source">
+                    <h3>What custom data should look like</h3>
+                    <p>
+                        If you're supplying a custom JSON file, it should be an array of responses.  Each response should contain an <code>X</code> and <code>Y</code> property, and then any other relevant properties you plan to display in a comments template or elsewhere.  A custom data source with 4 response so far would look something like:
+                        <p>
+<pre></code>[
+    {
+        X: 4,
+        Y: -1,
+        Name: "Leonardo",
+        Color: "Blue"
+        Hobbies: "Leadership"
+    },
+    {
+        X: 3,
+        Y: 3,
+        Name: "Donatello",
+        Color: "Purple"
+        Hobbies: "Machines"
+    },
+    {
+        X: -2,
+        Y: 1,
+        Name: "Raphael",
+        Color: "Red"
+        Hobbies: "Rudeness"
+    },
+    {
+        X: -3,
+        Y: -3,
+        Name: "Michelangelo",
+        Color: "Orange"
+        Hobbies: "Parties"
+    },
+]
+</code></pre>
+                        </p>
+                    </p>
 
                 <section id="license">
                     <h3>License</h3>
@@ -277,7 +324,7 @@
                 </section>
 
                 <footer>
-                    <p>fourscore is maintained by <a href="https://github.com/veltman">Noah Veltman</a> &amp; <a href="https://github.com/mhkeller">Michael Keller</a></p>
+                    <p>FourScore is maintained by <a href="https://github.com/veltman">Noah Veltman</a> &amp; <a href="https://github.com/mhkeller">Michael Keller</a></p>
                 </footer>
             </div>
         </div>
