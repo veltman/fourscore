@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width">
-	<title>FourScore</title>
 
+	<title>FourScore</title>
 	<link rel="stylesheet" type="text/css" href="css/fs-base.css">
 	<link rel="stylesheet" type="text/css" href="css/fs-theme.css">
-
 </head>
 <body>
 
@@ -29,6 +27,7 @@
 		</div>
 	</div>
 
+	<!-- Edit this template or the associated styles to show comments -->
 	<script type="text/template" id="fs-comment-template" data-template-type="underscore">
 		<div class="fs-comment-container">
 	    <div class="fs-mini-map"></div>
@@ -37,13 +36,18 @@
 	  </div>
   </script>
 
+	<!-- jQuery is required -->
 	<script src="js/thirdparty/jquery.1.10.2.min.js"></script>
+	<!-- Underscore used for templating -->
 	<script src="js/thirdparty/underscore-min.js"></script>
+	<!-- Tabletop is used for pulling data from a Google spreadsheet -->
 	<script src="js/thirdparty/tabletop.js"></script>
+	<!-- Used for automatic color scales -->
 	<script src="js/thirdparty/colorbrewer.js"></script>
+	<!-- The main event -->
 	<script src="js/fourscore.js"></script>
 	<script>
-
+		//Create the grid
 		var fs = new FourScore("config.json");
 
 	</script>
