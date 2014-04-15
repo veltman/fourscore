@@ -473,8 +473,6 @@ var FourScore = function(opt){
         return d.name.toLowerCase() != "x" && d.name.toLowerCase() != "y";
       }).length);
 
-    } else {
-      console.log("skipping binding");
     }
 
 	}
@@ -570,7 +568,6 @@ var FourScore = function(opt){
   function submitted(x,y,config) {
 
     try {
-
       //Big random number into localStorage to mark that they submitted it
       localStorage.setItem('fs-cell',JSON.stringify([x,y]));
     } catch(e) {}
@@ -656,8 +653,7 @@ var FourScore = function(opt){
 
       var x = $(this).data('x'),
           y = $(this).data('y');
-
-      submitted(x,y,config);
+      if (+x || +y || x+"" == "0" || y+"" == "0") submitted(x,y,config);
 
     });
 
