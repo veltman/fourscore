@@ -1,7 +1,6 @@
-(function(){
-	'use-strict'
+var FourScore = function(opt){
 
-	var existing_data,
+  var existing_data,
       $tooltip,
       $grid;
 
@@ -285,8 +284,10 @@
     })
   }
 
-	function bindHandlers(){
-		$grid.on('mouseover.tooltip', '.fs-cell', function(e){
+	function bindHandlers(formExists){
+
+    //Move the tooltip
+    $grid.on('mouseover.tooltip', '.fs-cell', function(e){
 
       var gridOffset = $grid.offset();
 
@@ -297,6 +298,7 @@
 
 		});
 
+    //Move the tooltip
     $grid.on('mousemove.tooltip', '.fs-cell', function(e){
 
       var gridOffset = $grid.offset();
@@ -307,29 +309,35 @@
       });
     });
 
+    //Close the tooltip
 		$grid.on('mouseleave.tooltip', function(){
 			$tooltip.removeClass('open');
 		});
 
+    //Open the form when a cell is clicked, or submit the form if there are no extra fields
 		$grid.on('click.form', '.fs-cell', function(e){
-			var $this = $(this),
+
+      var $this = $(this),
           gridOffset =  $grid.offset(),
           gridWidth = $grid.outerWidth(),
           $formDiv = $('div.fs-form'),
           formWidth = $formDiv.outerWidth(),
-          formLeft = e.pageX + 2;
-
-			//var selected_id = $this.attr('data-cell-id');
-			var submission_values = JSON.parse($this.attr('data-submission-value'));
+          formLeft = e.pageX + 2,
+          submission_values = JSON.parse($this.attr('data-submission-value'));
 
       $('input.x').val(submission_values[0]);
       $('input.y').val(submission_values[1]);
 
       $('.fs-selected').removeClass('fs-selected');
-
-      if (e.pageX + 2 + formWidth > gridOffset.left + gridWidth) formLeft -= 4 + formWidth;
-
       $this.addClass('fs-selected');
+
+      if (!formExists) {
+        $formDiv.find("form").submit();
+        return true;
+      }
+
+      //Math for where to position the form
+      if (e.pageX + 2 + formWidth > gridOffset.left + gridWidth) formLeft -= 4 + formWidth;
 
       $formDiv
         .css({
@@ -341,7 +349,7 @@
 
 		});
 
-    /* FILTERS */
+    //Listeners for quadrant filters
     $('.fs-comment-filter').on('click', function(){
       var $el = $(this);
       var quadrant = $el.attr('data-quadrant');
@@ -351,6 +359,7 @@
     });
 	}
 
+  //Take off all the grid listeners
   function unbindHandlers() {
     $tooltip.remove();
     $grid.removeClass('submittable').off('mouseover.tooltip mousemove.tooltip mouseleave.tooltip click.form');
@@ -458,8 +467,15 @@
     // Create the comments section
     submissionsToCommentsMarkup(data, config);
 
-		//ADD: only bind if they haven't submitted?
-		bindHandlers();
+    if (!localStorage.getItem('fs-cell')) {
+
+      bindHandlers($.grep(config.fields || [],function(d){
+        return d.name.toLowerCase() != "x" && d.name.toLowerCase() != "y";
+      }).length);
+
+    } else {
+      console.log("skipping binding");
+    }
 
 	}
 
@@ -628,8 +644,8 @@
 
     //Don't populate the form or set listeners if they already submitted
     try {
-      //Temporarily false to always draw the form
-      if (localStorage.getItem('fs-cell') && false) {
+      //If they've already submitted, don't let them resubmit
+      if (localStorage.getItem('fs-cell')) {
         $grid.removeClass('submittable');
         return true;
       }
@@ -692,7 +708,7 @@
           });
 
     //Create the form fields
-    $.each(config.fields,function(i,f){
+    $.each(config.fields || [],function(i,f){
 
       $form.append(getFormElement(f));
 
@@ -720,16 +736,12 @@
 
   }
 
-  //Main initializer
-  function sentimentTracker(opt) {
-    if (typeof opt == 'string') {
-      $.getJSON(opt,initFromConfig);
-    } else {
-      initFromConfig(opt);
-    }
+  if (typeof opt == 'string') {
+    $.getJSON(opt,initFromConfig);
+  } else {
+    initFromConfig(opt);
   }
 
-  sentimentTracker('config.json');
+  return this;
 
-
-}).call(this);
+};
