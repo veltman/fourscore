@@ -1,0 +1,113 @@
+body{
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+#fs-wrapper{
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+/* Styling for the grid container and comments */
+#grid, #comments-outer {
+  width: 50%;
+  float: left;
+}
+
+#comments-outer {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-left: 20px;
+}
+
+/* The standard border color separating cells */
+.fs-cell{
+  border: 1px solid #fff;
+}
+
+/*
+
+Axes - specify a different color here to show axes
+(Only applies if the grid size is an even number)
+
+*/
+.fs-cell.fs-axis-bottom {
+  border-bottom-color: #333;
+}
+
+.fs-cell.fs-axis-left {
+  border-left-color: #333;
+}
+
+.fs-cell.fs-axis-right {
+  border-right-color: #333;
+}
+
+.fs-cell.fs-axis-top {
+  border-top-color: #333;
+}
+
+/* Styling for hovering over a cell */
+.fs-grid.submittable .fs-cell:hover{
+  opacity: .6;
+}
+
+/* Styling for a selected cell */
+.fs-grid.submittable .fs-cell.fs-selected,.submittable .fs-cell.fs-selected:hover{
+  border: 3px solid #f0a;
+  opacity: 1;
+}
+
+/* Dot color for minimaps */
+.fs-mm-dot {
+  background-color: #2646ea;
+}
+
+/*
+
+Styling for the cell they've saved their response to
+This version inserts a star in the middle
+
+*/
+.fs-cell.saved {
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAMAAAANf8AYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8YBMDAAAABB0Uk5TABAgMEBQYHCAkKCwwNDg8FTgqMgAAACtSURBVBgZ7cHhbsIgGIbR94NCpQg893+1k5isuk0Licn+9BzpdPo007yrpgWcZm2smtUomhQApzkJiJpTgawpns40I9FFzah0WYeWyivF6wXL/C3pjdj4rS16yxV+yqYjF560VQOWyq54DVnYmcYkdlFjKrusIZ5HGpLoSqx0QSMKN0myzM2mAQ5oi7oVaBqwwtV05wsEHSus+mYbmw656vUoVB0y0zNnOp3+0ReObA/KxOPqOgAAAABJRU5ErkJggg==");
+/* TODO TEST base64 in IE filter	*/
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAMAAAANf8AYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8YBMDAAAABB0Uk5TABAgMEBQYHCAkKCwwNDg8FTgqMgAAACtSURBVBgZ7cHhbsIgGIbR94NCpQg893+1k5isuk0Licn+9BzpdPo007yrpgWcZm2smtUomhQApzkJiJpTgawpns40I9FFzah0WYeWyivF6wXL/C3pjdj4rS16yxV+yqYjF560VQOWyq54DVnYmcYkdlFjKrusIZ5HGpLoSqx0QSMKN0myzM2mAQ5oi7oVaBqwwtV05wsEHSus+mYbmw656vUoVB0y0zNnOp3+0ReObA/KxOPqOgAAAABJRU5ErkJggg==', sizingMethod='scale');
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAMAAAANf8AYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8YBMDAAAABB0Uk5TABAgMEBQYHCAkKCwwNDg8FTgqMgAAACtSURBVBgZ7cHhbsIgGIbR94NCpQg893+1k5isuk0Licn+9BzpdPo007yrpgWcZm2smtUomhQApzkJiJpTgawpns40I9FFzah0WYeWyivF6wXL/C3pjdj4rS16yxV+yqYjF560VQOWyq54DVnYmcYkdlFjKrusIZ5HGpLoSqx0QSMKN0myzM2mAQ5oi7oVaBqwwtV05wsEHSus+mYbmw656vUoVB0y0zNnOp3+0ReObA/KxOPqOgAAAABJRU5ErkJggg==', sizingMethod='scale')";
+	-webkit-background-size: cover;
+  background-size: cover;
+}
+
+@media screen and (max-width: 800px) {
+  .fs-cell.saved {
+      font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #grid,#comments-outer {
+    float: none;
+    width: 100%;
+    padding: 0;
+  }
+  #grid {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 420px;
+  }
+
+  .fs-cell.saved {
+    font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .fs-cell.saved {
+    font-size: 12px;
+  }
+}

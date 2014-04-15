@@ -1,0 +1,50 @@
+{
+  "options": {
+    "dataSource": {
+      "url": "SPREADSHEET KEY GOES HERE",
+      "type": "google"
+    },
+    "gridSize": 10,
+    "xAxis": [
+      "Less X",
+      "More X"
+    ],
+    "yAxis": [
+      "More Y",
+      "Less Y"
+    ],
+    "gridTarget": "#grid",
+    "commentsTarget": "#comments",
+    "colors": {
+      "name": "Blues",
+      "number": 5
+    }
+  },
+  "dataDestination": "GOOGLE FORMS RESPONSE URL GOES HERE",
+  "fields": [
+    {
+      "name": "X",
+      "required": true,
+      "type": "number",
+      "field": "entry.13245"
+    },
+    {
+      "name": "Y",
+      "required": true,
+      "type": "number",
+      "field": "entry.12345"
+    },
+    {
+      "name": "Name",
+      "required": false,
+      "type": "text",
+      "field": "entry.12345"
+    },
+    {
+      "name": "Comment",
+      "required": false,
+      "type": "textarea",
+      "field": "entry.12345"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+
+	<title>FourScore example</title>
+	<link rel="stylesheet" type="text/css" href="css/fs-base.css">
+	<link rel="stylesheet" type="text/css" href="css/fs-theme.css">
+</head>
+<body>
+
+	<div id="fs-wrapper">
+		<div id="grid"></div>
+		<div id="form"><form></form></div>
+		<!-- To make filter buttons, add a ul with an id of `st-comment-filters` anywhere on the page with the following data attributes -->
+		<div id="comments-outer">
+			<ul id="fs-comment-filters">
+				<li>Filter comments</li>
+				<li class="fs-comment-filter" data-quadrant="topleft"></li>
+				<li class="fs-comment-filter" data-quadrant="topright"></li>
+				<li class="fs-comment-filter" data-quadrant="bottomright"></li>
+				<li class="fs-comment-filter" data-quadrant="bottomleft"></li>
+			</ul>
+			<div id="comments">
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit this template or the associated styles to show comments -->
+	<script type="text/template" id="fs-comment-template" data-template-type="underscore">
+		<div class="fs-comment-container">
+	    <div class="fs-mini-map"></div>
+	    <div class="fs-name"><%= name %></div>
+	    <div class="fs-comment"><%= comment %></div>
+	  </div>
+  </script>
+
+	<!-- jQuery is required -->
+	<script src="js/thirdparty/jquery.1.10.2.min.js"></script>
+	<!-- Underscore used for templating -->
+	<script src="js/thirdparty/underscore-min.js"></script>
+	<!-- Tabletop is used for pulling data from a Google spreadsheet -->
+	<script src="js/thirdparty/tabletop.js"></script>
+	<!-- Used for automatic color scales -->
+	<script src="js/thirdparty/colorbrewer.js"></script>
+	<!-- The main event -->
+	<script src="js/fourscore.js"></script>
+	<script>
+		//Create the grid
+		var fs = new FourScore("config.json");
+
+	</script>
+</body>
+</html>
