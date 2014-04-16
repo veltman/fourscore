@@ -286,6 +286,19 @@ var FourScore = function(opt){
 
 	function bindHandlers(formExists){
 
+
+    //Listeners for quadrant filters
+    $('.fs-comment-filter').on('click', function(){
+      var $el = $(this);
+      var quadrant = $el.attr('data-quadrant');
+
+      $el.toggleClass('fs-hide');
+      applyCommentFilters();
+    });
+
+    //Don't bind the rest if they've already submitted
+    if (localStorage.getItem('fs-cell')) return true;
+
     //Move the tooltip
     $grid.on('mouseover.tooltip', '.fs-cell', function(e){
 
@@ -349,14 +362,6 @@ var FourScore = function(opt){
 
 		});
 
-    //Listeners for quadrant filters
-    $('.fs-comment-filter').on('click', function(){
-      var $el = $(this);
-      var quadrant = $el.attr('data-quadrant');
-
-      $el.toggleClass('fs-hide');
-      applyCommentFilters();
-    });
 	}
 
   //Take off all the grid listeners
@@ -467,13 +472,9 @@ var FourScore = function(opt){
     // Create the comments section
     submissionsToCommentsMarkup(data, config);
 
-    if (!localStorage.getItem('fs-cell')) {
-
-      bindHandlers($.grep(config.fields || [],function(d){
-        return d.name.toLowerCase() != "x" && d.name.toLowerCase() != "y";
-      }).length);
-
-    }
+    bindHandlers($.grep(config.fields || [],function(d){
+      return d.name.toLowerCase() != "x" && d.name.toLowerCase() != "y";
+    }).length);
 
 	}
 

@@ -1,7 +1,7 @@
 body{
 	margin: 0;
 	padding: 0;
-	font-family: Helvetica, sans-serif;
+	font-family: Lato, Helvetica, Arial, Verdana, sans-serif;
 	font-size: 10px;
 }
 
@@ -57,6 +57,16 @@ Axes - specify a different color here to show axes
   opacity: .6;
 }
 
+/* Styling for axis labels */
+
+.fs-grid-label{
+  background-color: rgba(0,0,0,.5);
+  letter-spacing: 1px;
+  font-size: 14px;
+  color: #fff;
+  padding: 2px 10px 2px 10px;
+}
+
 /* Styling for a selected cell */
 .fs-grid.submittable .fs-cell.fs-selected,.submittable .fs-cell.fs-selected:hover{
   border: 3px solid #f0a;
@@ -66,6 +76,12 @@ Axes - specify a different color here to show axes
 /* Dot color for minimaps */
 .fs-mm-dot {
   background-color: #2646ea;
+}
+
+/* Center the filter buttons for comments */
+#fs-comment-filters {
+  text-align: center;
+  margin: 12px 0;
 }
 
 /*
@@ -95,6 +111,12 @@ This version inserts a star in the middle
     width: 100%;
     padding: 0;
   }
+  
+  #fs-wrapper {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
   #grid {
     margin-left: auto;
     margin-right: auto;
