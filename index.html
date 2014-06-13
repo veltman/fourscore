@@ -322,7 +322,8 @@ or
 			<h3>Troubleshooting &amp; Tips</h3>
 			<p><strong>Grid size</strong></p>
 				<p>When you're putting dummy data to test the grid out make sure you don't enter values outside the size of your grid as the fourscore won't render.</p>
-				<p>For example, you can't have a value of 8 if your grid size is 10 as 10x10 is the maximum size. A grid size of 10 would have a maximum corner value of -/+5, -/+5.</p>
+				<p>For example, you can't have a value of 8 if your grid size is 10, which would have a maximum corner value of -/+5, -/+5.</p>
+				<p>If you want to make the scale of your input values independent of your grid cell values, you can add an <code>"inputExtents"</code> value to your JSON config file, which will an array of your min and max. For example: <code>"inputExtents": [1, 10]</code> would map input values between 1 and 10 into your grid space. This could be useful if you don't want to have readers click on each cell, but instead populate the grid through some type of <a href="http://en.wikipedia.org/wiki/Likert_scale" target="_blank">Likert Scale</a>, or "On a scale of 1 to 10" question.</p>
 			<p><strong>Colors</strong></p>
 				<p>If too many responses cluster into a few squares you'll need a scale that has more gradients otherwise only the really popular squares will show up in the grid. </p>
 			<p><strong>Google forms</strong></p>
