@@ -660,7 +660,7 @@ var FourScore = function(opt){
 
     //Set the form action
     $form.attr('action',config.dataDestination)
-          .attr('method',config.dataMethod || "get")
+          .attr('method',config.dataMethod || "post")
           .on('submit',function(){
             //When they submit, check for missing required fields
             $('.missing').removeClass('missing');
