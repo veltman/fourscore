@@ -435,7 +435,10 @@ var FourScore = function(opt){
       $('.fs-mm-dot').remove();
 
       // Make the map
-      $('.fs-mini-map').each(function(i, el){
+      $('.fs-mini-map').each(function(idx, el){
+
+        var i = submissions.length - 1 - idx;
+
         var $el = $(el),
             x_val = submissions[i].x,
             y_val = submissions[i].y,
